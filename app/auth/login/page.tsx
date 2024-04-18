@@ -1,9 +1,10 @@
 import React from 'react';
+import LoginForm from '@/components/auth/LoginForm';
 
 const LoginPage = () => {
   return (
-    <div>
-      LoginPage!
+    <div className="h-screen flex justify-center">
+      <LoginForm />
     </div>
   );
 };

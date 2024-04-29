@@ -8,81 +8,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model Breeds {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt DateTime  @default(now()) @db.Timestamp(6)
-  deletedAt DateTime? @db.Timestamp(6)
-  nameKR    String?   @db.VarChar
-  nameEN    String?   @db.VarChar
-  avatar    String?   @db.VarChar
-
-  @@map("breeds")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model Profiles {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt DateTime  @default(now()) @db.Timestamp(6)
-  deletedAt DateTime? @db.Timestamp(6)
-  avatarUrl String?   @db.VarChar
-  name      String    @db.VarChar(13)
-  birthday  DateTime  @db.Timestamp(6)
-  gender    Gender    @default(NONE)
-  breedId   String    @db.VarChar
-  userId    String    @db.Uuid
-
-  @@map("profiles")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-
-model Users {
-  id              String    @id() @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  createdAt       DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt       DateTime  @default(now()) @db.Timestamp(6)
-  deletedAt       DateTime? @db.Timestamp(6)
-  accountId       String    @db.VarChar(20)
-  password        String    @db.VarChar
-  nickname        String    @unique @db.VarChar(20)
-  email           String?   @unique @db.VarChar
-  phone           String?   @unique @db.VarChar
-  latestProfileId String?   @db.Uuid
-  birthday        DateTime  @db.Date
-  gender          Gender    @default(NONE)
-  verified        DateTime? @db.Timestamp(6)
-  refreshToken    String?   @db.VarChar
-
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  password      String?
+  accounts      Account[]
+ 
   @@map("users")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model Verification {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt DateTime  @default(now()) @db.Timestamp(6)
-  deletedAt DateTime? @db.Timestamp(6)
-  code      String    @db.VarChar
-  userId    String    @db.Uuid
-
-  @@map("verification")
-}
-
-/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-view search_breeds {
-  id            String?   @db.Uuid
-  createdAt     DateTime? @db.Timestamp(6)
-  updatedAt     DateTime? @db.Timestamp(6)
-  deletedAt     DateTime? @db.Timestamp(6)
-  nameKR        String?   @db.VarChar
-  nameEN        String?   @db.VarChar
-  avatar        String?   @db.VarChar
-  searchKey     String?
-  searchKeyCode Int?
-
-  @@ignore
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 enum Gender {

@@ -7,14 +7,14 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema } from '@/app/schemas';
 import Image from 'next/image';
+import { LoginSchema } from '@/lib/validators';
+import { login } from '@/actions/login';
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -24,8 +24,9 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    const data = await login(values);
+    console.log(data);
   };
   return (
     <div className="w-full lg:max-w-96 space-y-6 lg:mt-52 mt-32 px-5">
@@ -44,7 +45,6 @@ const LoginForm = () => {
               name="id"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>아이디</FormLabel> */}
                   <FormControl>
                     <Input
                       {...field}
@@ -62,7 +62,6 @@ const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>패스워드</FormLabel> */}
                   <FormControl>
                     <Input
                       {...field}

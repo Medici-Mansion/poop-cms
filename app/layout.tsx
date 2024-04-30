@@ -1,28 +1,25 @@
-
-import { ThemeProvider } from "next-themes";
-import { Layout } from "components/layout";
-import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from 'next-themes';
+import { Layout } from 'components/layout';
+import { Toaster } from 'react-hot-toast';
 import { type PropsWithChildren } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import "@/styles/globals.css";
+import '@/styles/globals.css';
 
-const MyApp = ({children
-}:PropsWithChildren) => {
+const MyApp = ({ children }: PropsWithChildren) => {
   return (
-    <html>
+    <html suppressHydrationWarning>
       <body>
-      <SessionProvider>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <Layout>
-          {children}
-          <Toaster />
-        </Layout>
-      </ThemeProvider>
-    </SessionProvider>
+        <SessionProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Layout>
+              {children}
+              <Toaster />
+            </Layout>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
-    
   );
 };
 
-export default MyApp
+export default MyApp;

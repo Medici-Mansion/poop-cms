@@ -56,11 +56,12 @@ const data = [
 export function Overview() {
   // https://github.com/recharts/recharts/issues/3615
   // 차트 에러 제거 recharts defaultProps 지원 이슈
-  const error = console.error;
-  console.error = (...args: any) => {
-    if (/defaultProps/.test(args[0])) return;
+  const error: (...args: string[]) => void = console.error;
+  console.error = (...args: string[]): void => {
+    if (typeof args[0] === 'string' && /defaultProps/.test(args[0])) return;
     error(...args);
   };
+
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>

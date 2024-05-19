@@ -2,7 +2,7 @@
  * 인증이 요구되지 않는 public routes
  * @type {string[]}
  */
-export const publicRoutes = ['/'];
+export const publicRoutes = ['/auth/login'];
 
 /*
  * 인증이 요구되는 routes
@@ -21,4 +21,4 @@ export const apiAuthPrefix = '/api/auth';
  * 로그인 후 redirect path
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = '/settings';
+export const DEFAULT_LOGIN_REDIRECT = '/';

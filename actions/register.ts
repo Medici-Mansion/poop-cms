@@ -20,7 +20,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const existingUser = await getUserById(id);
 
   if (existingUser) {
-    return { error: '이미 존재하는 아이디입니다' };
+    return { error: '이미 존재하는 아이디입니다.' };
   }
   await prisma.user.create({
     data: {
@@ -29,5 +29,5 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     },
   });
 
-  return { success: '가입 완료' };
+  return { success: '계정이 생성되었습니다.' };
 };

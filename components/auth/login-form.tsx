@@ -13,25 +13,32 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { RegisterSchema } from '@/lib/validators';
-import { register } from '@/actions/register';
+import { LoginSchema } from '@/lib/validators';
+import { login } from '@/actions/login';
+import { FormError } from '@/components/form-error';
+import { useState, useTransition } from 'react';
 
-const RegisterForm = () => {
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+const LoginForm = () => {
+  const [error, setError] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       id: '',
       password: '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    await register(values).then((data) => {
-      console.log(data);
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError('');
+    startTransition(async () => {
+      const data = await login(values);
+      setError(data?.error);
     });
   };
   return (
-    <div className="w-full lg:max-w-96 space-y-6 lg:mt-52 mt-32 px-5">
+    <div className="w-full md:max-w-96 space-y-6 md:mt-48 mt-32 px-5">
       <Form {...form}>
         <Image
           width={140}
@@ -40,8 +47,7 @@ const RegisterForm = () => {
           src="/images/logo.png"
           alt="POOP 로고"
         />
-
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -54,6 +60,7 @@ const RegisterForm = () => {
                       placeholder="아이디"
                       type="text"
                       className="h-16"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -71,6 +78,7 @@ const RegisterForm = () => {
                       placeholder="******"
                       type="password"
                       className="h-16"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -78,8 +86,13 @@ const RegisterForm = () => {
               )}
             />
           </div>
-          <Button type="submit" className="w-full h-16">
-            계정 만들기
+          <FormError message={error} />
+          <Button
+            type="submit"
+            className="w-full h-16 mt-5"
+            disabled={isPending}
+          >
+            로그인
           </Button>
         </form>
       </Form>
@@ -87,4 +100,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

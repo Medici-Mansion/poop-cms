@@ -25,9 +25,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { error: '비밀번호가 틀렸습니다.' };
+          return { error: '아이디 또는 비밀번호가 틀렸습니다.' };
         default:
-          return { error: 'Something went wrong!' };
+          return { error: '잠시 후 다시 시도해주세요.' };
       }
     }
 

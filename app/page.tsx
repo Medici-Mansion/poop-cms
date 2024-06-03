@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   CardHeader,
@@ -6,43 +6,35 @@ import {
   CardContent,
   CardDescription,
   Card,
-} from "components/ui/card";
-import { Button } from "components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "components/ui/tabs";
-import { CalendarDateRangePicker } from "components/dashboard/date-range-picker";
-import { Overview } from "components/dashboard/overview";
-import { RecentSales } from "components/dashboard/recent-sales";
+} from 'components/ui/card';
+import { Button } from 'components/ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from 'components/ui/tabs';
+import { CalendarDateRangePicker } from 'components/dashboard/date-range-picker';
+import { Overview } from 'components/dashboard/overview';
+import { RecentSales } from 'components/dashboard/recent-sales';
 
 const Home = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
           <div className="flex items-center space-x-2">
             <CalendarDateRangePicker />
-            <Button size="sm">Download</Button>
+            <Button size="sm">다운로드</Button>
           </div>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" disabled>
-              Analytics
-            </TabsTrigger>
-            <TabsTrigger value="reports" disabled>
-              Reports
-            </TabsTrigger>
-            <TabsTrigger value="notifications" disabled>
-              Notifications
-            </TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Revenue
+                    총 회원 수
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +50,7 @@ const Home = () => {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
+                  <div className="text-2xl font-bold">45,231</div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>
@@ -67,7 +59,7 @@ const Home = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Subscriptions
+                    실시간 회원 수
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +85,9 @@ const Home = () => {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    총 게시글 수
+                  </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -118,7 +112,7 @@ const Home = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Active Now
+                    반려견 프로필 수
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +138,7 @@ const Home = () => {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>일별 회원수 경향</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
                   <Overview />
@@ -152,7 +146,7 @@ const Home = () => {
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>신고/문의 내역</CardTitle>
                   <CardDescription>
                     You made 265 sales this month.
                   </CardDescription>

@@ -1,6 +1,7 @@
 import { env } from 'env.mjs';
-import axios, { AxiosRequestConfig } from 'axios';
-import { APIResponse } from '@/types';
+import axios from 'axios';
+import type { AxiosRequestConfig } from 'axios';
+import type { APIResponse } from '@/types';
 
 const version = 'v1';
 const baseURL = `${env.NEXT_PUBLIC_API_URL}/api/${version}`;
@@ -22,39 +23,42 @@ export const GET = async <T>(
     const response = await api.get<APIResponse<T>>(url, config);
     return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    if (error instanceof Error) throw error;
+    else throw new Error('An unknown error occurred');
   }
 };
 
 // POST
 export const POST = async <T>(
   url: string,
-  data?: any,
+  data?: unknown,
   config?: AxiosRequestConfig,
 ): Promise<APIResponse<T>> => {
   try {
     const response = await api.post<APIResponse<T>>(url, data, config);
     return response.data;
-  } catch (error) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) throw error;
+    else throw new Error('An unknown error occurred');
   }
 };
 
 // PUT
 export const PUT = async <T>(
   url: string,
-  data?: any,
+  data?: unknown,
   config?: AxiosRequestConfig,
 ): Promise<APIResponse<T>> => {
   try {
     const response = await api.put<APIResponse<T>>(url, data, config);
     return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    if (error instanceof Error) throw error;
+    else throw new Error('An unknown error occurred');
   }
 };
 
-// Delete
+// DELETE
 export const DELETE = async <T>(
   url: string,
   config?: AxiosRequestConfig,
@@ -63,6 +67,7 @@ export const DELETE = async <T>(
     const response = await api.delete<APIResponse<T>>(url, config);
     return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    if (error instanceof Error) throw error;
+    else throw new Error('An unknown error occurred');
   }
 };

@@ -22,7 +22,7 @@ export const NavItems: NavItem[] = [
   {
     title: '리소스 관리',
     icon: LibraryBig,
-    href: '/',
+    href: '/resource/dogs',
     color: 'brown-orange-500',
   },
   // {

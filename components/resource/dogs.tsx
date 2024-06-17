@@ -13,6 +13,11 @@ type BreedsProps = {
 export const Dogs: React.FC<BreedsProps> = ({ data }) => {
   const columns: ColumnDef<Breed>[] = [
     {
+      accessorKey: 'index',
+      header: '순번',
+      cell: ({ row }) => <div>{row.index + 1}</div>,
+    },
+    {
       accessorKey: 'avatar',
       header: '사진',
       cell: ({ row }) => {

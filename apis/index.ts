@@ -1,10 +1,10 @@
 import { GET } from '@/server/axios';
 import type { BreedList } from '@/types';
 
-export const getBreeds = async (): Promise<BreedList> => {
+export const getBreeds = async () => {
   try {
     const response = await GET<BreedList>('/common/breeds');
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');

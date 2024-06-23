@@ -12,6 +12,11 @@ export interface NavItem {
 // 서버에서 내려주는 응답 구조
 export interface APIResponse<T> {
   data: T;
+  result: {
+    resultCode: number;
+    resultMessage: string;
+  };
+  body: T;
 }
 
 // 견종 정보 리스트
@@ -24,4 +29,12 @@ export interface Breed {
   name: string;
   nameEN: string;
   avatar: string;
+}
+
+export interface Graphic {
+  id: string;
+  name: string;
+  type: string;
+  url: string;
+  category: string;
 }

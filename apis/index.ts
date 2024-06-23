@@ -1,5 +1,5 @@
 import { GET } from '@/server/axios';
-import type { BreedList } from '@/types';
+import type { BreedList, Graphic } from '@/types';
 
 export const getBreeds = async () => {
   try {
@@ -8,5 +8,19 @@ export const getBreeds = async () => {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');
+  }
+};
+
+export const getGraphics = async () => {
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await GET<Graphic[]>('/common/graphics');
+
+    return resultCode < 500 ? body : [];
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get graphics');
   }
 };

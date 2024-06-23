@@ -2,29 +2,29 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Breed } from '@/types';
+import type { Graphic } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 
-type BreedsProps = {
-  data: Breed[];
+type GraphicsProps = {
+  data: Graphic[];
 };
 
-export const Dogs: React.FC<BreedsProps> = ({ data }) => {
-  const columns: ColumnDef<Breed>[] = [
+export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
+  const columns: ColumnDef<Graphic>[] = [
     {
       accessorKey: 'index',
       header: '순번',
       cell: ({ row }) => <div>{row.index + 1}</div>,
     },
     {
-      accessorKey: 'avatar',
+      accessorKey: 'url',
       header: '사진',
       cell: ({ row }) => {
         return (
           <Avatar className="h-9 w-9">
             <AvatarImage
-              src={row.getValue('avatar')}
+              src={row.getValue('url')}
               alt={row.getValue('name')}
               width={160}
               height={160}
@@ -37,13 +37,13 @@ export const Dogs: React.FC<BreedsProps> = ({ data }) => {
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="국문" />
+        <DataTableColumnHeader column={column} title="파일명" />
       ),
     },
     {
-      accessorKey: 'nameEN',
+      accessorKey: 'type',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="영문" />
+        <DataTableColumnHeader column={column} title="타입" />
       ),
     },
   ];

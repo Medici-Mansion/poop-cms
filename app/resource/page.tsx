@@ -1,11 +1,13 @@
-import { getBreeds } from '@/apis';
+import { getBreeds, getGraphics } from '@/apis';
 import { Dogs } from '@/components/resource/dogs';
+import { Graphics } from '@/components/resource/graphics';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import React from 'react';
 
 const DogsPage = async () => {
   const breeds = await getBreeds();
   const breedList = Object.values(breeds ?? {}).flat();
+  const graphics = await getGraphics();
 
   return (
     <div className="flex h-full flex-col">
@@ -17,6 +19,9 @@ const DogsPage = async () => {
           </TabsList>
           <TabsContent value="dogs" className="space-y-4">
             <Dogs data={breedList} />
+          </TabsContent>
+          <TabsContent value="graphics" className="space-y-4">
+            <Graphics data={graphics} />
           </TabsContent>
         </Tabs>
       </div>

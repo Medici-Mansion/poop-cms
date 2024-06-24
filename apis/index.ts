@@ -1,5 +1,5 @@
 import { GET } from '@/server/axios';
-import type { BreedList, Graphic } from '@/types';
+import type { BreedList, Graphic, QueryParams } from '@/types';
 
 export const getBreeds = async () => {
   try {
@@ -11,12 +11,13 @@ export const getBreeds = async () => {
   }
 };
 
-export const getGraphics = async () => {
+export const getGraphics = async (params?: QueryParams) => {
+  const queryStr = params ? new URLSearchParams(params).toString() : '';
   try {
     const {
       result: { resultCode },
       body,
-    } = await GET<Graphic[]>('/common/graphics');
+    } = await GET<Graphic[]>(`/common/graphics?${queryStr}`);
 
     return resultCode < 500 ? body : [];
   } catch (error) {

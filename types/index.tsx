@@ -19,6 +19,10 @@ export interface APIResponse<T> {
   body: T;
 }
 
+export interface QueryParams {
+  [key: string]: string;
+}
+
 // 견종 정보 리스트
 export interface BreedList {
   [key: string]: Breed[];
@@ -37,4 +41,10 @@ export interface Graphic {
   type: string;
   url: string;
   category: string;
+}
+
+export interface GraphicParams {
+  graphicType?: string;
+  category: string;
+  string?: string;
 }

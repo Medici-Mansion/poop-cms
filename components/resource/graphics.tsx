@@ -2,15 +2,30 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Graphic } from '@/types';
+import type { Graphic, GraphicParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
+import { GraphicRadioGroup } from './graphic-radio-group';
+import { useState } from 'react';
+import { getGraphics } from '@/apis';
 
 type GraphicsProps = {
   data: Graphic[];
 };
 
 export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
+  const [graphics, setGraphics] = useState(data);
+
+  const handleGetGraphics = async (data: GraphicParams) => {
+    const params = {
+      // graphicType: 'Lottie',
+      category: data.category,
+      // string: 'ASC',
+    };
+    const graphics = await getGraphics(params);
+    setGraphics(graphics);
+  };
+
   const columns: ColumnDef<Graphic>[] = [
     {
       accessorKey: 'index',
@@ -49,8 +64,11 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
   ];
 
   return (
-    <div className="flex items-center justify-between space-y-2">
-      <DataTable columns={columns} data={data} />
-    </div>
+    <>
+      <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
+      <div className="flex items-center justify-between space-y-2">
+        <DataTable columns={columns} data={graphics} />
+      </div>
+    </>
   );
 };

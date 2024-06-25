@@ -48,3 +48,9 @@ export interface GraphicParams {
   category: string;
   string?: string;
 }
+
+export interface GraphicUploadForm {
+  category: string;
+  name: string;
+  file: string;
+}

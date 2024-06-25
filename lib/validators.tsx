@@ -18,29 +18,14 @@ export const RegisterSchema = z.object({
   }),
 });
 
-// Example
-export const employeeFormSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  gender: z.string().min(1),
-});
-
-export type EmployeeFromValues = z.infer<typeof employeeFormSchema>;
-
-export const employeeColumn = z.object({
-  id: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  gender: z.string(),
-  createAt: z.string(),
-  updateAt: z.string(),
-});
-
-export type EmployeeColumn = z.infer<typeof employeeColumn>;
-
-export const updateEmployeeFormSchema = z.object({
-  id: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  gender: z.string(),
+export const GraphicUploadSchema = z.object({
+  category: z.string().min(1, {
+    message: '카테고리를 선택해주세요.',
+  }),
+  name: z.string().min(1, {
+    message: '파일명을 입력해주세요.',
+  }),
+  file: z
+    .instanceof(File)
+    .refine((file) => file.size > 0, '파일을 등록해주세요.'),
 });

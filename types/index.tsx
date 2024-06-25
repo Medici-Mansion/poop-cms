@@ -1,4 +1,5 @@
 import { type LucideIcon } from 'lucide-react';
+import type { typeToFlattenedError } from 'zod';
 
 export interface NavItem {
   title: string;
@@ -54,3 +55,7 @@ export interface GraphicUploadForm {
   name: string;
   file: string;
 }
+
+export type UploadNewGraphicsState =
+  | typeToFlattenedError<{ category: string; name: string; file: File }, string>
+  | undefined;

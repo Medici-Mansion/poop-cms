@@ -31,13 +31,11 @@ import {
 import { useForm } from 'react-hook-form';
 import { uploadNewGraphics } from '@/app/resource/actions';
 import { GraphicUploadSchema } from '@/lib/validators';
+import type { UploadNewGraphicsState } from '@/types';
 
 export function UploadGraphic() {
-  const initialState = {
-    category: '',
-    name: '',
-    string: '',
-  };
+  const initialState: UploadNewGraphicsState = undefined;
+
   const [state, dispatch] = useFormState(uploadNewGraphics, initialState);
 
   const form = useForm<z.infer<typeof GraphicUploadSchema>>({

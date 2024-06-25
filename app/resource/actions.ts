@@ -1,10 +1,10 @@
 import { GraphicUploadSchema } from '@/lib/validators';
-import type { GraphicUploadForm } from '@/types';
+import type { UploadNewGraphicsState } from '@/types';
 
 export function uploadNewGraphics(
-  prevState: GraphicUploadForm,
+  prevState: UploadNewGraphicsState,
   formData: FormData,
-): any {
+) {
   const data = {
     category: formData.get('category'),
     name: formData.get('name'),
@@ -16,4 +16,5 @@ export function uploadNewGraphics(
   if (!result.success) {
     return result.error.flatten();
   }
+  return undefined;
 }

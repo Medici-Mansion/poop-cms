@@ -50,12 +50,12 @@ export interface GraphicParams {
   string?: string;
 }
 
-export interface GraphicUploadForm {
-  category: string;
-  name: string;
-  file: string;
-}
-
 export type UploadNewGraphicsState =
-  | typeToFlattenedError<{ category: string; name: string; file: File }, string>
+  | {
+      fieldErrors: {
+        category?: string;
+        name?: string;
+        file?: string;
+      };
+    }[]
   | undefined;

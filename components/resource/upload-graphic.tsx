@@ -111,7 +111,7 @@ export function UploadGraphic() {
                         {...fieldProps}
                         className="col-span-3"
                         type="file"
-                        accept="image/*"
+                        accept=".gif,.json"
                         onChange={(event) =>
                           onChange(event.target.files && event.target.files[0])
                         }

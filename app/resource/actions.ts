@@ -1,7 +1,8 @@
+import { uploadGraphic } from '@/apis';
 import { GraphicUploadSchema } from '@/lib/validators';
 import type { UploadNewGraphicsState } from '@/types';
 
-export function uploadNewGraphics(
+export async function uploadNewGraphics(
   prevState: UploadNewGraphicsState,
   formData: FormData,
 ) {
@@ -10,11 +11,18 @@ export function uploadNewGraphics(
     name: formData.get('name'),
     file: formData.get('file'),
   };
-  console.log(data);
   const result = GraphicUploadSchema.safeParse(data);
 
   if (!result.success) {
     return result.error.flatten();
+  } else {
+    try {
+      const res = await uploadGraphic(formData);
+      return res;
+    } catch (error) {
+      console.error('Upload failed: ', error);
+      throw new Error('File upload failed');
+    }
   }
   return undefined;
 }

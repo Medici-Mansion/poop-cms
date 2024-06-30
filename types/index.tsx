@@ -1,5 +1,4 @@
 import { type LucideIcon } from 'lucide-react';
-import type { typeToFlattenedError } from 'zod';
 
 export interface NavItem {
   title: string;
@@ -48,6 +47,15 @@ export interface GraphicParams {
   graphicType?: string;
   category: string;
   string?: string;
+}
+
+export interface GraphicData {
+  category: 'Message' | 'Sticker' | 'Challenge';
+  name: string;
+  file: File;
+  type: 'GIF' | 'Lottie';
+  url: string;
+  id: string;
 }
 
 export type UploadNewGraphicsState =

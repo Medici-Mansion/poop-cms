@@ -9,6 +9,7 @@ import { GraphicRadioGroup } from './graphic-radio-group';
 import { useState } from 'react';
 import { getGraphics } from '@/apis';
 import { UploadGraphic } from './upload-graphic';
+import { Checkbox } from '../ui/checkbox';
 
 type GraphicsProps = {
   data: Graphic[];
@@ -62,6 +63,28 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
         <DataTableColumnHeader column={column} title="타입" />
       ),
     },
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
   ];
 
   return (
@@ -69,7 +92,7 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
       <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
       <UploadGraphic />
       <div className="flex items-center justify-between space-y-2">
-        <DataTable columns={columns} data={graphics} />
+        <DataTable type="graphic" columns={columns} data={graphics} />
       </div>
     </>
   );

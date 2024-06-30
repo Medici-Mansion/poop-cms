@@ -58,12 +58,9 @@ export interface GraphicData {
   id: string;
 }
 
-export type UploadNewGraphicsState =
-  | {
-      fieldErrors: {
-        category?: string;
-        name?: string;
-        file?: string;
-      };
-    }[]
-  | undefined;
+export interface GraphicFieldErrors {
+  name?: string[];
+  category?: string[];
+  file?: string[];
+  type?: string[];
+}

@@ -29,24 +29,17 @@ import { Button } from 'components/ui/button';
 import { type z } from 'zod';
 import { updateGraphic } from '@/apis';
 import { useState } from 'react';
-import { type GraphicData } from '@/types';
+import type { GraphicFieldErrors, GraphicData } from '@/types';
 import Image from 'next/image';
 
-interface GraphicPopupProps<TData> {
+interface GraphicUpdatePopupProps<TData> {
   selectedItem: TData | undefined;
 }
 
-export type UpdateGraphicsStateFiledErros = {
-  name?: string[];
-  category?: string[];
-  file?: string[];
-  type?: string[];
-};
-
-export function GraphicPopup<TData extends GraphicData>({
+export function GraphicUpdatePopup<TData extends GraphicData>({
   selectedItem,
-}: GraphicPopupProps<TData>) {
-  const [errors, setErrors] = useState<UpdateGraphicsStateFiledErros>();
+}: GraphicUpdatePopupProps<TData>) {
+  const [errors, setErrors] = useState<GraphicFieldErrors>();
 
   const handleEdit = async (formData: FormData) => {
     if (selectedItem) {
@@ -64,8 +57,7 @@ export function GraphicPopup<TData extends GraphicData>({
       } else {
         try {
           formData.append('id', selectedItem.id);
-          const res = await updateGraphic(formData);
-          return res;
+          await updateGraphic(formData);
         } catch (error) {
           console.error('그래픽 수정 실패 ', error);
         }
@@ -75,7 +67,6 @@ export function GraphicPopup<TData extends GraphicData>({
   const form = useForm<z.infer<typeof GraphicUpdateSchema>>({
     resolver: zodResolver(GraphicUpdateSchema),
   });
-  console.log(selectedItem);
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -207,7 +198,7 @@ export function GraphicPopup<TData extends GraphicData>({
                     <Select defaultValue="-" disabled>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="카테고리 선택" />
+                          <SelectValue placeholder="파일 선택" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="grid-cols-2">

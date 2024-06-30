@@ -2,15 +2,15 @@
 
 import { type Table } from '@tanstack/react-table';
 import { Dialog, DialogTrigger } from '../dialog';
-import { GraphicPopup } from '../../resource/update-graphic-popup';
-import { type GraphicData } from '@/types';
+import { GraphicUpdatePopup } from '@/components/resource/graphic-update-popup';
+import type { GraphicData } from '@/types';
 
 interface DataTableEditorProps<TType, TData> {
   type: TType;
   table: Table<TData>;
 }
 
-export function DataEditor<TType, TData extends GraphicData>({
+export function DataEditor<TType, TData>({
   type,
   table,
 }: DataTableEditorProps<TType, TData>) {
@@ -24,7 +24,9 @@ export function DataEditor<TType, TData extends GraphicData>({
         <button disabled={!isOneItemSelected}>수정</button>
       </DialogTrigger>
       {type === 'graphic' ? (
-        <GraphicPopup selectedItem={selectedItems[0]?.original} />
+        <GraphicUpdatePopup
+          selectedItem={selectedItems[0]?.original as GraphicData | undefined}
+        />
       ) : null}
     </Dialog>
   );

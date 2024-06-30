@@ -29,7 +29,7 @@ import { DataTablePagination } from 'components/ui/data-table/data-table-paginat
 import { DataTableToolbar } from 'components/ui/data-table/data-table-toolbar';
 
 interface DataTableProps<TType, TData, TValue> {
-  type: TType;
+  type?: TType;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }

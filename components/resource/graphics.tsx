@@ -8,8 +8,8 @@ import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header
 import { GraphicRadioGroup } from './graphic-radio-group';
 import { useState } from 'react';
 import { getGraphics } from '@/apis';
-import { UploadGraphic } from './upload-graphic';
 import { Checkbox } from '../ui/checkbox';
+import { GraphicUploadPopup } from './graphic-upload-popup';
 
 type GraphicsProps = {
   data: Graphic[];
@@ -90,7 +90,7 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
   return (
     <>
       <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
-      <UploadGraphic />
+      <GraphicUploadPopup />
       <div className="flex items-center justify-between space-y-2">
         <DataTable type="graphic" columns={columns} data={graphics} />
       </div>

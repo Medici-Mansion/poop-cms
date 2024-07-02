@@ -28,20 +28,25 @@ import { Input } from '@/components/ui/input';
 import { Button } from 'components/ui/button';
 import { type z } from 'zod';
 import { updateGraphic } from '@/apis';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import type { GraphicFieldErrors, GraphicData } from '@/types';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
+import { GraphicContext } from './graphics';
 
 interface GraphicUpdatePopupProps<TData> {
   selectedItem: TData | undefined;
+  onOpenChange: (isOpen: boolean) => void;
 }
 
 export function GraphicUpdatePopup<TData extends GraphicData>({
   selectedItem,
+  onOpenChange,
 }: GraphicUpdatePopupProps<TData>) {
   const [errors, setErrors] = useState<GraphicFieldErrors>();
+  const getGraphics = useContext(GraphicContext);
 
-  const handleEdit = async (formData: FormData) => {
+  const handleEdit = (formData: FormData) => {
     if (selectedItem) {
       const data = {
         category: formData.get('category'),
@@ -57,7 +62,15 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
       } else {
         try {
           formData.append('id', selectedItem.id);
-          await updateGraphic(formData);
+          void toast.promise(updateGraphic(formData), {
+            loading: '수정 중입니다.',
+            success: () => {
+              if (getGraphics) void getGraphics();
+              onOpenChange(false);
+              return <b>수정 되었습니다!</b>;
+            },
+            error: <b>수정 실패하였습니다.</b>,
+          });
         } catch (error) {
           console.error('그래픽 수정 실패 ', error);
         }

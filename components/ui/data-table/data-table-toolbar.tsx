@@ -3,7 +3,7 @@
 import { type Table } from '@tanstack/react-table';
 import { Input } from 'components/ui/input';
 import { DataTableViewOptions } from 'components/ui/data-table/data-table-view-options';
-import { DataEditor } from './data-data-editor';
+import { DataEditor } from './data-editor';
 
 interface DataTableToolbarProps<TType, TData> {
   type: TType;

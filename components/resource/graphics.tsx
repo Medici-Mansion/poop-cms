@@ -6,7 +6,7 @@ import type { Graphic, GraphicParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 import { GraphicRadioGroup } from './graphic-radio-group';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
 import { GraphicUploadPopup } from './graphic-upload-popup';
@@ -15,16 +15,22 @@ type GraphicsProps = {
   data: Graphic[];
 };
 
+type GraphicContextType = (data?: GraphicParams) => Promise<void>;
+
+export const GraphicContext = createContext<GraphicContextType | undefined>(
+  async () => {},
+);
+
 export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
   const [graphics, setGraphics] = useState(data);
 
-  const handleGetGraphics = async (data: GraphicParams) => {
+  const handleGetGraphics = async (data?: GraphicParams) => {
     const params = {
       // graphicType: 'Lottie',
-      category: data.category,
+      category: data?.category || '',
       // string: 'ASC',
     };
-    const graphics = await getGraphics(params);
+    const graphics = await getGraphics(data ? params : undefined);
     setGraphics(graphics);
   };
 
@@ -92,7 +98,9 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
       <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
       <GraphicUploadPopup />
       <div className="flex items-center justify-between space-y-2">
-        <DataTable type="graphic" columns={columns} data={graphics} />
+        <GraphicContext.Provider value={handleGetGraphics}>
+          <DataTable type="graphic" columns={columns} data={graphics} />
+        </GraphicContext.Provider>
       </div>
     </>
   );

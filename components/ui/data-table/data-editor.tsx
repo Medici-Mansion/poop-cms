@@ -26,7 +26,7 @@ export function DataEditor<TType, TData>({
         수정
       </button>
       {type === 'graphic' ? (
-        <Dialog open={open}>
+        <Dialog open={open} onOpenChange={setOpen}>
           <GraphicUpdatePopup
             selectedItem={selectedItems[0]?.original as GraphicData | undefined}
             onOpenChange={setOpen}

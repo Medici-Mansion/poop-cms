@@ -28,7 +28,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from 'components/ui/button';
 import { type z } from 'zod';
 import { updateGraphic } from '@/apis';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import type { GraphicFieldErrors, GraphicData } from '@/types';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
@@ -45,6 +45,21 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
 }: GraphicUpdatePopupProps<TData>) {
   const [errors, setErrors] = useState<GraphicFieldErrors>();
   const getGraphics = useContext(GraphicContext);
+
+  const form = useForm<z.infer<typeof GraphicUpdateSchema>>({
+    resolver: zodResolver(GraphicUpdateSchema),
+  });
+
+  useEffect(() => {
+    if (selectedItem) {
+      form.reset({
+        category: '',
+        name: '',
+        file: undefined,
+        type: '',
+      });
+    }
+  }, [selectedItem, form]);
 
   const handleEdit = (formData: FormData) => {
     if (selectedItem) {
@@ -77,9 +92,6 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
       }
     }
   };
-  const form = useForm<z.infer<typeof GraphicUpdateSchema>>({
-    resolver: zodResolver(GraphicUpdateSchema),
-  });
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -248,7 +260,11 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
             <Button type="submit">수정</Button>
 
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => onOpenChange(false)}
+              >
                 닫기
               </Button>
             </DialogClose>

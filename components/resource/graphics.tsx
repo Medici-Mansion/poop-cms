@@ -10,6 +10,7 @@ import { createContext, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
 import { GraphicUploadPopup } from './graphic-upload-popup';
+import LottieAnimation from './lottie-animation';
 
 type GraphicsProps = {
   data: Graphic[];
@@ -44,17 +45,15 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
       accessorKey: 'url',
       header: '사진',
       cell: ({ row }) => {
-        return (
+        const type = row.getValue('type');
+        return type === 'GIF' ? (
           <Avatar className="h-9 w-9">
-            <AvatarImage
-              src={row.getValue('url')}
-              alt={row.getValue('name')}
-              width={160}
-              height={160}
-            />
+            <AvatarImage src={row.getValue('url')} alt={row.getValue('name')} />
             <AvatarFallback>{row.getValue('name')}</AvatarFallback>
           </Avatar>
-        );
+        ) : type === 'Lottie' ? (
+          <LottieAnimation url={row.getValue('url')} />
+        ) : null;
       },
     },
     {

@@ -53,31 +53,37 @@ export function GraphicRadioGroup({
                     await handleSubmit(onSubmit)();
                   }}
                   defaultValue={field.value}
-                  className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl cursor-pointer"
+                  className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl"
                 >
                   <FormItem
-                    className={`flex items-center px-6 py-4 rounded-2xl ${selectedCategory === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center rounded-2xl ${selectedCategory === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Message" />
                     </FormControl>
-                    <FormLabel className="!mt-0 font-normal">말풍선</FormLabel>
+                    <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
+                      말풍선
+                    </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 px-6 py-4 rounded-2xl ${selectedCategory === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Sticker" />
                     </FormControl>
-                    <FormLabel className="!mt-0 font-normal">스티커</FormLabel>
+                    <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
+                      스티커
+                    </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 px-6 py-4 rounded-2xl ${selectedCategory === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Challenge" />
                     </FormControl>
-                    <FormLabel className="!mt-0 font-normal">챌린지</FormLabel>
+                    <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
+                      챌린지
+                    </FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>

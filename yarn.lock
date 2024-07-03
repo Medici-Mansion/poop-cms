@@ -5004,6 +5004,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-web@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: 10c0/0aeaf631b10a76afd025df70c2a1486543530708e07a316946c08e55891dac483ffbaf2bf3648ae0b9c54c733118a0a086fd150aa76f7848606214c67ad72c30
+  languageName: node
+  linkType: hard
+
 "lowercase-keys@npm:^2.0.0":
   version: 2.0.0
   resolution: "lowercase-keys@npm:2.0.0"
@@ -5807,6 +5814,7 @@ __metadata:
     react-hook-form: "npm:^7.51.2"
     react-hot-toast: "npm:^2.4.1"
     react-icons: "npm:^5.0.1"
+    react-lottie-player: "npm:^2.0.0"
     react-resizable-panels: "npm:^2.0.16"
     react-spinners: "npm:^0.13.8"
     recharts: "npm:^2.12.4"
@@ -6151,6 +6159,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-lottie-player@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-lottie-player@npm:2.0.0"
+  dependencies:
+    fast-deep-equal: "npm:^3.1.3"
+    lottie-web: "npm:^5.12.2"
+    rfdc: "npm:^1.3.0"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/a48361f441bf4230e85a40e803e1b747d50db283f851e34ec593dcc70faf87096e725cdc5f2f938c0552a0e2a5cbafb0aabe8fdbe508444fcaf1e265d5574057
+  languageName: node
+  linkType: hard
+
 "react-remove-scroll-bar@npm:^2.3.3":
   version: 2.3.6
   resolution: "react-remove-scroll-bar@npm:2.3.6"
@@ -6445,6 +6466,13 @@ __metadata:
   version: 1.0.4
   resolution: "reusify@npm:1.0.4"
   checksum: 10c0/c19ef26e4e188f408922c46f7ff480d38e8dfc55d448310dfb518736b23ed2c4f547fb64a6ed5bdba92cd7e7ddc889d36ff78f794816d5e71498d645ef476107
+  languageName: node
+  linkType: hard
+
+"rfdc@npm:^1.3.0":
+  version: 1.4.1
+  resolution: "rfdc@npm:1.4.1"
+  checksum: 10c0/4614e4292356cafade0b6031527eea9bc90f2372a22c012313be1dcc69a3b90c7338158b414539be863fa95bfcb2ddcd0587be696841af4e6679d85e62c060c7
   languageName: node
   linkType: hard
 

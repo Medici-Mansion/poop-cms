@@ -2,7 +2,6 @@
 
 import { type Table } from '@tanstack/react-table';
 import { Input } from 'components/ui/input';
-import { DataTableViewOptions } from 'components/ui/data-table/data-table-view-options';
 import { DataEditor } from './data-editor';
 
 interface DataTableToolbarProps<TType, TData> {
@@ -25,7 +24,6 @@ export function DataTableToolbar<TType, TData>({
         />
       </div>
       <DataEditor type={type} table={table} />
-      <DataTableViewOptions table={table} />
     </div>
   );
 }

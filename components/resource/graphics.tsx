@@ -38,7 +38,7 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
   const columns: ColumnDef<Graphic>[] = [
     {
       accessorKey: 'index',
-      header: '순번',
+      header: '번호',
       cell: ({ row }) => <div>{row.index + 1}</div>,
     },
     {
@@ -65,7 +65,7 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
     {
       accessorKey: 'type',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="타입" />
+        <DataTableColumnHeader column={column} title="포맷" />
       ),
     },
     {

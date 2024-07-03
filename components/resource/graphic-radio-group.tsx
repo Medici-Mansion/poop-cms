@@ -31,6 +31,9 @@ export function GraphicRadioGroup({
     resolver: zodResolver(FormSchema),
   });
 
+  const { watch, handleSubmit } = form;
+  const selectedCategory = watch('category');
+
   async function onSubmit(data: GraphicParams) {
     await handleGetGraphics(data);
   }
@@ -47,28 +50,34 @@ export function GraphicRadioGroup({
                 <RadioGroup
                   onValueChange={async (value) => {
                     field.onChange(value);
-                    await form.handleSubmit(onSubmit)();
+                    await handleSubmit(onSubmit)();
                   }}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl cursor-pointer"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem
+                    className={`flex items-center px-6 py-4 rounded-2xl ${selectedCategory === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                  >
                     <FormControl>
-                      <RadioGroupItem value="Message" />
+                      <RadioGroupItem className="hidden" value="Message" />
                     </FormControl>
-                    <FormLabel className="font-normal">말풍선</FormLabel>
+                    <FormLabel className="!mt-0 font-normal">말풍선</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem
+                    className={`flex items-center !mt-0 px-6 py-4 rounded-2xl ${selectedCategory === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                  >
                     <FormControl>
-                      <RadioGroupItem value="Sticker" />
+                      <RadioGroupItem className="hidden" value="Sticker" />
                     </FormControl>
-                    <FormLabel className="font-normal">스티커</FormLabel>
+                    <FormLabel className="!mt-0 font-normal">스티커</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem
+                    className={`flex items-center !mt-0 px-6 py-4 rounded-2xl ${selectedCategory === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                  >
                     <FormControl>
-                      <RadioGroupItem value="Challenge" />
+                      <RadioGroupItem className="hidden" value="Challenge" />
                     </FormControl>
-                    <FormLabel className="font-normal">챌린지</FormLabel>
+                    <FormLabel className="!mt-0 font-normal">챌린지</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>

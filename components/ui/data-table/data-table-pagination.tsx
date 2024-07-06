@@ -39,7 +39,7 @@ export function DataTablePagination<TData>({
         <Button
           key={idx}
           variant="ghost"
-          className="h-8 w-8 p-0"
+          className={`h-8 w-8 p-0 rounded-full ${idx === table.getState().pagination.pageIndex && 'bg-custom-gray-600'}`}
           onClick={() => table.setPageIndex(idx)}
         >
           <span>{idx + 1}</span>

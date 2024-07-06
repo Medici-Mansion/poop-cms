@@ -32,7 +32,7 @@ export function GraphicRadioGroup({
   });
 
   const { watch, handleSubmit } = form;
-  const selectedCategory = watch('category');
+  const selectedCategory = watch('category') || 'Message';
 
   async function onSubmit(data: GraphicParams) {
     await handleGetGraphics(data);

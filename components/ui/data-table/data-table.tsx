@@ -27,7 +27,7 @@ import {
 
 import { DataTablePagination } from 'components/ui/data-table/data-table-pagination';
 import { DataTableToolbar } from 'components/ui/data-table/data-table-toolbar';
-
+import { useEffect } from 'react';
 interface DataTableProps<TType, TData, TValue> {
   type?: TType;
   columns: ColumnDef<TData, TValue>[];
@@ -68,6 +68,10 @@ export function DataTable<TType, TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  useEffect(() => {
+    table.resetRowSelection();
+  }, [table, data]);
 
   return (
     <div className="w-full space-y-4 p-16 rounded-4xl bg-secondary">

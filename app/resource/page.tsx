@@ -7,7 +7,7 @@ import React from 'react';
 const DogsPage = async () => {
   const breeds = await getBreeds();
   const breedList = Object.values(breeds ?? {}).flat();
-  const graphics = await getGraphics();
+  const graphics = await getGraphics({ category: 'Message' });
 
   return (
     <div className="flex h-full flex-col">

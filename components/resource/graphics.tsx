@@ -9,7 +9,6 @@ import { GraphicRadioGroup } from './graphic-radio-group';
 import { createContext, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
-import { GraphicUploadPopup } from './graphic-upload-popup';
 import LottieAnimation from './lottie-animation';
 
 type GraphicsProps = {
@@ -95,7 +94,6 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
   return (
     <>
       <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
-      <GraphicUploadPopup />
       <div className="flex items-center justify-between space-y-2">
         <GraphicContext.Provider value={handleGetGraphics}>
           <DataTable type="graphic" columns={columns} data={graphics} />

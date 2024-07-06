@@ -40,6 +40,12 @@ const config = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'd3j361wruo71ic.cloudfront.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

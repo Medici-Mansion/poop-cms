@@ -33,6 +33,7 @@ import type { GraphicFieldErrors, GraphicData } from '@/types';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { GraphicContext } from './graphics';
+import LottieAnimation from './lottie-animation';
 
 interface GraphicUpdatePopupProps<TData> {
   selectedItem: TData | undefined;
@@ -186,12 +187,17 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
                 <div className="grid grid-cols-4 items-center gap-4">
                   <FormLabel>파일</FormLabel>
                   <div className="flex flex-col col-span-3 gap-2">
-                    <Image
-                      width={48}
-                      height={48}
-                      src={selectedItem?.url || ''}
-                      alt={selectedItem?.name || ''}
-                    />
+                    {selectedItem?.url.startsWith('http') &&
+                    selectedItem?.type === 'GIF' ? (
+                      <Image
+                        width={48}
+                        height={48}
+                        src={selectedItem?.url || ''}
+                        alt={selectedItem?.name || ''}
+                      />
+                    ) : selectedItem?.type === 'Lottie' ? (
+                      <LottieAnimation url={selectedItem?.url} />
+                    ) : null}
 
                     <FormControl>
                       <Input

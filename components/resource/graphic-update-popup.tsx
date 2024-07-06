@@ -83,9 +83,9 @@ export function GraphicUpdatePopup<TData extends GraphicData>({
             success: () => {
               if (getGraphics) void getGraphics();
               onOpenChange(false);
-              return <b>수정 되었습니다!</b>;
+              return <b>수정되었습니다!</b>;
             },
-            error: <b>수정 실패하였습니다.</b>,
+            error: <b>그래픽 이미지 수정에 실패하였습니다.</b>,
           });
         } catch (error) {
           console.error('그래픽 수정 실패 ', error);

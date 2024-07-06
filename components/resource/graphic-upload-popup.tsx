@@ -29,14 +29,23 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from 'components/ui/button';
 import { type z } from 'zod';
-import { uploadGraphic } from '@/apis';
+import { getGraphics, uploadGraphic } from '@/apis';
 import { useState } from 'react';
 import type { GraphicFieldErrors } from '@/types';
+import { toast } from 'react-hot-toast';
 
-export function GraphicUploadPopup() {
+interface GraphicUpdatePopupProps {
+  onOpenChange: (isOpen: boolean) => void;
+  isOpen: boolean;
+}
+
+export function GraphicUploadPopup({
+  isOpen,
+  onOpenChange,
+}: GraphicUpdatePopupProps) {
   const [errors, setErrors] = useState<GraphicFieldErrors>();
 
-  const handleUpload = async (formData: FormData) => {
+  const handleUpload = (formData: FormData) => {
     const data = {
       category: formData.get('category'),
       name: formData.get('name'),
@@ -49,7 +58,15 @@ export function GraphicUploadPopup() {
       setErrors(result.error.flatten().fieldErrors);
     } else {
       try {
-        await uploadGraphic(formData);
+        void toast.promise(uploadGraphic(formData), {
+          loading: '등록 중입니다.',
+          success: () => {
+            if (getGraphics) void getGraphics();
+            onOpenChange(false);
+            return <b>등록되었습니다!</b>;
+          },
+          error: <b>그래픽 이미지 등록에 실패하였습니다.</b>,
+        });
       } catch (error) {
         console.error('그래픽 등록 실패 ', error);
       }
@@ -60,9 +77,11 @@ export function GraphicUploadPopup() {
   });
 
   return (
-    <Dialog>
+    <Dialog open={isOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">+</Button>
+        <Button variant="outline" onClick={() => onOpenChange(true)}>
+          +
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]"></DialogContent>
       <DialogContent className="sm:max-w-[425px]">
@@ -157,7 +176,11 @@ export function GraphicUploadPopup() {
               <Button type="submit">등록</Button>
 
               <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => onOpenChange(false)}
+                >
                   닫기
                 </Button>
               </DialogClose>

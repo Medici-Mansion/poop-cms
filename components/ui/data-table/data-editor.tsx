@@ -22,7 +22,7 @@ export function DataEditor<TType, TData>({
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <div className="flex ml-8">
       <button
         className="flex items-center disabled:cursor-not-allowed text-custom-green disabled:text-custom-green/40"
         onClick={() => setOpen(true)}
@@ -46,6 +46,6 @@ export function DataEditor<TType, TData>({
           />
         </Dialog>
       ) : null}
-    </>
+    </div>
   );
 }

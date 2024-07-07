@@ -35,12 +35,11 @@ const LottieAnimation = ({ url }: LottieAnimationProps) => {
     loop: true,
     animationData: animationData,
     style: { width: 36, height: 36 },
-    autoplay: true,
+    autoPlay: true,
     play: true,
-    key: animationKey,
   };
 
-  return <Lottie {...defaultOptions} />;
+  return <Lottie key={animationKey} {...defaultOptions} />;
 };
 
 export default LottieAnimation;

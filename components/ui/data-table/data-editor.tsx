@@ -1,18 +1,9 @@
 'use client';
 
 import { type Table } from '@tanstack/react-table';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../dialog';
-import { GraphicUpdatePopup } from '@/components/resource/graphic-update-popup';
-import type { GraphicData } from '@/types';
-import { useEffect, useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../dialog';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { SquarePen, Trash2 } from 'lucide-react';
-import { Button } from '../button';
 import {
   Carousel,
   CarouselContent,
@@ -21,6 +12,7 @@ import {
   CarouselPrevious,
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
+import { GraphicContext } from '@/components/resource/graphics';
 
 interface DataTableEditorProps<TType, TData> {
   type: TType;
@@ -33,19 +25,23 @@ export function DataEditor<TType, TData>({
 }: DataTableEditorProps<TType, TData>) {
   const [open, setOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const getGraphics = useContext(GraphicContext);
+  const prevValueRef = useRef(false);
 
   const handleOpen = () => {
     setOpen(true);
     setSelectedItems(table.getFilteredSelectedRowModel().rows);
   };
 
+  const closeCallback = {
+    graphic: getGraphics,
+  };
   useEffect(() => {
-    console.log('selectedItems', selectedItems);
-  }, [selectedItems]);
+    if (prevValueRef.current === true && open === false) {
+      closeCallback[type] && closeCallback[type]();
+    }
+    prevValueRef.current = open;
+  }, [open]);
 
   return (
     <div className="flex ml-8">
@@ -76,9 +72,9 @@ export function DataEditor<TType, TData>({
           <DialogHeader>
             <DialogTitle>Edit Items</DialogTitle>
           </DialogHeader>
-          <Carousel className="w-full max-w-xs">
+          <Carousel className="w-full">
             <CarouselContent>
-              {selectedItems.map((item, index) => (
+              {selectedItems.map((item) => (
                 <CarouselItem key={item.id}>
                   <GraphicUpdate selectedItem={item.original} />
                 </CarouselItem>
@@ -87,11 +83,6 @@ export function DataEditor<TType, TData>({
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleClose}>
-              Close
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

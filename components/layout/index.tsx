@@ -20,7 +20,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         {!pathname.includes('auth') && <Sidebar />}
         <ResizableHandle withHandle className="hidden md:flex" />
         <ResizablePanel defaultSize={80} className="!overflow-y-scroll">
-          <main className="flex-1 overflow-y-auto overflow-x-hidden bg-secondary/10 pb-1 pt-16">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden bg-background pb-1 pt-16">
             {children}
           </main>
         </ResizablePanel>

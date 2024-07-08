@@ -14,7 +14,7 @@ export const Dogs: React.FC<BreedsProps> = ({ data }) => {
   const columns: ColumnDef<Breed>[] = [
     {
       accessorKey: 'index',
-      header: '순번',
+      header: '번호',
       cell: ({ row }) => <div>{row.index + 1}</div>,
     },
     {
@@ -37,13 +37,13 @@ export const Dogs: React.FC<BreedsProps> = ({ data }) => {
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={'국문'} />
+        <DataTableColumnHeader column={column} title="국문 이름" />
       ),
     },
     {
       accessorKey: 'nameEN',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={'영문'} />
+        <DataTableColumnHeader column={column} title="영문 이름" />
       ),
     },
   ];

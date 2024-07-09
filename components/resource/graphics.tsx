@@ -2,35 +2,25 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Graphic, GraphicParams } from '@/types';
+import type { Graphic, GraphicContextType, GraphicParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 import { GraphicRadioGroup } from './graphic-radio-group';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
 import LottieAnimation from './lottie-animation';
 
-type GraphicsProps = {
-  data: Graphic[];
-};
-
-type GraphicContextType = (data?: GraphicParams) => Promise<void>;
-
 export const GraphicContext = createContext<GraphicContextType | undefined>(
-  async () => {},
+  undefined,
 );
 
-export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
-  const [graphics, setGraphics] = useState(data);
+export const Graphics = () => {
+  const [graphics, setGraphics] = useState<Graphic[]>([]);
+  const [category, setCategory] = useState('');
 
   const handleGetGraphics = async (data?: GraphicParams) => {
-    const params = {
-      // graphicType: 'Lottie',
-      category: data?.category || '',
-      // string: 'ASC',
-    };
-    const graphics = await getGraphics(data ? params : undefined);
+    const graphics = await getGraphics(data);
     setGraphics(graphics);
   };
 
@@ -91,11 +81,18 @@ export const Graphics: React.FC<GraphicsProps> = ({ data }) => {
     },
   ];
 
+  useEffect(() => {
+    if (category) void handleGetGraphics({ category });
+  }, [category]);
+
   return (
     <>
-      <GraphicRadioGroup handleGetGraphics={handleGetGraphics} />
+      <GraphicRadioGroup
+        handleGetGraphics={handleGetGraphics}
+        setCategory={setCategory}
+      />
       <div className="flex items-center justify-between space-y-2">
-        <GraphicContext.Provider value={handleGetGraphics}>
+        <GraphicContext.Provider value={{ handleGetGraphics, category }}>
           <DataTable type="graphic" columns={columns} data={graphics} />
         </GraphicContext.Provider>
       </div>

@@ -1,5 +1,18 @@
 import { GET, PUT, POST } from '@/server/axios';
-import type { BreedList, Graphic, QueryParams } from '@/types';
+import type { BreedList, Graphic, GraphicParams } from '@/types';
+
+// 변환 함수 정의
+const toRecord = (params?: GraphicParams): Record<string, string> => {
+  const result: Record<string, string> = {};
+  if (params) {
+    for (const key in params) {
+      if (params[key] !== undefined && params[key] !== null) {
+        result[key] = params[key] as string;
+      }
+    }
+  }
+  return result;
+};
 
 export const getBreeds = async () => {
   try {
@@ -11,8 +24,10 @@ export const getBreeds = async () => {
   }
 };
 
-export const getGraphics = async (params?: QueryParams) => {
-  const queryStr = params ? new URLSearchParams(params).toString() : '';
+export const getGraphics = async (params?: GraphicParams) => {
+  const queryStr = params
+    ? new URLSearchParams(toRecord(params)).toString()
+    : '';
   try {
     const {
       result: { resultCode },
@@ -25,6 +40,7 @@ export const getGraphics = async (params?: QueryParams) => {
     throw new Error('Failed to get graphics');
   }
 };
+
 export const uploadGraphic = async (formData: FormData) => {
   try {
     const {

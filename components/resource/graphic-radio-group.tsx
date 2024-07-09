@@ -13,9 +13,11 @@ import {
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { GraphicParams } from '@/types';
+import { useEffect } from 'react';
 
 interface GraphicRadioGroupProps {
   handleGetGraphics: (data: GraphicParams) => Promise<void>;
+  setCategory: (category: string) => void;
 }
 
 const FormSchema = z.object({
@@ -26,17 +28,22 @@ const FormSchema = z.object({
 
 export function GraphicRadioGroup({
   handleGetGraphics,
+  setCategory,
 }: GraphicRadioGroupProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   const { watch, handleSubmit } = form;
-  const selectedCategory = watch('category') || 'Message';
+  const selected = watch('category') || 'Message';
 
   async function onSubmit(data: GraphicParams) {
     await handleGetGraphics(data);
   }
+
+  useEffect(() => {
+    setCategory(selected);
+  }, [selected, setCategory]);
 
   return (
     <Form {...form}>
@@ -56,7 +63,7 @@ export function GraphicRadioGroup({
                   className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl"
                 >
                   <FormItem
-                    className={`flex items-center rounded-2xl ${selectedCategory === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center rounded-2xl ${selected === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Message" />
@@ -66,7 +73,7 @@ export function GraphicRadioGroup({
                     </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selected === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Sticker" />
@@ -76,7 +83,7 @@ export function GraphicRadioGroup({
                     </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selected === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Challenge" />

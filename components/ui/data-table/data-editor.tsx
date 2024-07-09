@@ -27,7 +27,7 @@ export function DataEditor<TData>({
   const [open, setOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Row<TData>[]>([]);
   const [isModified, setIsModified] = useState(false); // 수정 여부 상태 변수 추가
-  const getGraphics = useContext(GraphicContext);
+  const { category, handleGetGraphics } = useContext(GraphicContext)!;
   const prevValueRef = useRef(false);
 
   const handleOpen = () => {
@@ -40,7 +40,7 @@ export function DataEditor<TData>({
       // 데이터 타입 별 팝업 close 시 수행할 callback
       // 수정이 일어난 경우에만 실행
       const closeCallbacks = {
-        graphic: getGraphics,
+        graphic: () => handleGetGraphics({ category }),
       };
 
       const callback = type && closeCallbacks[type];
@@ -49,7 +49,7 @@ export function DataEditor<TData>({
       setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open, isModified, type, getGraphics]);
+  }, [open, isModified, type, handleGetGraphics, category]);
 
   return (
     <div className="flex ml-8">

@@ -64,3 +64,5 @@ export interface GraphicFieldErrors {
   file?: string[];
   type?: string[];
 }
+
+export type EditorDataType = 'graphic' | undefined;

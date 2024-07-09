@@ -1,6 +1,6 @@
 'use client';
 
-import { type Table } from '@tanstack/react-table';
+import type { Row, Table } from '@tanstack/react-table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../dialog';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SquarePen, Trash2 } from 'lucide-react';
@@ -13,18 +13,20 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
+import type { EditorDataType, GraphicData } from '@/types';
 
-interface DataTableEditorProps<TType, TData> {
-  type: TType;
+interface DataTableEditorProps<TData> {
+  type: EditorDataType;
   table: Table<TData>;
 }
 
-export function DataEditor<TType, TData>({
+export function DataEditor<TData>({
   type,
   table,
-}: DataTableEditorProps<TType, TData>) {
+}: DataTableEditorProps<TData>) {
   const [open, setOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<Row<TData>[]>([]);
+  const [isModified, setIsModified] = useState(false); // 수정 여부 상태 변수 추가
   const getGraphics = useContext(GraphicContext);
   const prevValueRef = useRef(false);
 
@@ -33,15 +35,21 @@ export function DataEditor<TType, TData>({
     setSelectedItems(table.getFilteredSelectedRowModel().rows);
   };
 
-  const closeCallback = {
-    graphic: getGraphics,
-  };
   useEffect(() => {
-    if (prevValueRef.current === true && open === false) {
-      closeCallback[type] && closeCallback[type]();
+    if (prevValueRef.current === true && open === false && isModified) {
+      // 데이터 타입 별 팝업 close 시 수행할 callback
+      // 수정이 일어난 경우에만 실행
+      const closeCallbacks = {
+        graphic: getGraphics,
+      };
+
+      const callback = type && closeCallbacks[type];
+      if (callback) void callback();
+
+      setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open]);
+  }, [open, isModified, type, getGraphics]);
 
   return (
     <div className="flex ml-8">
@@ -59,13 +67,6 @@ export function DataEditor<TType, TData>({
         <Trash2 className="mr-2 h-4 w-4" />
         삭제
       </button>
-      {/* {type === 'graphic' ? (
-          <GraphicUpdatePopup
-          open={open}
-          onOpenChange={setOpen}
-          selectedItem={selectedItems[0]?.original as GraphicData | undefined}
-          />
-      ) : null} */}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]">
@@ -76,7 +77,12 @@ export function DataEditor<TType, TData>({
             <CarouselContent>
               {selectedItems.map((item) => (
                 <CarouselItem key={item.id}>
-                  <GraphicUpdate selectedItem={item.original} />
+                  {type === 'graphic' && (
+                    <GraphicUpdate
+                      selectedItem={item.original as GraphicData}
+                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                    />
+                  )}
                 </CarouselItem>
               ))}
             </CarouselContent>

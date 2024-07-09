@@ -28,10 +28,12 @@ import { Button } from '../ui/button';
 
 interface GraphicUpdateProps<TData> {
   selectedItem: TData | undefined;
+  onEditComplete: () => void;
 }
 
 export function GraphicUpdate<TData extends GraphicData>({
   selectedItem,
+  onEditComplete,
 }: GraphicUpdateProps<TData>) {
   const [errors, setErrors] = useState<GraphicFieldErrors>();
 
@@ -71,6 +73,7 @@ export function GraphicUpdate<TData extends GraphicData>({
             success: <b>수정되었습니다!</b>,
             error: <b>그래픽 이미지 수정에 실패하였습니다.</b>,
           });
+          onEditComplete(); // 수정 완료 후 콜백 호출
         } catch (error) {
           console.error('그래픽 수정 실패 ', error);
         }
@@ -98,6 +101,7 @@ export function GraphicUpdate<TData extends GraphicData>({
                       height={48}
                       src={selectedItem?.url || ''}
                       alt={selectedItem?.name || ''}
+                      unoptimized
                     />
                   ) : selectedItem?.type === 'Lottie' ? (
                     <LottieAnimation url={selectedItem?.url} />

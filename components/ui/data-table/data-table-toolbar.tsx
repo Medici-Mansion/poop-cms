@@ -5,16 +5,17 @@ import { Input } from 'components/ui/input';
 import { DataEditor } from './data-editor';
 import { GraphicUploadPopup } from '@/components/resource/graphic-upload-popup';
 import { useState } from 'react';
+import type { EditorDataType } from '@/types';
 
-interface DataTableToolbarProps<TType, TData> {
-  type: TType;
+interface DataTableToolbarProps<TData> {
+  type: EditorDataType;
   table: Table<TData>;
 }
 
-export function DataTableToolbar<TType, TData>({
+export function DataTableToolbar<TData>({
   type,
   table,
-}: DataTableToolbarProps<TType, TData>) {
+}: DataTableToolbarProps<TData>) {
   const [isOpen, setIsOpen] = useState(false);
   const isAnyItemSelected = table.getFilteredSelectedRowModel().rows.length > 0;
 

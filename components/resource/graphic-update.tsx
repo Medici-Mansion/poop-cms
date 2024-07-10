@@ -41,12 +41,14 @@ export function GraphicUpdate<TData extends GraphicData>({
     resolver: zodResolver(GraphicUpdateSchema),
   });
 
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [lottieData, setLottieData] = useState<unknown>(null);
+
   useEffect(() => {
     if (selectedItem) {
       form.reset({
         category: '',
         name: '',
-        file: undefined,
         type: '',
       });
     }
@@ -57,7 +59,6 @@ export function GraphicUpdate<TData extends GraphicData>({
       const data = {
         category: formData.get('category'),
         name: formData.get('name'),
-        file: formData.get('file'),
         type: formData.get('type'),
       };
 
@@ -81,12 +82,31 @@ export function GraphicUpdate<TData extends GraphicData>({
     }
   };
 
+  const handleFileChange = (file: File | null | undefined) => {
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+
+      if (file.type === 'application/json') {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setLottieData(JSON.parse(reader.result as string));
+        };
+        reader.readAsText(file);
+      } else {
+        setPreviewUrl(fileUrl);
+        setLottieData(null);
+      }
+    } else {
+      setPreviewUrl('');
+      setLottieData(null);
+    }
+  };
+
   return (
     <Form {...form}>
       <form action={handleEdit} className="flex flex-col w-full space-y-4">
         {/* 이미지 */}
         <FormField
-          control={form.control}
           name="file"
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           render={({ field: { value, onChange, ...fieldProps } }) => (
@@ -94,8 +114,18 @@ export function GraphicUpdate<TData extends GraphicData>({
               <div className="grid grid-cols-4 items-center gap-4">
                 <FormLabel>파일</FormLabel>
                 <FormLabel>
-                  {selectedItem?.url.startsWith('http') &&
-                  selectedItem?.type === 'GIF' ? (
+                  {previewUrl ? (
+                    <Image
+                      width={48}
+                      height={48}
+                      src={previewUrl || ''}
+                      alt="업로드 이미지"
+                      unoptimized
+                    />
+                  ) : lottieData ? (
+                    <LottieAnimation data={lottieData} />
+                  ) : selectedItem?.url.startsWith('http') &&
+                    selectedItem?.type === 'GIF' ? (
                     <Image
                       width={48}
                       height={48}
@@ -114,9 +144,11 @@ export function GraphicUpdate<TData extends GraphicData>({
                     className="hidden"
                     type="file"
                     accept=".gif,.json"
-                    onChange={(event) =>
-                      onChange(event.target.files && event.target.files[0])
-                    }
+                    onChange={(event) => {
+                      const file = event.target.files && event.target.files[0];
+                      onChange(file);
+                      handleFileChange(file);
+                    }}
                   />
                 </FormControl>
 

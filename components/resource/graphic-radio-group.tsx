@@ -12,11 +12,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { GraphicParams } from '@/types';
 import { useEffect } from 'react';
 
 interface GraphicRadioGroupProps {
-  handleGetGraphics: (data: GraphicParams) => Promise<void>;
   setCategory: (category: string) => void;
 }
 
@@ -26,20 +24,13 @@ const FormSchema = z.object({
   }),
 });
 
-export function GraphicRadioGroup({
-  handleGetGraphics,
-  setCategory,
-}: GraphicRadioGroupProps) {
+export function GraphicRadioGroup({ setCategory }: GraphicRadioGroupProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  const { watch, handleSubmit } = form;
+  const { watch } = form;
   const selected = watch('category') || 'Message';
-
-  async function onSubmit(data: GraphicParams) {
-    await handleGetGraphics(data);
-  }
 
   useEffect(() => {
     setCategory(selected);
@@ -55,10 +46,7 @@ export function GraphicRadioGroup({
             <FormItem className="space-y-3">
               <FormControl>
                 <RadioGroup
-                  onValueChange={async (value) => {
-                    field.onChange(value);
-                    await handleSubmit(onSubmit)();
-                  }}
+                  onValueChange={(value) => field.onChange(value)}
                   defaultValue={field.value}
                   className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl"
                 >

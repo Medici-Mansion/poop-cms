@@ -87,10 +87,7 @@ export const Graphics = () => {
 
   return (
     <>
-      <GraphicRadioGroup
-        handleGetGraphics={handleGetGraphics}
-        setCategory={setCategory}
-      />
+      <GraphicRadioGroup setCategory={setCategory} />
       <div className="flex items-center justify-between space-y-2">
         <GraphicContext.Provider value={{ handleGetGraphics, category }}>
           <DataTable type="graphic" columns={columns} data={graphics} />

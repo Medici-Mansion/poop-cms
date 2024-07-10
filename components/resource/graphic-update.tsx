@@ -41,6 +41,7 @@ export function GraphicUpdate<TData extends GraphicData>({
     resolver: zodResolver(GraphicUpdateSchema),
   });
 
+  const [fileType, setFileType] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
   const [lottieData, setLottieData] = useState<unknown>(null);
 
@@ -48,8 +49,6 @@ export function GraphicUpdate<TData extends GraphicData>({
     if (selectedItem) {
       form.reset({
         category: '',
-        name: '',
-        type: '',
       });
     }
   }, [selectedItem, form]);
@@ -58,8 +57,6 @@ export function GraphicUpdate<TData extends GraphicData>({
     if (selectedItem) {
       const data = {
         category: formData.get('category'),
-        name: formData.get('name'),
-        type: formData.get('type'),
       };
 
       const result = GraphicUpdateSchema.safeParse(data);
@@ -69,6 +66,7 @@ export function GraphicUpdate<TData extends GraphicData>({
       } else {
         try {
           formData.append('id', selectedItem.id);
+          if (!formData.get('name')) formData.delete('name');
           void toast.promise(updateGraphic(formData), {
             loading: '수정 중입니다.',
             success: <b>수정되었습니다!</b>,
@@ -90,10 +88,12 @@ export function GraphicUpdate<TData extends GraphicData>({
         const reader = new FileReader();
         reader.onload = () => {
           setLottieData(JSON.parse(reader.result as string));
+          setFileType('Lottie');
         };
         reader.readAsText(file);
       } else {
         setPreviewUrl(fileUrl);
+        setFileType('GIF');
         setLottieData(null);
       }
     } else {
@@ -227,7 +227,7 @@ export function GraphicUpdate<TData extends GraphicData>({
                   <Select
                     name="type"
                     onValueChange={field.onChange}
-                    defaultValue={selectedItem?.type}
+                    value={fileType ? fileType : selectedItem?.type}
                   >
                     <FormControl>
                       <SelectTrigger>

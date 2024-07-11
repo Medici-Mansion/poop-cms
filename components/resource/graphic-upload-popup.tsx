@@ -77,17 +77,15 @@ export function GraphicUploadPopup({
   });
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline" onClick={() => onOpenChange(true)}>
           +
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]"></DialogContent>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle>그래픽 등록</DialogTitle>
-          <DialogDescription>양식에 맞게 등록하세요</DialogDescription>
+          <DialogTitle>그래픽 추가</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form action={handleUpload} className="space-y-4">
@@ -132,7 +130,11 @@ export function GraphicUploadPopup({
                     <FormLabel>이름</FormLabel>
                     <div className="col-span-3 flex flex-col gap-2">
                       <FormControl>
-                        <Input className="col-span-3" {...field} />
+                        <Input
+                          className="col-span-3"
+                          placeholder="영문 파일명"
+                          {...field}
+                        />
                       </FormControl>
 
                       <FormMessage>{errors?.name}</FormMessage>
@@ -173,17 +175,9 @@ export function GraphicUploadPopup({
             />
 
             <DialogFooter>
-              <Button type="submit">등록</Button>
-
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => onOpenChange(false)}
-                >
-                  닫기
-                </Button>
-              </DialogClose>
+              <Button type="submit" className="mt-8">
+                추가
+              </Button>
             </DialogFooter>
           </form>
         </Form>

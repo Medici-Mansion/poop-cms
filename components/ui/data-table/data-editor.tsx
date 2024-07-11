@@ -69,7 +69,7 @@ export function DataEditor<TData>({
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[550px]">
           <DialogHeader>
             <DialogTitle>Edit Items</DialogTitle>
           </DialogHeader>

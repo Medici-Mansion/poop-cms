@@ -39,7 +39,7 @@ const LottieAnimation = ({ url, data }: LottieAnimationProps) => {
   const defaultOptions = {
     loop: true,
     animationData: animationData,
-    style: { width: 36, height: 36 },
+    style: { width: 84, height: 84 },
     autoPlay: true,
     play: true,
   };

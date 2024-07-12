@@ -3,9 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { GraphicUploadSchema } from '@/lib/validators';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,

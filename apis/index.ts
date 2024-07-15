@@ -1,4 +1,4 @@
-import { GET, PUT, POST } from '@/server/axios';
+import { GET, PUT, POST, DELETE } from '@/server/axios';
 import type { BreedList, Graphic, GraphicParams } from '@/types';
 
 // 변환 함수 정의
@@ -74,5 +74,19 @@ export const updateGraphic = async (formData: FormData) => {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to update graphics');
+  }
+};
+
+export const deleteGraphic = async (id: string) => {
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await DELETE(`/common/graphic`, { id });
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to delete graphics');
   }
 };

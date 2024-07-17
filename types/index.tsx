@@ -68,4 +68,15 @@ export interface GraphicContextType {
   handleGetGraphics: (data?: GraphicParams) => Promise<void>;
   category: string;
   setCategory: (category: string) => void;
+  graphicInfo: {
+    challengeLength: number;
+    messageLength: number;
+    stickerLength: number;
+  };
+}
+
+export interface GraphicsInfo {
+  messageLength: number;
+  stickerLength: number;
+  challengeLength: number;
 }

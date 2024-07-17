@@ -32,7 +32,6 @@ export function GraphicUploadPopup({
 
   const handleNextSlide = () => {
     if (carouselNextRef.current) {
-      console.log('carouselNextRef.current', carouselNextRef.current);
       setTimeout(
         () => carouselNextRef.current && carouselNextRef.current.click(),
         500,

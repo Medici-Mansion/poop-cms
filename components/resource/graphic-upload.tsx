@@ -63,8 +63,6 @@ export function GraphicUpload({
 
     const submitType = formData.get('submitType');
 
-    console.log('notChanged', notChanged);
-
     if (submitType === 'done' && notChanged) {
       onOpenChange(false);
       return;

@@ -22,7 +22,7 @@ const FormSchema = z.object({
 });
 
 export function GraphicRadioGroup() {
-  const { setCategory } = useContext(GraphicContext)!;
+  const { setCategory, graphicInfo } = useContext(GraphicContext)!;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -56,7 +56,7 @@ export function GraphicRadioGroup() {
                       <RadioGroupItem className="hidden" value="Message" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      말풍선
+                      말풍선 {graphicInfo?.messageLength || 0}
                     </FormLabel>
                   </FormItem>
                   <FormItem
@@ -66,7 +66,7 @@ export function GraphicRadioGroup() {
                       <RadioGroupItem className="hidden" value="Sticker" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      스티커
+                      스티커 {graphicInfo?.stickerLength || 0}
                     </FormLabel>
                   </FormItem>
                   <FormItem
@@ -76,7 +76,7 @@ export function GraphicRadioGroup() {
                       <RadioGroupItem className="hidden" value="Challenge" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      챌린지
+                      챌린지 {graphicInfo?.challengeLength || 0}
                     </FormLabel>
                   </FormItem>
                 </RadioGroup>

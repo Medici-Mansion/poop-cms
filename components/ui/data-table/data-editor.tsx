@@ -1,7 +1,7 @@
 'use client';
 
 import type { Row, Table } from '@tanstack/react-table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../dialog';
+import { Dialog, DialogContent } from '../dialog';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SquarePen, Trash2 } from 'lucide-react';
 import {

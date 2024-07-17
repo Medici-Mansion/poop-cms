@@ -2,7 +2,12 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Graphic, GraphicContextType, GraphicParams } from '@/types';
+import type {
+  Graphic,
+  GraphicContextType,
+  GraphicParams,
+  GraphicsInfo,
+} from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 import { createContext, useEffect, useState } from 'react';
@@ -80,6 +85,48 @@ export const Graphics = () => {
     },
   ];
 
+  const [graphicInfo, setGraphicInfo] = useState<GraphicsInfo>({
+    messageLength: 0,
+    stickerLength: 0,
+    challengeLength: 0,
+  });
+
+  const handleGetGraphicsAll = async () => {
+    try {
+      const allGraphics = await getGraphics();
+
+      // 각 카테고리별 개수를 계산
+      const categoryCounts = allGraphics.reduce(
+        (acc, graphic) => {
+          switch (graphic.category) {
+            case 'Message':
+              acc.messageLength += 1;
+              break;
+            case 'Sticker':
+              acc.stickerLength += 1;
+              break;
+            case 'Challenge':
+              acc.challengeLength += 1;
+              break;
+            default:
+              break;
+          }
+          return acc;
+        },
+        { messageLength: 0, stickerLength: 0, challengeLength: 0 },
+      );
+
+      // 상태 업데이트
+
+      setGraphicInfo(categoryCounts);
+    } catch (error) {
+      console.error('Failed to fetch graphics:', error);
+    }
+  };
+  useEffect(() => {
+    void handleGetGraphicsAll();
+  }, [graphics]);
+
   useEffect(() => {
     if (category) void handleGetGraphics({ category });
   }, [category]);
@@ -88,7 +135,7 @@ export const Graphics = () => {
     <>
       <div className="flex items-center justify-between space-y-2">
         <GraphicContext.Provider
-          value={{ handleGetGraphics, category, setCategory }}
+          value={{ handleGetGraphics, category, setCategory, graphicInfo }}
         >
           <DataTable type="graphic" columns={columns} data={graphics} />
         </GraphicContext.Provider>

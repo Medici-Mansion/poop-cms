@@ -15,6 +15,7 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 import { GraphicUpload } from './graphic-upload';
+import { Plus } from 'lucide-react';
 
 interface GraphicUpdatePopupProps {
   onOpenChange: (isOpen: boolean) => void;
@@ -53,8 +54,12 @@ export function GraphicUploadPopup({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" onClick={() => onOpenChange(true)}>
-          +
+        <Button
+          variant="outline"
+          className="w-[50px] h-[50px] border-white"
+          onClick={() => onOpenChange(true)}
+        >
+          <Plus />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">

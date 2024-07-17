@@ -75,9 +75,9 @@ export function DataTable<TData, TValue>({
   }, [table, data]);
 
   return (
-    <div className="w-full space-y-4 p-16 rounded-4xl bg-secondary">
+    <div className="w-full">
       <DataTableToolbar type={type} table={table} />
-      <div className="rounded-md border">
+      <div className="border p-16 rounded-4xl bg-secondary">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -12,6 +12,11 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
+const placeholderList = {
+  breeds: '견종 이름 검색',
+  graphic: '파일명 검색',
+};
+
 export function DataTableToolbar<TData>({
   type,
   table,
@@ -19,14 +24,21 @@ export function DataTableToolbar<TData>({
   const [isOpen, setIsOpen] = useState(false);
   const isAnyItemSelected = table.getFilteredSelectedRowModel().rows.length > 0;
 
+  const getPlaceholder = (type?: keyof typeof placeholderList): string => {
+    return type ? placeholderList[type] || '' : '검색';
+  };
+
+  const placeholder = getPlaceholder(type);
+
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 justify-end items-center space-x-2">
+    <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input
-          placeholder="검색"
+          placeholder={placeholder}
           value={(table.getState().globalFilter as string) ?? ''}
           onChange={(event) => table.setGlobalFilter(event.target.value)}
-          className="h-10 w-[150px] lg:w-[250px]"
+          className=" w-[264px] h-[50px] border text-lg"
+          variant="search"
         />
         {type === 'graphic' ? (
           <GraphicUploadPopup isOpen={isOpen} onOpenChange={setIsOpen} />

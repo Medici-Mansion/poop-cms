@@ -117,25 +117,29 @@ export function GraphicUpdate<TData extends GraphicData>({
               <FormLabel>
                 {previewUrl ? (
                   <Image
-                    width={84}
-                    height={84}
+                    width={100}
+                    height={100}
                     src={previewUrl || ''}
                     alt="업로드 이미지"
                     unoptimized
                   />
                 ) : lottieData ? (
-                  <LottieAnimation data={lottieData} />
+                  <LottieAnimation data={lottieData} width={100} height={100} />
                 ) : selectedItem?.url.startsWith('http') &&
                   selectedItem?.type === 'GIF' ? (
                   <Image
-                    width={84}
-                    height={84}
+                    width={100}
+                    height={100}
                     src={selectedItem?.url || ''}
                     alt={selectedItem?.name || ''}
                     unoptimized
                   />
                 ) : selectedItem?.type === 'Lottie' ? (
-                  <LottieAnimation url={selectedItem?.url} />
+                  <LottieAnimation
+                    url={selectedItem?.url}
+                    width={100}
+                    height={100}
+                  />
                 ) : null}
               </FormLabel>
 
@@ -198,7 +202,11 @@ export function GraphicUpdate<TData extends GraphicData>({
               <FormLabel>이름</FormLabel>
               <div className="flex flex-col gap-2">
                 <FormControl>
-                  <Input placeholder={selectedItem?.name} {...field} />
+                  <Input
+                    placeholder={selectedItem?.name}
+                    {...field}
+                    value={field.value || ''}
+                  />
                 </FormControl>
 
                 <FormMessage>{errors?.name}</FormMessage>

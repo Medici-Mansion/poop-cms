@@ -22,7 +22,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
@@ -100,13 +99,22 @@ export function DataEditor<TData>({
   }, [open, isModified, type, handleGetGraphics, category, table]);
 
   return (
-    <div className="flex ml-8">
+    <div className="flex ml-16">
       <button
-        className="flex items-center disabled:cursor-not-allowed text-custom-green disabled:text-custom-green/40"
+        className="flex items-center disabled:cursor-not-allowed text-custom-green disabled:text-custom-green/40 text-lg"
         onClick={handleOpen}
       >
-        <SquarePen className="mr-2 h-4 w-4" />
+        <SquarePen className="mr-2 h-5 w-5" />
         수정
+      </button>
+
+      <button
+        className="flex items-center ml-5 disabled:cursor-not-allowed text-custom-red disabled:text-custom-red/40 text-lg"
+        disabled={selectedItems.length > 1}
+        onClick={() => setAlertOpen(true)}
+      >
+        <Trash2 className="mr-2 h-5 w-5" />
+        삭제
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -134,15 +142,6 @@ export function DataEditor<TData>({
       </Dialog>
 
       <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
-        <AlertDialogTrigger>
-          <button
-            className="flex items-center ml-5 disabled:cursor-not-allowed text-custom-red disabled:text-custom-red/40"
-            disabled={selectedItems.length > 1}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            삭제
-          </button>
-        </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>정말 삭제할까요?</AlertDialogTitle>

@@ -136,7 +136,7 @@ export function GraphicUpload({
                     unoptimized
                   />
                 ) : lottieData ? (
-                  <LottieAnimation data={lottieData} />
+                  <LottieAnimation data={lottieData} width={100} height={100} />
                 ) : (
                   <div className="flex justify-center items-center bg-custom-gray-600 w-[100px] h-[100px]">
                     <ImageIcon width={24} height={24} />
@@ -203,7 +203,11 @@ export function GraphicUpload({
               <FormLabel>파일명</FormLabel>
               <div className="flex flex-col gap-2">
                 <FormControl>
-                  <Input placeholder="영문 파일명" {...field} />
+                  <Input
+                    placeholder="영문 파일명"
+                    {...field}
+                    value={field.value || ''}
+                  />
                 </FormControl>
 
                 <FormMessage>{errors?.name}</FormMessage>

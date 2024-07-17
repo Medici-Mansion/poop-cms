@@ -5,9 +5,16 @@ import Lottie from 'react-lottie-player';
 interface LottieAnimationProps {
   url?: string;
   data?: unknown;
+  width?: number;
+  height?: number;
 }
 
-const LottieAnimation = ({ url, data }: LottieAnimationProps) => {
+const LottieAnimation = ({
+  url,
+  data,
+  width,
+  height,
+}: LottieAnimationProps) => {
   const [animationData, setAnimationData] = useState<unknown>(null);
   const [animationKey, setAnimationKey] = useState(0);
 
@@ -39,7 +46,7 @@ const LottieAnimation = ({ url, data }: LottieAnimationProps) => {
   const defaultOptions = {
     loop: true,
     animationData: animationData,
-    style: { width: 84, height: 84 },
+    style: { width: width || 36, height: height || 36 },
     autoPlay: true,
     play: true,
   };

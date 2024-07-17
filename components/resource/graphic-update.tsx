@@ -103,152 +103,159 @@ export function GraphicUpdate<TData extends GraphicData>({
   };
 
   return (
-    <Form {...form}>
-      <form
-        action={handleEdit}
-        className="flex flex-col w-full space-y-4 gap-1 px-1"
-      >
-        {/* 이미지 */}
-        <FormField
-          name="file"
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          render={({ field: { value, onChange, ...fieldProps } }) => (
-            <FormItem>
-              <FormLabel>
-                {previewUrl ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={previewUrl || ''}
-                    alt="업로드 이미지"
-                    unoptimized
-                  />
-                ) : lottieData ? (
-                  <LottieAnimation data={lottieData} width={100} height={100} />
-                ) : selectedItem?.url.startsWith('http') &&
-                  selectedItem?.type === 'GIF' ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={selectedItem?.url || ''}
-                    alt={selectedItem?.name || ''}
-                    unoptimized
-                  />
-                ) : selectedItem?.type === 'Lottie' ? (
-                  <LottieAnimation
-                    url={selectedItem?.url}
-                    width={100}
-                    height={100}
-                  />
-                ) : null}
-              </FormLabel>
+    <>
+      <p className="text-4xl mb-12">{selectedItem?.name}</p>
+      <Form {...form}>
+        <form
+          action={handleEdit}
+          className="flex flex-col w-full space-y-4 gap-1 px-1"
+        >
+          {/* 이미지 */}
+          <FormField
+            name="file"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem>
+                <FormLabel>
+                  {previewUrl ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={previewUrl || ''}
+                      alt="업로드 이미지"
+                      unoptimized
+                    />
+                  ) : lottieData ? (
+                    <LottieAnimation
+                      data={lottieData}
+                      width={100}
+                      height={100}
+                    />
+                  ) : selectedItem?.url.startsWith('http') &&
+                    selectedItem?.type === 'GIF' ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={selectedItem?.url || ''}
+                      alt={selectedItem?.name || ''}
+                      unoptimized
+                    />
+                  ) : selectedItem?.type === 'Lottie' ? (
+                    <LottieAnimation
+                      url={selectedItem?.url}
+                      width={100}
+                      height={100}
+                    />
+                  ) : null}
+                </FormLabel>
 
-              <FormControl>
-                <Input
-                  {...fieldProps}
-                  className="hidden"
-                  type="file"
-                  accept=".gif,.json"
-                  onChange={(event) => {
-                    const file = event.target.files && event.target.files[0];
-                    onChange(file);
-                    handleFileChange(file);
-                  }}
-                />
-              </FormControl>
-
-              <FormMessage>{errors?.file}</FormMessage>
-            </FormItem>
-          )}
-        />
-
-        {/* 카테고리 */}
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>카테고리</FormLabel>
-              <div className="flex flex-col gap-2">
-                <Select
-                  name="category"
-                  onValueChange={field.onChange}
-                  defaultValue={selectedItem?.category}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="카테고리 선택" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Message">말풍선</SelectItem>
-                    <SelectItem value="Sticker">스티커</SelectItem>
-                    <SelectItem value="Challenge">챌린지</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <FormMessage>{errors?.category}</FormMessage>
-              </div>
-            </FormItem>
-          )}
-        />
-
-        {/* 파일명 */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>이름</FormLabel>
-              <div className="flex flex-col gap-2">
                 <FormControl>
                   <Input
-                    placeholder={selectedItem?.name}
-                    {...field}
-                    value={field.value || ''}
+                    {...fieldProps}
+                    className="hidden"
+                    type="file"
+                    accept=".gif,.json"
+                    onChange={(event) => {
+                      const file = event.target.files && event.target.files[0];
+                      onChange(file);
+                      handleFileChange(file);
+                    }}
                   />
                 </FormControl>
 
-                <FormMessage>{errors?.name}</FormMessage>
-              </div>
-            </FormItem>
-          )}
-        />
+                <FormMessage>{errors?.file}</FormMessage>
+              </FormItem>
+            )}
+          />
 
-        {/* 포맷 */}
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>포맷</FormLabel>
-              <div className="flex flex-col gap-2">
-                <Select
-                  name="type"
-                  onValueChange={field.onChange}
-                  value={fileType ? fileType : selectedItem?.type}
-                >
+          {/* 카테고리 */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>카테고리</FormLabel>
+                <div className="flex flex-col gap-2">
+                  <Select
+                    name="category"
+                    onValueChange={field.onChange}
+                    defaultValue={selectedItem?.category}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="카테고리 선택" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Message">말풍선</SelectItem>
+                      <SelectItem value="Sticker">스티커</SelectItem>
+                      <SelectItem value="Challenge">챌린지</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage>{errors?.category}</FormMessage>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          {/* 파일명 */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>이름</FormLabel>
+                <div className="flex flex-col gap-2">
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="포맷 선택" />
-                    </SelectTrigger>
+                    <Input
+                      placeholder={selectedItem?.name}
+                      {...field}
+                      value={field.value || ''}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="GIF">GIF</SelectItem>
-                    <SelectItem value="Lottie">Lottie</SelectItem>
-                  </SelectContent>
-                </Select>
 
-                <FormMessage>{errors?.type}</FormMessage>
-              </div>
-            </FormItem>
-          )}
-        />
+                  <FormMessage>{errors?.name}</FormMessage>
+                </div>
+              </FormItem>
+            )}
+          />
 
-        <Button className="!mt-8 ml-auto" type="submit">
-          수정
-        </Button>
-      </form>
-    </Form>
+          {/* 포맷 */}
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>포맷</FormLabel>
+                <div className="flex flex-col gap-2">
+                  <Select
+                    name="type"
+                    onValueChange={field.onChange}
+                    value={fileType ? fileType : selectedItem?.type}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="포맷 선택" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="GIF">GIF</SelectItem>
+                      <SelectItem value="Lottie">Lottie</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage>{errors?.type}</FormMessage>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <Button className="!mt-8 ml-auto" type="submit">
+            수정
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

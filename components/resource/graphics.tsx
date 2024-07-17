@@ -5,7 +5,6 @@ import { DataTable } from '@/components/ui/data-table/data-table';
 import type { Graphic, GraphicContextType, GraphicParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
-import { GraphicRadioGroup } from './graphic-radio-group';
 import { createContext, useEffect, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
@@ -87,9 +86,10 @@ export const Graphics = () => {
 
   return (
     <>
-      <GraphicRadioGroup setCategory={setCategory} />
       <div className="flex items-center justify-between space-y-2">
-        <GraphicContext.Provider value={{ handleGetGraphics, category }}>
+        <GraphicContext.Provider
+          value={{ handleGetGraphics, category, setCategory }}
+        >
           <DataTable type="graphic" columns={columns} data={graphics} />
         </GraphicContext.Provider>
       </div>

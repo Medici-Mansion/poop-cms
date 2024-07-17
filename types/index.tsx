@@ -67,4 +67,5 @@ export type EditorDataType = 'graphic' | undefined;
 export interface GraphicContextType {
   handleGetGraphics: (data?: GraphicParams) => Promise<void>;
   category: string;
+  setCategory: (category: string) => void;
 }

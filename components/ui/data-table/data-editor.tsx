@@ -48,13 +48,14 @@ export function DataEditor<TData>({
   };
 
   const handleDelete = () => {
+    // TODO: 데이터 별 삭제 callback 분리 필요
     const item = selectedItems[0]?.original as GraphicData;
     if (item) {
       void toast.promise(deleteGraphic(item.id), {
         loading: '삭제 중입니다.',
         success: () => {
-          setIsModified(true);
           setAlertOpen(false);
+          execCloseCallback(type);
           return <b>삭제되었습니다!</b>;
         },
         error: <b>그래픽 이미지 삭제에 실패하였습니다.</b>,
@@ -62,23 +63,22 @@ export function DataEditor<TData>({
     }
   };
 
-  useEffect(() => {
-    setSelectedItems(table.getFilteredSelectedRowModel().rows);
+  const execCloseCallback = (type?: string) => {
+    const closeCallbacks = {
+      graphic: () => handleGetGraphics({ category }),
+    };
+    const isValidType = (
+      type?: string,
+    ): type is keyof typeof closeCallbacks => {
+      return type !== undefined && type in closeCallbacks;
+    };
 
-    if (prevValueRef.current === true && !alertOpen && isModified) {
-      // 데이터 타입 별 팝업 close 시 수행할 callback
-      // 수정이 일어난 경우에만 실행
-      const closeCallbacks = {
-        graphic: () => handleGetGraphics({ category }),
-      };
-
-      const callback = type && closeCallbacks[type];
+    // type이 유효한 경우에만 callback을 실행
+    if (type && isValidType(type)) {
+      const callback = closeCallbacks[type];
       if (callback) void callback();
-
-      setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
-    prevValueRef.current = alertOpen;
-  }, [alertOpen, isModified, type, handleGetGraphics, category, table]);
+  };
 
   useEffect(() => {
     setSelectedItems(table.getFilteredSelectedRowModel().rows);
@@ -101,7 +101,7 @@ export function DataEditor<TData>({
   return (
     <div className="flex ml-16">
       <button
-        className="flex items-center disabled:cursor-not-allowed text-custom-green disabled:text-custom-green/40 text-lg"
+        className="flex items-center text-nowrap disabled:cursor-not-allowed text-custom-green disabled:text-custom-green/40 text-lg"
         onClick={handleOpen}
       >
         <SquarePen className="mr-2 h-5 w-5" />
@@ -109,7 +109,7 @@ export function DataEditor<TData>({
       </button>
 
       <button
-        className="flex items-center ml-5 disabled:cursor-not-allowed text-custom-red disabled:text-custom-red/40 text-lg"
+        className="flex items-center text-nowrap ml-5 disabled:cursor-not-allowed text-custom-red disabled:text-custom-red/40 text-lg"
         disabled={selectedItems.length > 1}
         onClick={() => setAlertOpen(true)}
       >
@@ -119,9 +119,9 @@ export function DataEditor<TData>({
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[550px]">
-          <DialogHeader>
+          {/* <DialogHeader>
             <DialogTitle>Edit Items</DialogTitle>
-          </DialogHeader>
+          </DialogHeader> */}
           <Carousel className="w-full">
             <CarouselContent>
               {selectedItems.map((item) => (

@@ -12,11 +12,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useEffect } from 'react';
-
-interface GraphicRadioGroupProps {
-  setCategory: (category: string) => void;
-}
+import { useContext, useEffect } from 'react';
+import { GraphicContext } from './graphics';
 
 const FormSchema = z.object({
   category: z.enum(['Message', 'Sticker', 'Challenge'], {
@@ -24,7 +21,9 @@ const FormSchema = z.object({
   }),
 });
 
-export function GraphicRadioGroup({ setCategory }: GraphicRadioGroupProps) {
+export function GraphicRadioGroup() {
+  const { setCategory } = useContext(GraphicContext)!;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -33,7 +32,7 @@ export function GraphicRadioGroup({ setCategory }: GraphicRadioGroupProps) {
   const selected = watch('category') || 'Message';
 
   useEffect(() => {
-    setCategory(selected);
+    setCategory && setCategory(selected);
   }, [selected, setCategory]);
 
   return (

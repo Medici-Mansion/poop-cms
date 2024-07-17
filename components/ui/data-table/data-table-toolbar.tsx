@@ -6,6 +6,7 @@ import { DataEditor } from './data-editor';
 import { GraphicUploadPopup } from '@/components/resource/graphic-upload-popup';
 import { useState } from 'react';
 import type { EditorDataType } from '@/types';
+import { GraphicRadioGroup } from '@/components/resource/graphic-radio-group';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -32,6 +33,8 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex items-center justify-between mb-8">
+      {type === 'graphic' && <GraphicRadioGroup />}
+
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input
           placeholder={placeholder}

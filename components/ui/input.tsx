@@ -6,7 +6,7 @@ import { Search } from 'lucide-react';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  variant: string;
+  variant?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(

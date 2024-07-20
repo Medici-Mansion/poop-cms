@@ -16,7 +16,7 @@ const toRecord = (params?: GraphicParams): Record<string, string> => {
 
 export const getBreeds = async () => {
   try {
-    const response = await GET<BreedList>('/common/breeds');
+    const response = await GET<BreedList>('/breeds');
     return response;
   } catch (error) {
     console.error(error);
@@ -32,7 +32,7 @@ export const getGraphics = async (params?: GraphicParams) => {
     const {
       result: { resultCode },
       body,
-    } = await GET<Graphic[]>(`/common/graphics?${queryStr}`);
+    } = await GET<Graphic[]>(`/graphics?${queryStr}`);
 
     return resultCode < 500 ? body : [];
   } catch (error) {
@@ -46,7 +46,7 @@ export const uploadGraphic = async (formData: FormData) => {
     const {
       result: { resultCode },
       body,
-    } = await PUT(`/common/graphics`, formData, {
+    } = await PUT(`/graphics`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // 요청 특정 헤더 설정
       },
@@ -64,7 +64,7 @@ export const updateGraphic = async (formData: FormData) => {
     const {
       result: { resultCode },
       body,
-    } = await POST(`/common/graphics`, formData, {
+    } = await POST(`/graphics`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -77,12 +77,12 @@ export const updateGraphic = async (formData: FormData) => {
   }
 };
 
-export const deleteGraphic = async (id: string) => {
+export const deleteGraphic = async (ids: string[]) => {
   try {
     const {
       result: { resultCode },
       body,
-    } = await DELETE(`/common/graphic`, { id });
+    } = await DELETE(`/graphics`, { ids });
 
     return resultCode < 500 ? body : null;
   } catch (error) {

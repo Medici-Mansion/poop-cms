@@ -27,12 +27,21 @@ import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
 import { deleteGraphic } from '@/apis';
 
-interface DataTableEditorProps<TData> {
+interface Item {
+  id: string;
+  category: 'Message' | 'Sticker' | 'Challenge';
+  name: string;
+  file: File;
+  type: 'GIF' | 'Lottie';
+  url: string;
+}
+
+interface DataTableEditorProps<TData extends Item> {
   type: EditorDataType;
   table: Table<TData>;
 }
 
-export function DataEditor<TData>({
+export function DataEditor<TData extends Item>({
   type,
   table,
 }: DataTableEditorProps<TData>) {
@@ -49,9 +58,11 @@ export function DataEditor<TData>({
 
   const handleDelete = () => {
     // TODO: 데이터 별 삭제 callback 분리 필요
-    const item = selectedItems[0]?.original as GraphicData;
-    if (item) {
-      void toast.promise(deleteGraphic(item.id), {
+    const ids = table
+      .getFilteredSelectedRowModel()
+      .rows.map((item) => item.original.id);
+    if (ids) {
+      void toast.promise(deleteGraphic(ids), {
         loading: '삭제 중입니다.',
         success: () => {
           setAlertOpen(false);
@@ -110,7 +121,6 @@ export function DataEditor<TData>({
 
       <button
         className="flex items-center text-nowrap ml-5 disabled:cursor-not-allowed text-custom-red disabled:text-custom-red/40 text-lg"
-        disabled={selectedItems.length > 1}
         onClick={() => setAlertOpen(true)}
       >
         <Trash2 className="mr-2 h-5 w-5" />

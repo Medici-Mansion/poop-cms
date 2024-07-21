@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
-import { deleteGraphic } from '@/apis';
+import { deleteBreeds, deleteGraphics } from '@/apis';
 import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
 
@@ -56,14 +56,31 @@ export function DataEditor<TData>({
   };
 
   const handleDelete = () => {
-    if (type === 'graphic') {
+    if (type === 'breed') {
+      const items = table
+        .getFilteredSelectedRowModel()
+        .rows.map((item) => item.original as BreedData);
+      const ids = items.map((item) => item.id);
+
+      if (ids) {
+        void toast.promise(deleteBreeds(ids), {
+          loading: '삭제 중입니다.',
+          success: () => {
+            setAlertOpen(false);
+            execCloseCallback(type);
+            return <b>삭제되었습니다!</b>;
+          },
+          error: <b>견종 삭제에 실패하였습니다.</b>,
+        });
+      }
+    } else if (type === 'graphic') {
       const items = table
         .getFilteredSelectedRowModel()
         .rows.map((item) => item.original as GraphicData);
       const ids = items.map((item) => item.id);
 
       if (ids) {
-        void toast.promise(deleteGraphic(ids), {
+        void toast.promise(deleteGraphics(ids), {
           loading: '삭제 중입니다.',
           success: () => {
             setAlertOpen(false);

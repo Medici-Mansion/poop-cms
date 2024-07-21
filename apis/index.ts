@@ -115,7 +115,21 @@ export const updateGraphic = async (formData: FormData) => {
   }
 };
 
-export const deleteGraphic = async (ids: string[]) => {
+export const deleteBreeds = async (ids: string[]) => {
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await DELETE(`/breeds`, { ids });
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to delete breeds');
+  }
+};
+
+export const deleteGraphics = async (ids: string[]) => {
   try {
     const {
       result: { resultCode },

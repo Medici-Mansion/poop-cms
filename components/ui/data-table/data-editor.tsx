@@ -26,6 +26,7 @@ import {
 import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
 import { deleteGraphic } from '@/apis';
+import { BreedContext } from '@/components/resource/dogs';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -40,7 +41,13 @@ export function DataEditor<TData>({
   const [alertOpen, setAlertOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Row<TData>[]>([]);
   const [isModified, setIsModified] = useState(false); // 수정 여부 상태 변수 추가
-  const { category, handleGetGraphics } = useContext(GraphicContext)!;
+
+  const graphicContext = useContext(GraphicContext);
+  const category = graphicContext?.category || '';
+  const handleGetGraphics = graphicContext?.handleGetGraphics;
+
+  const breedContext = useContext(BreedContext);
+  const handleGetBreeds = breedContext?.handleGetBreeds;
   const prevValueRef = useRef(false);
 
   const handleOpen = () => {
@@ -70,7 +77,8 @@ export function DataEditor<TData>({
 
   const execCloseCallback = (type?: string) => {
     const closeCallbacks = {
-      graphic: () => handleGetGraphics({ category }),
+      graphic: () => handleGetGraphics && handleGetGraphics({ category }),
+      breed: () => handleGetBreeds && handleGetBreeds(),
     };
     const isValidType = (
       type?: string,
@@ -92,7 +100,8 @@ export function DataEditor<TData>({
       // 데이터 타입 별 팝업 close 시 수행할 callback
       // 수정이 일어난 경우에만 실행
       const closeCallbacks = {
-        graphic: () => handleGetGraphics({ category }),
+        graphic: () => handleGetGraphics && handleGetGraphics({ category }),
+        breed: () => handleGetBreeds && handleGetBreeds(),
       };
 
       const callback = type && closeCallbacks[type];
@@ -101,7 +110,15 @@ export function DataEditor<TData>({
       setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open, isModified, type, handleGetGraphics, category, table]);
+  }, [
+    open,
+    isModified,
+    type,
+    handleGetGraphics,
+    handleGetBreeds,
+    category,
+    table,
+  ]);
 
   return (
     <div className="flex ml-16">

@@ -60,6 +60,7 @@ export interface GraphicFieldErrors {
   name?: string[];
   category?: string[];
   file?: string[];
+  type?: string[];
 }
 
 export type EditorDataType = 'breed' | 'graphic' | undefined;

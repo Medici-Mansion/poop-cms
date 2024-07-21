@@ -18,6 +18,21 @@ export const RegisterSchema = z.object({
   }),
 });
 
+export const BreedUploadSchema = z.object({
+  nameKR: z.string().min(1, {
+    message: '국문 이름을 입력해주세요.',
+  }),
+  nameEN: z.string().min(1, {
+    message: '영문 이름을 입력해주세요.',
+  }),
+  avatar: z
+    .instanceof(File)
+    .refine(
+      (file) => file instanceof File && file.size > 0,
+      '파일을 등록해주세요.',
+    ),
+});
+
 export const GraphicUploadSchema = z.object({
   category: z.string().min(1, {
     message: '카테고리를 선택해주세요.',

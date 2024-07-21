@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { GraphicUploadSchema } from '@/lib/validators';
+import { BreedUploadSchema } from '@/lib/validators';
 import { DialogFooter } from '@/components/ui/dialog';
 import {
   Form,
@@ -10,56 +10,48 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from 'components/ui/button';
 import { type z } from 'zod';
-import { uploadGraphic } from '@/apis';
+import { uploadBreed } from '@/apis';
 import { useContext, useState } from 'react';
-import type { GraphicFieldErrors } from '@/types';
+import type { BreedFieldErrors } from '@/types';
 import { toast } from 'react-hot-toast';
 import { ImageIcon, Plus } from 'lucide-react';
 import Image from 'next/image';
 import LottieAnimation from './lottie-animation';
-import { GraphicContext } from './graphics';
+import { BreedContext } from './dogs';
 
-interface GraphicUploadProps {
+interface BreedUploadProps {
   onOpenChange: (isOpen: boolean) => void;
   isOpen: boolean;
   uploadList: FormData[];
   setUploadList: (list: FormData[]) => void;
 }
 
-export function GraphicUpload({
+export function BreedUpload({
   onOpenChange,
   uploadList,
   setUploadList,
-}: GraphicUploadProps) {
-  const [errors, setErrors] = useState<GraphicFieldErrors>();
+}: BreedUploadProps) {
+  const [errors, setErrors] = useState<BreedFieldErrors>();
   const [previewUrl, setPreviewUrl] = useState('');
   const [lottieData, setLottieData] = useState<unknown>(null);
-  const { category, handleGetGraphics } = useContext(GraphicContext)!;
+  const { handleGetBreeds } = useContext(BreedContext)!;
 
   const handleUpload = (formData: FormData) => {
-    const file = formData.get('file');
+    const file = formData.get('avatar');
     const notChanged =
-      !formData.get('category') &&
       !formData.get('name') &&
       (!file || (file instanceof File && file.size === 0));
 
     const data = {
-      category: formData.get('category'),
-      name: formData.get('name'),
-      file: formData.get('file'),
+      nameKR: formData.get('nameKR'),
+      nameEN: formData.get('nameEN'),
+      avatar: formData.get('avatar'),
     };
 
-    const result = GraphicUploadSchema.safeParse(data);
+    const result = BreedUploadSchema.safeParse(data);
 
     const submitType = formData.get('submitType');
 
@@ -72,24 +64,24 @@ export function GraphicUpload({
       setErrors(result.error.flatten().fieldErrors);
     } else {
       try {
-        void toast.promise(uploadGraphic(formData), {
+        void toast.promise(uploadBreed(formData), {
           loading: '등록 중입니다.',
           success: () => {
-            void handleGetGraphics({ category });
+            void handleGetBreeds();
             if (submitType === 'done') onOpenChange(false);
             else setUploadList([...uploadList, formData]);
 
             return <b>등록되었습니다!</b>;
           },
-          error: <b>그래픽 이미지 등록에 실패하였습니다.</b>,
+          error: <b>견종 이미지 등록에 실패하였습니다.</b>,
         });
       } catch (error) {
-        console.error('그래픽 등록 실패 ', error);
+        console.error('견종 등록 실패 ', error);
       }
     }
   };
-  const form = useForm<z.infer<typeof GraphicUploadSchema>>({
-    resolver: zodResolver(GraphicUploadSchema),
+  const form = useForm<z.infer<typeof BreedUploadSchema>>({
+    resolver: zodResolver(BreedUploadSchema),
   });
 
   const handleFileChange = (file: File | null | undefined) => {
@@ -120,7 +112,7 @@ export function GraphicUpload({
       >
         {/* 이미지 */}
         <FormField
-          name="file"
+          name="avatar"
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem className="w-fit">
@@ -147,7 +139,7 @@ export function GraphicUpload({
                   {...fieldProps}
                   className="hidden"
                   type="file"
-                  accept=".gif,.json"
+                  accept=".jpg,.png"
                   onChange={(event) => {
                     const file = event.target.files && event.target.files[0];
                     onChange(file);
@@ -161,54 +153,45 @@ export function GraphicUpload({
           )}
         />
 
-        {/* 카테고리 */}
+        {/* 국문 이름 */}
         <FormField
           control={form.control}
-          name="category"
+          name="nameKR"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>카테고리</FormLabel>
-              <div className="flex flex-col gap-2">
-                <Select
-                  name="category"
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="카테고리 선택" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Message">말풍선</SelectItem>
-                    <SelectItem value="Sticker">스티커</SelectItem>
-                    <SelectItem value="Challenge">챌린지</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <FormMessage>{errors?.category}</FormMessage>
-              </div>
-            </FormItem>
-          )}
-        />
-
-        {/* 파일명 */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>파일명</FormLabel>
+              <FormLabel>국문 이름</FormLabel>
               <div className="flex flex-col gap-2">
                 <FormControl>
                   <Input
-                    placeholder="영문 파일명"
+                    placeholder="국문 이름"
                     {...field}
                     value={field.value || ''}
                   />
                 </FormControl>
 
-                <FormMessage>{errors?.name}</FormMessage>
+                <FormMessage>{errors?.nameKR}</FormMessage>
+              </div>
+            </FormItem>
+          )}
+        />
+
+        {/* 영문 이름 */}
+        <FormField
+          control={form.control}
+          name="nameEN"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>영문 이름</FormLabel>
+              <div className="flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    placeholder="영문 이름"
+                    {...field}
+                    value={field.value || ''}
+                  />
+                </FormControl>
+
+                <FormMessage>{errors?.nameEN}</FormMessage>
               </div>
             </FormItem>
           )}

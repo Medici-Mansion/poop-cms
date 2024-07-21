@@ -1,5 +1,5 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
-import type { BreedList, Graphic, GraphicParams } from '@/types';
+import type { Breed, Graphic, GraphicParams } from '@/types';
 
 // 변환 함수 정의
 const toRecord = (params?: GraphicParams): Record<string, string> => {
@@ -16,8 +16,11 @@ const toRecord = (params?: GraphicParams): Record<string, string> => {
 
 export const getBreeds = async () => {
   try {
-    const response = await GET<BreedList>('/breeds');
-    return response;
+    const {
+      result: { resultCode },
+      body,
+    } = await GET<Breed[]>('/breeds');
+    return resultCode < 500 ? body : [];
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');
@@ -41,6 +44,24 @@ export const getGraphics = async (params?: GraphicParams) => {
   }
 };
 
+export const uploadBreed = async (formData: FormData) => {
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await PUT(`/breeds`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to upload breeds');
+  }
+};
+
 export const uploadGraphic = async (formData: FormData) => {
   try {
     const {
@@ -48,7 +69,7 @@ export const uploadGraphic = async (formData: FormData) => {
       body,
     } = await PUT(`/graphics`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // 요청 특정 헤더 설정
+        'Content-Type': 'multipart/form-data',
       },
     });
 

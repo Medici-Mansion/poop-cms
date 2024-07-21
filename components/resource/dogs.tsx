@@ -2,15 +2,29 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Breed } from '@/types';
+import type { Breed, BreedContextType } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
+import { createContext, useEffect, useState } from 'react';
+import { getBreeds } from '@/apis';
+import { Checkbox } from '../ui/checkbox';
+import LottieAnimation from './lottie-animation';
 
-type BreedsProps = {
-  data: Breed[];
-};
+export const BreedContext = createContext<BreedContextType | undefined>(
+  undefined,
+);
 
-export const Dogs: React.FC<BreedsProps> = ({ data }) => {
+export const Breeds = () => {
+  const [breeds, setBreeds] = useState<Breed[]>([]);
+
+  const handleGetBreeds = async () => {
+    const breeds = await getBreeds();
+    setBreeds(breeds);
+  };
+
+  useEffect(() => {
+    void handleGetBreeds();
+  }, []);
   const columns: ColumnDef<Breed>[] = [
     {
       accessorKey: 'index',
@@ -21,21 +35,22 @@ export const Dogs: React.FC<BreedsProps> = ({ data }) => {
       accessorKey: 'avatar',
       header: '사진',
       cell: ({ row }) => {
-        return (
+        const type = row.getValue('type');
+        return type === 'GIF' ? (
           <Avatar className="h-9 w-9">
             <AvatarImage
               src={row.getValue('avatar')}
-              alt={row.getValue('name')}
-              width={160}
-              height={160}
+              alt={row.getValue('nameKR')}
             />
-            <AvatarFallback>{row.getValue('name')}</AvatarFallback>
+            <AvatarFallback>{row.getValue('nameKR')}</AvatarFallback>
           </Avatar>
-        );
+        ) : type === 'Lottie' ? (
+          <LottieAnimation url={row.getValue('avatar')} />
+        ) : null;
       },
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'nameKR',
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="국문 이름" />
       ),
@@ -46,11 +61,36 @@ export const Dogs: React.FC<BreedsProps> = ({ data }) => {
         <DataTableColumnHeader column={column} title="영문 이름" />
       ),
     },
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
   ];
-
   return (
-    <div className="flex items-center justify-between space-y-2">
-      <DataTable columns={columns} data={data} />
-    </div>
+    <>
+      <div className="flex items-center justify-between space-y-2">
+        <BreedContext.Provider value={{ handleGetBreeds }}>
+          <DataTable type="breed" columns={columns} data={breeds} />
+        </BreedContext.Provider>
+      </div>
+    </>
   );
 };

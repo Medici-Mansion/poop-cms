@@ -12,11 +12,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { GraphicParams } from '@/types';
-
-interface GraphicRadioGroupProps {
-  handleGetGraphics: (data: GraphicParams) => Promise<void>;
-}
+import { useContext, useEffect } from 'react';
+import { GraphicContext } from './graphics';
 
 const FormSchema = z.object({
   category: z.enum(['Message', 'Sticker', 'Challenge'], {
@@ -24,19 +21,19 @@ const FormSchema = z.object({
   }),
 });
 
-export function GraphicRadioGroup({
-  handleGetGraphics,
-}: GraphicRadioGroupProps) {
+export function GraphicRadioGroup() {
+  const { setCategory, graphicInfo } = useContext(GraphicContext)!;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  const { watch, handleSubmit } = form;
-  const selectedCategory = watch('category') || 'Message';
+  const { watch } = form;
+  const selected = watch('category') || 'Message';
 
-  async function onSubmit(data: GraphicParams) {
-    await handleGetGraphics(data);
-  }
+  useEffect(() => {
+    setCategory && setCategory(selected);
+  }, [selected, setCategory]);
 
   return (
     <Form {...form}>
@@ -48,41 +45,38 @@ export function GraphicRadioGroup({
             <FormItem className="space-y-3">
               <FormControl>
                 <RadioGroup
-                  onValueChange={async (value) => {
-                    field.onChange(value);
-                    await handleSubmit(onSubmit)();
-                  }}
+                  onValueChange={(value) => field.onChange(value)}
                   defaultValue={field.value}
                   className="flex w-fit space-y-1 dark:bg-custom-gray-500 rounded-2xl"
                 >
                   <FormItem
-                    className={`flex items-center rounded-2xl ${selectedCategory === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center rounded-2xl ${selected === 'Message' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Message" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      말풍선
+                      말풍선 {graphicInfo?.messageLength || 0}
                     </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selected === 'Sticker' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Sticker" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      스티커
+                      스티커 {graphicInfo?.stickerLength || 0}
                     </FormLabel>
                   </FormItem>
                   <FormItem
-                    className={`flex items-center !mt-0 rounded-2xl ${selectedCategory === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
+                    className={`flex items-center !mt-0 rounded-2xl ${selected === 'Challenge' ? 'dark:bg-white dark:text-black' : 'dark:bg-custom-gray-500'}`}
                   >
                     <FormControl>
                       <RadioGroupItem className="hidden" value="Challenge" />
                     </FormControl>
                     <FormLabel className="!mt-0 px-6 py-4 font-normal cursor-pointer">
-                      챌린지
+                      챌린지 {graphicInfo?.challengeLength || 0}
                     </FormLabel>
                   </FormItem>
                 </RadioGroup>

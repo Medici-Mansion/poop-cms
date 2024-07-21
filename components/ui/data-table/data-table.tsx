@@ -28,17 +28,18 @@ import {
 import { DataTablePagination } from 'components/ui/data-table/data-table-pagination';
 import { DataTableToolbar } from 'components/ui/data-table/data-table-toolbar';
 import { useEffect } from 'react';
-interface DataTableProps<TType, TData, TValue> {
-  type?: TType;
+import type { EditorDataType } from '@/types';
+interface DataTableProps<TData, TValue> {
+  type?: EditorDataType;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TType, TData, TValue>({
+export function DataTable<TData, TValue>({
   type,
   columns,
   data,
-}: DataTableProps<TType, TData, TValue>) {
+}: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -74,9 +75,9 @@ export function DataTable<TType, TData, TValue>({
   }, [table, data]);
 
   return (
-    <div className="w-full space-y-4 p-16 rounded-4xl bg-secondary">
+    <div className="w-full">
       <DataTableToolbar type={type} table={table} />
-      <div className="rounded-md border">
+      <div className="border p-16 rounded-4xl bg-secondary">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

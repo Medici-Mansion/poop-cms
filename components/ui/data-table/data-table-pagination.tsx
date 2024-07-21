@@ -16,10 +16,10 @@ export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-center space-x-2">
+    <div className="flex items-center justify-center space-x-2 m-16">
       <Button
-        variant="outline"
-        className="hidden h-8 w-8 p-0 lg:flex"
+        variant="ghost"
+        className="hidden h-[50px] w-[50px] rounded-2xl p-0 lg:flex bg-custom-gray-500"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
@@ -27,8 +27,8 @@ export function DataTablePagination<TData>({
         <DoubleArrowLeftIcon className="h-4 w-4" />
       </Button>
       <Button
-        variant="outline"
-        className="h-8 w-8 p-0"
+        variant="ghost"
+        className="h-[50px] w-[50px] rounded-2xl p-0 bg-custom-gray-500"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
@@ -39,7 +39,7 @@ export function DataTablePagination<TData>({
         <Button
           key={idx}
           variant="ghost"
-          className={`h-8 w-8 p-0 rounded-full ${idx === table.getState().pagination.pageIndex && 'bg-custom-gray-600'}`}
+          className={`h-[50px] w-[50px] p-0 rounded-2xl ${idx !== table.getState().pagination.pageIndex && 'text-custom-gray-300'}`}
           onClick={() => table.setPageIndex(idx)}
         >
           <span>{idx + 1}</span>
@@ -47,8 +47,8 @@ export function DataTablePagination<TData>({
       ))}
 
       <Button
-        variant="outline"
-        className="h-8 w-8 p-0"
+        variant="ghost"
+        className="h-[50px] w-[50px] rounded-2xl p-0 bg-custom-gray-500"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
@@ -56,8 +56,8 @@ export function DataTablePagination<TData>({
         <ChevronRightIcon className="h-4 w-4" />
       </Button>
       <Button
-        variant="outline"
-        className="hidden h-8 w-8 p-0 lg:flex"
+        variant="ghost"
+        className="hidden h-[50px] w-[50px] rounded-2xl p-0 lg:flex bg-custom-gray-500"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >

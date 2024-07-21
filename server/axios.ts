@@ -61,10 +61,14 @@ export const PUT = async <T>(
 // DELETE
 export const DELETE = async <T>(
   url: string,
+  data?: unknown,
   config?: AxiosRequestConfig,
 ): Promise<APIResponse<T>> => {
   try {
-    const response = await api.delete<APIResponse<T>>(url, config);
+    const response = await api.delete<APIResponse<T>>(url, {
+      data,
+      ...config,
+    });
     return response.data;
   } catch (error) {
     if (error instanceof Error) throw error;

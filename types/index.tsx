@@ -19,10 +19,6 @@ export interface APIResponse<T> {
   body: T;
 }
 
-export interface QueryParams {
-  [key: string]: string;
-}
-
 // 견종 정보 리스트
 export interface BreedList {
   [key: string]: Breed[];
@@ -44,6 +40,7 @@ export interface Graphic {
 }
 
 export interface GraphicParams {
+  [key: string]: string | undefined;
   graphicType?: string;
   category: string;
   string?: string;
@@ -63,4 +60,23 @@ export interface GraphicFieldErrors {
   category?: string[];
   file?: string[];
   type?: string[];
+}
+
+export type EditorDataType = 'graphic' | undefined;
+
+export interface GraphicContextType {
+  handleGetGraphics: (data?: GraphicParams) => Promise<void>;
+  category: string;
+  setCategory: (category: string) => void;
+  graphicInfo: {
+    challengeLength: number;
+    messageLength: number;
+    stickerLength: number;
+  };
+}
+
+export interface GraphicsInfo {
+  messageLength: number;
+  stickerLength: number;
+  challengeLength: number;
 }

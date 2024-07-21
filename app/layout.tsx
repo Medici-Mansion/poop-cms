@@ -10,7 +10,7 @@ const MyApp = ({ children }: PropsWithChildren) => {
     <html suppressHydrationWarning>
       <body>
         <SessionProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <Layout>
               {children}
               <Toaster />

@@ -27,21 +27,12 @@ import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
 import { deleteGraphic } from '@/apis';
 
-interface Item {
-  id: string;
-  category: 'Message' | 'Sticker' | 'Challenge';
-  name: string;
-  file: File;
-  type: 'GIF' | 'Lottie';
-  url: string;
-}
-
-interface DataTableEditorProps<TData extends Item> {
+interface DataTableEditorProps<TData> {
   type: EditorDataType;
   table: Table<TData>;
 }
 
-export function DataEditor<TData extends Item>({
+export function DataEditor<TData>({
   type,
   table,
 }: DataTableEditorProps<TData>) {
@@ -57,20 +48,23 @@ export function DataEditor<TData extends Item>({
   };
 
   const handleDelete = () => {
-    // TODO: 데이터 별 삭제 callback 분리 필요
-    const ids = table
-      .getFilteredSelectedRowModel()
-      .rows.map((item) => item.original.id);
-    if (ids) {
-      void toast.promise(deleteGraphic(ids), {
-        loading: '삭제 중입니다.',
-        success: () => {
-          setAlertOpen(false);
-          execCloseCallback(type);
-          return <b>삭제되었습니다!</b>;
-        },
-        error: <b>그래픽 이미지 삭제에 실패하였습니다.</b>,
-      });
+    if (type === 'graphic') {
+      const items = table
+        .getFilteredSelectedRowModel()
+        .rows.map((item) => item.original as GraphicData);
+      const ids = items.map((item) => item.id);
+
+      if (ids) {
+        void toast.promise(deleteGraphic(ids), {
+          loading: '삭제 중입니다.',
+          success: () => {
+            setAlertOpen(false);
+            execCloseCallback(type);
+            return <b>삭제되었습니다!</b>;
+          },
+          error: <b>그래픽 이미지 삭제에 실패하였습니다.</b>,
+        });
+      }
     }
   };
 

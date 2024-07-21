@@ -48,6 +48,10 @@ export const GraphicUploadSchema = z.object({
     ),
 });
 
+export const BreedUpdateSchema = z.object({
+  nameKR: z.string().optional(),
+  nameEN: z.string().optional(),
+});
 export const GraphicUpdateSchema = z.object({
   category: z.string().min(1, '카테고리를 선택해주세요.'),
   name: z.string().optional(),

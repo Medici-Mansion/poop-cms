@@ -21,7 +21,7 @@ export interface APIResponse<T> {
 
 export interface Breed {
   id: string;
-  name: string;
+  nameKR: string;
   nameEN: string;
   avatar: string;
 }
@@ -48,6 +48,13 @@ export interface GraphicData {
   type: 'GIF' | 'Lottie';
   url: string;
   id: string;
+}
+export interface BreedData {
+  id: string;
+  nameKR: string;
+  nameEN: string;
+  file: File;
+  avatar: string;
 }
 
 export interface BreedFieldErrors {

@@ -13,7 +13,7 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { EditorDataType, GraphicData } from '@/types';
+import type { BreedData, EditorDataType, GraphicData } from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -27,6 +27,7 @@ import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
 import { deleteGraphic } from '@/apis';
 import { BreedContext } from '@/components/resource/dogs';
+import { BreedUpdate } from '@/components/resource/breed-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -147,12 +148,17 @@ export function DataEditor<TData>({
             <CarouselContent>
               {selectedItems.map((item) => (
                 <CarouselItem key={item.id}>
-                  {type === 'graphic' && (
+                  {type === 'graphic' ? (
                     <GraphicUpdate
                       selectedItem={item.original as GraphicData}
                       onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                     />
-                  )}
+                  ) : type === 'breed' ? (
+                    <BreedUpdate
+                      selectedItem={item.original as BreedData}
+                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                    />
+                  ) : null}
                 </CarouselItem>
               ))}
             </CarouselContent>

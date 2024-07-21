@@ -8,7 +8,6 @@ import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header
 import { createContext, useEffect, useState } from 'react';
 import { getBreeds } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
-import LottieAnimation from './lottie-animation';
 
 export const BreedContext = createContext<BreedContextType | undefined>(
   undefined,
@@ -34,20 +33,15 @@ export const Breeds = () => {
     {
       accessorKey: 'avatar',
       header: '사진',
-      cell: ({ row }) => {
-        const type = row.getValue('type');
-        return type === 'GIF' ? (
-          <Avatar className="h-9 w-9">
-            <AvatarImage
-              src={row.getValue('avatar')}
-              alt={row.getValue('nameKR')}
-            />
-            <AvatarFallback>{row.getValue('nameKR')}</AvatarFallback>
-          </Avatar>
-        ) : type === 'Lottie' ? (
-          <LottieAnimation url={row.getValue('avatar')} />
-        ) : null;
-      },
+      cell: ({ row }) => (
+        <Avatar className="h-9 w-9">
+          <AvatarImage
+            src={row.getValue('avatar')}
+            alt={row.getValue('nameKR')}
+          />
+          <AvatarFallback>{row.getValue('nameKR')}</AvatarFallback>
+        </Avatar>
+      ),
     },
     {
       accessorKey: 'nameKR',

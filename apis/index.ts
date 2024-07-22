@@ -1,8 +1,10 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
-import type { Breed, Graphic, GraphicParams } from '@/types';
+import type { Breed, GetBreedsQuery, Graphic, GraphicParams } from '@/types';
 
 // 변환 함수 정의
-const toRecord = (params?: GraphicParams): Record<string, string> => {
+const toRecord = (
+  params?: GraphicParams | GetBreedsQuery,
+): Record<string, string> => {
   const result: Record<string, string> = {};
   if (params) {
     for (const key in params) {
@@ -14,12 +16,13 @@ const toRecord = (params?: GraphicParams): Record<string, string> => {
   return result;
 };
 
-export const getBreeds = async () => {
+export const getBreeds = async (query?: GetBreedsQuery) => {
+  const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   try {
     const {
       result: { resultCode },
       body,
-    } = await GET<Breed[]>('/breeds');
+    } = await GET<Breed[]>(`/breeds?${queryStr}`);
     return resultCode < 500 ? body : [];
   } catch (error) {
     console.error(error);

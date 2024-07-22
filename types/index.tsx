@@ -91,3 +91,10 @@ export interface GraphicsInfo {
   stickerLength: number;
   challengeLength: number;
 }
+
+export interface GetBreedsQuery {
+  [key: string]: string | undefined;
+  orderKey?: string;
+  direction?: string;
+  cursoer?: string;
+}

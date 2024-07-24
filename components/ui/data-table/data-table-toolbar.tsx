@@ -8,6 +8,7 @@ import { useState } from 'react';
 import type { EditorDataType } from '@/types';
 import { GraphicRadioGroup } from '@/components/resource/graphic-radio-group';
 import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
+import { BreedInfo } from '@/components/resource/breed-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -33,7 +34,8 @@ export function DataTableToolbar<TData>({
   const placeholder = getPlaceholder(type);
 
   return (
-    <div className="flex items-center justify-between mb-8">
+    <div className="flex items-center justify-between mb-5">
+      {type === 'breed' && <BreedInfo table={table} />}
       {type === 'graphic' && <GraphicRadioGroup />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">

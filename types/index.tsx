@@ -83,7 +83,7 @@ export interface GraphicContextType {
   };
 }
 export interface BreedContextType {
-  handleGetBreeds: () => Promise<void>;
+  handleGetBreeds: (query?: GetBreedsQuery) => Promise<void>;
 }
 
 export interface GraphicsInfo {

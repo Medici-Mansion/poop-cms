@@ -31,11 +31,11 @@ export function BreedInfo<TData>({ table }: BreedInfoProps<TData>) {
   return (
     <div className="flex items-center gap-8">
       <p className="text-2xl">총 {totalCount}마리</p>
-      <Select defaultValue="apple" onValueChange={handleValueChange}>
-        <SelectTrigger className="w-[150px] bg-custom-gray-500 rounded-2xl ">
+      <Select defaultValue="recent" onValueChange={handleValueChange}>
+        <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
           <SelectValue placeholder="정렬 기준 선택" />
         </SelectTrigger>
-        <SelectContent className="bg-custom-gray-400 rounded-2xl p-0">
+        <SelectContent className="bg-custom-gray-400 rounded-2xl ">
           <SelectItem value="recent">최근 등록 순</SelectItem>
           <SelectItem value="oldest">오래된 순</SelectItem>
           <SelectItem value="korean-alphabet">가나다 순</SelectItem>

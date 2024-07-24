@@ -6,9 +6,9 @@ import { DataEditor } from './data-editor';
 import { GraphicUploadPopup } from '@/components/resource/graphic-upload-popup';
 import { useState } from 'react';
 import type { EditorDataType } from '@/types';
-import { GraphicRadioGroup } from '@/components/resource/graphic-radio-group';
 import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
 import { BreedInfo } from '@/components/resource/breed-info';
+import { GraphicInfo } from '@/components/resource/graphic-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
   return (
     <div className="flex items-center justify-between mb-5">
       {type === 'breed' && <BreedInfo table={table} />}
-      {type === 'graphic' && <GraphicRadioGroup />}
+      {type === 'graphic' && <GraphicInfo />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input

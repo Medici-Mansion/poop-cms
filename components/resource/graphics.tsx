@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
 import type { Graphic, GraphicContextType, GraphicsInfo } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -9,6 +9,7 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 import { getGraphics } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
 import LottieAnimation from './lottie-animation';
+import { Loading } from '../common/loading';
 
 export const GraphicContext = createContext<GraphicContextType | undefined>(
   undefined,
@@ -44,7 +45,7 @@ export const Graphics = () => {
         return type === 'GIF' ? (
           <Avatar className="h-9 w-9">
             <AvatarImage src={row.getValue('url')} alt={row.getValue('name')} />
-            <AvatarFallback>{row.getValue('name')}</AvatarFallback>
+            <Loading />
           </Avatar>
         ) : type === 'Lottie' ? (
           <LottieAnimation url={row.getValue('url')} />

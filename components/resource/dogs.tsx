@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
 import type { Breed, BreedContextType, GetBreedsParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -8,6 +8,7 @@ import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header
 import { createContext, useEffect, useState } from 'react';
 import { getBreeds } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
+import { Loading } from '../common/loading';
 
 export const BreedContext = createContext<BreedContextType | undefined>(
   undefined,
@@ -50,7 +51,7 @@ export const Breeds = () => {
             src={row.getValue('avatar')}
             alt={row.getValue('nameKR')}
           />
-          <AvatarFallback>{row.getValue('nameKR')}</AvatarFallback>
+          <Loading />
         </Avatar>
       ),
     },

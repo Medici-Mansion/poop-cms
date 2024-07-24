@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Lottie from 'react-lottie-player';
+import { Loading } from '../common/loading';
 
 interface LottieAnimationProps {
   url?: string;
@@ -40,7 +41,7 @@ const LottieAnimation = ({
   }, [url, data]);
 
   if (!animationData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const defaultOptions = {

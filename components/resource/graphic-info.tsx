@@ -10,42 +10,48 @@ import { GraphicRadioGroup } from './graphic-radio-group';
 import { GraphicContext } from './graphics';
 
 export function GraphicInfo() {
-  const [format, setFormat] = useState('all');
-  const [order, setOrder] = useState('recent');
-  const graphicContext = useContext(GraphicContext);
-  const handleGetGraphics = graphicContext?.handleGetGraphics;
+  const [formatVal, setFormatVal] = useState('GIF');
+  const [orderVal, setOrderVal] = useState('DESC');
+  const { setOrder, setFormat } = useContext(GraphicContext)!;
 
   const handleValueChange = useCallback(() => {
-    console.log('선택된 값:', order, format); // 선택된 값을 콘솔에 출력
-
-    if (handleGetGraphics) {
-      // const query = {};
-      // TODO: 정렬 기능 추가 필요
-      // await handleGetGraphics(query);
+    if (setOrder && setFormat) {
+      setOrder(orderVal);
+      setFormat(formatVal === 'all' ? '' : formatVal);
     }
-  }, [order, format, handleGetGraphics]);
+  }, [orderVal, formatVal, setOrder, setFormat]);
 
   useEffect(() => {
     void handleValueChange();
-  }, [order, format, handleValueChange]);
+  }, [orderVal, formatVal, handleValueChange]);
 
   return (
     <div className="flex items-center gap-8">
       <GraphicRadioGroup />
       <div className="flex gap-2">
-        <Select defaultValue="recent" onValueChange={setOrder}>
+        <Select defaultValue="DESC" onValueChange={setOrderVal}>
           <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
             <SelectValue placeholder="정렬 기준 선택" />
           </SelectTrigger>
           <SelectContent className="bg-custom-gray-400 rounded-2xl ">
-            <SelectItem value="recent">최근 등록 순</SelectItem>
-            <SelectItem value="oldest">오래된 순</SelectItem>
-            <SelectItem value="korean-alphabet">가나다 순</SelectItem>
-            <SelectItem value="alphabetical">알파벳 순</SelectItem>
+            <SelectItem value="DESC">내림차순</SelectItem>
+            <SelectItem value="ASC">올림차순</SelectItem>
+            <SelectItem disabled value="recent">
+              최근 등록 순
+            </SelectItem>
+            <SelectItem disabled value="oldest">
+              오래된 순
+            </SelectItem>
+            <SelectItem disabled value="korean-alphabet">
+              가나다 순
+            </SelectItem>
+            <SelectItem disabled value="alphabetical">
+              알파벳 순
+            </SelectItem>
           </SelectContent>
         </Select>
 
-        <Select defaultValue="all" onValueChange={setFormat}>
+        <Select defaultValue="GIF" onValueChange={setFormatVal}>
           <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
             <SelectValue placeholder="포맷 선택" />
           </SelectTrigger>

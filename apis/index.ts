@@ -1,14 +1,18 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
-import type { Breed, GetBreedsQuery, Graphic, GraphicParams } from '@/types';
+import type { Breed, GetBreedsParams, Graphic, GraphicParams } from '@/types';
 
-// 변환 함수 정의
+// parameter -> query 변환 함수 정의
 const toRecord = (
-  params?: GraphicParams | GetBreedsQuery,
+  params?: GraphicParams | GetBreedsParams,
 ): Record<string, string> => {
   const result: Record<string, string> = {};
   if (params) {
     for (const key in params) {
-      if (params[key] !== undefined && params[key] !== null) {
+      if (
+        params[key] !== undefined &&
+        params[key] !== null &&
+        params[key] !== ''
+      ) {
         result[key] = params[key] as string;
       }
     }
@@ -16,7 +20,7 @@ const toRecord = (
   return result;
 };
 
-export const getBreeds = async (query?: GetBreedsQuery) => {
+export const getBreeds = async (query?: GetBreedsParams) => {
   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   try {
     const {
@@ -38,7 +42,7 @@ export const getGraphics = async (params?: GraphicParams) => {
     const {
       result: { resultCode },
       body,
-    } = await GET<Graphic[]>(`/graphics?${queryStr}`);
+    } = await GET<Graphic[]>(`/graphics${queryStr && '?' + queryStr}`);
 
     return resultCode < 500 ? body : [];
   } catch (error) {

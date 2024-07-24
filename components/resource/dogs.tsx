@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Breed, BreedContextType, GetBreedsQuery } from '@/types';
+import type { Breed, BreedContextType, GetBreedsParams } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 import { createContext, useEffect, useState } from 'react';
@@ -16,8 +16,8 @@ export const BreedContext = createContext<BreedContextType | undefined>(
 export const Breeds = () => {
   const [breeds, setBreeds] = useState<Breed[]>([]);
 
-  const handleGetBreeds = async (query?: GetBreedsQuery) => {
-    const defaultQuery: GetBreedsQuery = {
+  const handleGetBreeds = async (query?: GetBreedsParams) => {
+    const defaultQuery: GetBreedsParams = {
       orderKey: 'createdAt',
       direction: 'desc',
       // cursor: '',

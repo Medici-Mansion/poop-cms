@@ -44,7 +44,7 @@ export function GraphicUpload({
   const [errors, setErrors] = useState<GraphicFieldErrors>();
   const [previewUrl, setPreviewUrl] = useState('');
   const [lottieData, setLottieData] = useState<unknown>(null);
-  const { category, handleGetGraphics } = useContext(GraphicContext)!;
+  const { handleGetGraphics } = useContext(GraphicContext)!;
 
   const handleUpload = (formData: FormData) => {
     const file = formData.get('file');
@@ -75,7 +75,7 @@ export function GraphicUpload({
         void toast.promise(uploadGraphic(formData), {
           loading: '등록 중입니다.',
           success: () => {
-            void handleGetGraphics({ category });
+            void handleGetGraphics();
             if (submitType === 'done') onOpenChange(false);
             else setUploadList([...uploadList, formData]);
 

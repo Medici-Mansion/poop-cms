@@ -73,9 +73,11 @@ export interface GraphicFieldErrors {
 export type EditorDataType = 'breed' | 'graphic' | undefined;
 
 export interface GraphicContextType {
-  handleGetGraphics: (data?: GraphicParams) => Promise<void>;
-  category: string;
+  handleGetGraphics: () => Promise<void>;
   setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  setFormat: (format: string) => void;
+
   graphicInfo: {
     challengeLength: number;
     messageLength: number;
@@ -83,7 +85,7 @@ export interface GraphicContextType {
   };
 }
 export interface BreedContextType {
-  handleGetBreeds: (query?: GetBreedsQuery) => Promise<void>;
+  handleGetBreeds: (query?: GetBreedsParams) => Promise<void>;
 }
 
 export interface GraphicsInfo {
@@ -92,7 +94,7 @@ export interface GraphicsInfo {
   challengeLength: number;
 }
 
-export interface GetBreedsQuery {
+export interface GetBreedsParams {
   [key: string]: string | undefined;
   orderKey?: string;
   direction?: string;

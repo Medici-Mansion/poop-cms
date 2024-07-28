@@ -1,3 +1,4 @@
+import { Supports } from '@/components/resource/members/support';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import React from 'react';
 
@@ -11,14 +12,14 @@ const User = () => {
               Members
             </TabsTrigger>
             <TabsTrigger tabType="menu" value="support">
-              Support
+              Supports
             </TabsTrigger>
           </TabsList>
           <TabsContent value="members" className="space-y-4">
             <div>Members</div>
           </TabsContent>
           <TabsContent value="support" className="space-y-4">
-            <div>Support</div>
+            <Supports />
           </TabsContent>
         </Tabs>
       </div>

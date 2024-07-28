@@ -1,9 +1,17 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
-import type { Breed, GetBreedsParams, Graphic, GraphicParams } from '@/types';
+import type {
+  Breed,
+  GetBreedsParams,
+  GetSupportsParams,
+  Graphic,
+  GraphicParams,
+  Support,
+} from '@/types';
+import { tempReportsData } from '@/lib/data/supportSamepleData';
 
 // parameter -> query 변환 함수 정의
 const toRecord = (
-  params?: GraphicParams | GetBreedsParams,
+  params?: GraphicParams | GetBreedsParams | GetSupportsParams,
 ): Record<string, string> => {
   const result: Record<string, string> = {};
   if (params) {
@@ -147,5 +155,51 @@ export const deleteGraphics = async (ids: string[]) => {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to delete graphics');
+  }
+};
+
+// 회웑 정보
+
+// export const getReports = async (query?: GetSupportsParams) => {
+//   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
+//   try {
+//     const {
+//       result: { resultCode },
+//       body,
+//     } = await GET<Breed[]>(`/reports${queryStr && '?' + queryStr}`);
+//     return resultCode < 500 ? body : [];
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('Failed to get breeds');
+//   }
+// };
+
+/*
+ * 신고 내역 조회
+ * 테스트용 더미 데이터
+ */
+interface ApiResponse {
+  result: {
+    resultCode: number;
+    resultMessage: string;
+  };
+  body: Support[];
+}
+
+// 신고 정보 조회
+export const getSupports = async (query?: GetSupportsParams) => {
+  const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
+  console.log(queryStr);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse>((resolve) =>
+      setTimeout(() => resolve(tempReportsData), 300),
+    );
+    return resultCode < 500 ? body : [];
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get breeds');
   }
 };

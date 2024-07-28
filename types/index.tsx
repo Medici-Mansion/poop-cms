@@ -70,7 +70,7 @@ export interface GraphicFieldErrors {
   type?: string[];
 }
 
-export type EditorDataType = 'breed' | 'graphic' | undefined;
+export type EditorDataType = 'breed' | 'graphic' | 'support' | undefined;
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
@@ -99,4 +99,29 @@ export interface GetBreedsParams {
   orderKey?: string;
   direction?: string;
   cursoer?: string;
+}
+
+export interface GetSupportsParams {
+  [key: string]: string | undefined;
+  // graphicType?: string;
+  // category: string;
+  // string?: string;
+}
+
+// 더미 데이터 타입(변경 예정)
+export interface Support {
+  id: string;
+  type: string;
+  category: string;
+  title: string;
+  reason: string;
+  reportedDate: string;
+  status: string;
+}
+
+export interface SupportContextType {
+  handleGetSupports: () => Promise<void>;
+  setSupportCategory: (category: string) => void;
+  // setOrder: (order: string) => void;
+  // setFormat: (format: string) => void;
 }

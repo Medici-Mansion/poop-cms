@@ -1,8 +1,8 @@
-"use client";
-import { SideNav } from "components/layout/side-nav";
-import { NavItems } from "components/constants/side-nav";
-import { cn } from "lib/utils";
-import { ResizablePanel } from "../ui/resizable";
+'use client';
+import { SideNav } from 'components/layout/side-nav';
+import { NavItems } from 'components/constants/side-nav';
+import { cn } from 'lib/utils';
+import { Panel } from 'react-resizable-panels';
 
 interface SidebarProps {
   className?: string;
@@ -18,10 +18,10 @@ export default function Sidebar({ className }: SidebarProps) {
   //   setTimeout(() => setStatus(false), 500);
   // };
   return (
-    <ResizablePanel
+    <Panel
       defaultSize={20}
-      maxSize={30}
-      minSize={5}
+      minSize={20}
+      maxSize={20}
       className="hidden !overflow-visible md:block"
     >
       <nav
@@ -50,6 +50,6 @@ export default function Sidebar({ className }: SidebarProps) {
           </div>
         </div>
       </nav>
-    </ResizablePanel>
+    </Panel>
   );
 }

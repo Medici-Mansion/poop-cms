@@ -1,0 +1,29 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React from 'react';
+
+const User = () => {
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-24">
+        <Tabs defaultValue="support" className="space-y-16">
+          <TabsList tabType="menu">
+            <TabsTrigger tabType="menu" value="members">
+              Members
+            </TabsTrigger>
+            <TabsTrigger tabType="menu" value="support">
+              Support
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="members" className="space-y-4">
+            <div>Members</div>
+          </TabsContent>
+          <TabsContent value="support" className="space-y-4">
+            <div>Support</div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default User;

@@ -5,7 +5,7 @@ import type {
   GetSupportsParams,
   Graphic,
   GraphicParams,
-  Support,
+  Report,
 } from '@/types';
 import { tempReportsData } from '@/lib/data/supportSamepleData';
 
@@ -174,6 +174,24 @@ export const deleteGraphics = async (ids: string[]) => {
 //   }
 // };
 
+// export const updateReports = async (formData: FormData) => {
+//   try {
+//     const {
+//       result: { resultCode },
+//       body,
+//     } = await POST(`/reports`, formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//     });
+
+//     return resultCode < 500 ? body : null;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('Failed to update reports');
+//   }
+// };
+
 /*
  * 신고 내역 조회
  * 테스트용 더미 데이터
@@ -183,11 +201,11 @@ interface ApiResponse {
     resultCode: number;
     resultMessage: string;
   };
-  body: Support[];
+  body: Report[];
 }
 
 // 신고 정보 조회
-export const getSupports = async (query?: GetSupportsParams) => {
+export const getReports = async (query?: GetSupportsParams) => {
   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   console.log(queryStr);
   try {
@@ -201,5 +219,22 @@ export const getSupports = async (query?: GetSupportsParams) => {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');
+  }
+};
+
+export const updateReports = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse>((resolve) =>
+      setTimeout(() => resolve(tempReportsData), 300),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update reports');
   }
 };

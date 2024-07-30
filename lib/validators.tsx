@@ -52,8 +52,18 @@ export const BreedUpdateSchema = z.object({
   nameKR: z.string().optional(),
   nameEN: z.string().optional(),
 });
+
 export const GraphicUpdateSchema = z.object({
   category: z.string().min(1, '카테고리를 선택해주세요.'),
   name: z.string().optional(),
   type: z.string().optional(),
+});
+
+export const ReportUpdateSchema = z.object({
+  category: z.string().min(1, '카테고리를 입력해주세요.'),
+  title: z.string().min(1, '제목을 입력해주세요.'),
+  author: z.string().min(1, '게시글 작성자를 입력해주세요.'),
+  reason: z.string().min(1, '신고 사유를 입력해주세요.'),
+  reportedDate: z.string().min(1, '신고일을 입력해주세요.'),
+  status: z.string().min(1, '처리 상태를 선택해주세요.'),
 });

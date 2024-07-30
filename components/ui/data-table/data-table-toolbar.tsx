@@ -18,7 +18,8 @@ interface DataTableToolbarProps<TData> {
 const placeholderList = {
   breed: '견종 이름 검색',
   graphic: '파일명 검색',
-  support: '문의 제목 검색',
+  report: '게시글 제목 검색',
+  ask: '문의 제목 검색',
 };
 
 export function DataTableToolbar<TData>({

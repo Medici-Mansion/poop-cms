@@ -69,8 +69,16 @@ export interface GraphicFieldErrors {
   file?: string[];
   type?: string[];
 }
+export interface ReportFieldErrors {
+  category?: string[];
+  title?: string[];
+  author?: string[];
+  reason?: string[];
+  reportedDate?: string[];
+  status?: string[];
+}
 
-export type EditorDataType = 'breed' | 'graphic' | 'support' | undefined;
+export type EditorDataType = 'breed' | 'graphic' | 'report' | 'ask' | undefined;
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
@@ -109,19 +117,26 @@ export interface GetSupportsParams {
 }
 
 // 더미 데이터 타입(변경 예정)
-export interface Support {
+export interface Report {
   id: string;
   type: string;
   category: string;
   title: string;
+  author: string;
   reason: string;
   reportedDate: string;
   status: string;
 }
 
-export interface SupportContextType {
+export interface ReportContextType {
   handleGetSupports: () => Promise<void>;
   setSupportCategory: (category: string) => void;
+  // setOrder: (order: string) => void;
+  // setFormat: (format: string) => void;
+}
+export interface AskContextType {
+  // handleGetAsks: () => Promise<void>;
+  // setAskCategory: (category: string) => void;
   // setOrder: (order: string) => void;
   // setFormat: (format: string) => void;
 }

@@ -13,7 +13,7 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { BreedData, EditorDataType, GraphicData } from '@/types';
+import type { BreedData, EditorDataType, GraphicData, Report } from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -28,6 +28,7 @@ import toast from 'react-hot-toast';
 import { deleteBreeds, deleteGraphics } from '@/apis';
 import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
+import { ReportUpdate } from '@/components/resource/members/report-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -119,7 +120,8 @@ export function DataEditor<TData>({
       const closeCallbacks = {
         graphic: () => handleGetGraphics && handleGetGraphics(),
         breed: () => handleGetBreeds && handleGetBreeds(),
-        support: () => {},
+        report: () => {},
+        ask: () => {},
       };
 
       const callback = type && closeCallbacks[type];
@@ -165,6 +167,11 @@ export function DataEditor<TData>({
                   ) : type === 'breed' ? (
                     <BreedUpdate
                       selectedItem={item.original as BreedData}
+                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                    />
+                  ) : type === 'report' ? (
+                    <ReportUpdate
+                      selectedItem={item.original as Report}
                       onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                     />
                   ) : null}

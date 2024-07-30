@@ -19,14 +19,9 @@ export interface APIResponse<T> {
   body: T;
 }
 
-// 견종 정보 리스트
-export interface BreedList {
-  [key: string]: Breed[];
-}
-
 export interface Breed {
   id: string;
-  name: string;
+  nameKR: string;
   nameEN: string;
   avatar: string;
 }
@@ -54,6 +49,19 @@ export interface GraphicData {
   url: string;
   id: string;
 }
+export interface BreedData {
+  id: string;
+  nameKR: string;
+  nameEN: string;
+  file: File;
+  avatar: string;
+}
+
+export interface BreedFieldErrors {
+  nameKR?: string[];
+  nameEN?: string[];
+  file?: string[];
+}
 
 export interface GraphicFieldErrors {
   name?: string[];
@@ -62,21 +70,33 @@ export interface GraphicFieldErrors {
   type?: string[];
 }
 
-export type EditorDataType = 'graphic' | undefined;
+export type EditorDataType = 'breed' | 'graphic' | undefined;
 
 export interface GraphicContextType {
-  handleGetGraphics: (data?: GraphicParams) => Promise<void>;
-  category: string;
+  handleGetGraphics: () => Promise<void>;
   setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  setFormat: (format: string) => void;
+
   graphicInfo: {
     challengeLength: number;
     messageLength: number;
     stickerLength: number;
   };
 }
+export interface BreedContextType {
+  handleGetBreeds: (query?: GetBreedsParams) => Promise<void>;
+}
 
 export interface GraphicsInfo {
   messageLength: number;
   stickerLength: number;
   challengeLength: number;
+}
+
+export interface GetBreedsParams {
+  [key: string]: string | undefined;
+  orderKey?: string;
+  direction?: string;
+  cursoer?: string;
 }

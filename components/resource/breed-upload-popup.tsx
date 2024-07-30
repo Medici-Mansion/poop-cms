@@ -14,18 +14,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '../ui/carousel';
-import { GraphicUpload } from './graphic-upload';
 import { Plus } from 'lucide-react';
+import { BreedUpload } from './breed-upload';
 
-interface GraphicUploadPopupProps {
+interface BreedUploadPopupProps {
   onOpenChange: (isOpen: boolean) => void;
   isOpen: boolean;
 }
 
-export function GraphicUploadPopup({
+export function BreedUploadPopup({
   isOpen,
   onOpenChange,
-}: GraphicUploadPopupProps) {
+}: BreedUploadPopupProps) {
   const [uploadList, setUploadList] = useState<FormData[]>([]);
   const [carouselList, setCarouselList] = useState<FormData[]>([]);
   const carouselNextRef = useRef<HTMLButtonElement>(null);
@@ -63,13 +63,13 @@ export function GraphicUploadPopup({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader className="mb-6">
-          <DialogTitle>그래픽 추가</DialogTitle>
+          <DialogTitle>견종 추가</DialogTitle>
         </DialogHeader>
         <Carousel className="w-full">
           <CarouselContent>
             {carouselList.map((item, idx) => (
               <CarouselItem key={idx}>
-                <GraphicUpload
+                <BreedUpload
                   isOpen={isOpen}
                   onOpenChange={onOpenChange}
                   uploadList={uploadList}

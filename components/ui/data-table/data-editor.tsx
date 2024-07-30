@@ -13,7 +13,7 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { EditorDataType, GraphicData } from '@/types';
+import type { BreedData, EditorDataType, GraphicData } from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -25,7 +25,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from 'components/ui/button';
 import toast from 'react-hot-toast';
-import { deleteGraphic } from '@/apis';
+import { deleteBreeds, deleteGraphics } from '@/apis';
+import { BreedContext } from '@/components/resource/dogs';
+import { BreedUpdate } from '@/components/resource/breed-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -40,7 +42,12 @@ export function DataEditor<TData>({
   const [alertOpen, setAlertOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Row<TData>[]>([]);
   const [isModified, setIsModified] = useState(false); // 수정 여부 상태 변수 추가
-  const { category, handleGetGraphics } = useContext(GraphicContext)!;
+
+  const graphicContext = useContext(GraphicContext);
+  const handleGetGraphics = graphicContext?.handleGetGraphics;
+
+  const breedContext = useContext(BreedContext);
+  const handleGetBreeds = breedContext?.handleGetBreeds;
   const prevValueRef = useRef(false);
 
   const handleOpen = () => {
@@ -48,14 +55,31 @@ export function DataEditor<TData>({
   };
 
   const handleDelete = () => {
-    if (type === 'graphic') {
+    if (type === 'breed') {
+      const items = table
+        .getFilteredSelectedRowModel()
+        .rows.map((item) => item.original as BreedData);
+      const ids = items.map((item) => item.id);
+
+      if (ids) {
+        void toast.promise(deleteBreeds(ids), {
+          loading: '삭제 중입니다.',
+          success: () => {
+            setAlertOpen(false);
+            execCloseCallback(type);
+            return <b>삭제되었습니다!</b>;
+          },
+          error: <b>견종 삭제에 실패하였습니다.</b>,
+        });
+      }
+    } else if (type === 'graphic') {
       const items = table
         .getFilteredSelectedRowModel()
         .rows.map((item) => item.original as GraphicData);
       const ids = items.map((item) => item.id);
 
       if (ids) {
-        void toast.promise(deleteGraphic(ids), {
+        void toast.promise(deleteGraphics(ids), {
           loading: '삭제 중입니다.',
           success: () => {
             setAlertOpen(false);
@@ -70,7 +94,8 @@ export function DataEditor<TData>({
 
   const execCloseCallback = (type?: string) => {
     const closeCallbacks = {
-      graphic: () => handleGetGraphics({ category }),
+      graphic: () => handleGetGraphics && handleGetGraphics(),
+      breed: () => handleGetBreeds && handleGetBreeds(),
     };
     const isValidType = (
       type?: string,
@@ -92,7 +117,8 @@ export function DataEditor<TData>({
       // 데이터 타입 별 팝업 close 시 수행할 callback
       // 수정이 일어난 경우에만 실행
       const closeCallbacks = {
-        graphic: () => handleGetGraphics({ category }),
+        graphic: () => handleGetGraphics && handleGetGraphics(),
+        breed: () => handleGetBreeds && handleGetBreeds(),
       };
 
       const callback = type && closeCallbacks[type];
@@ -101,7 +127,7 @@ export function DataEditor<TData>({
       setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open, isModified, type, handleGetGraphics, category, table]);
+  }, [open, isModified, type, handleGetGraphics, handleGetBreeds, table]);
 
   return (
     <div className="flex ml-16">
@@ -130,12 +156,17 @@ export function DataEditor<TData>({
             <CarouselContent>
               {selectedItems.map((item) => (
                 <CarouselItem key={item.id}>
-                  {type === 'graphic' && (
+                  {type === 'graphic' ? (
                     <GraphicUpdate
                       selectedItem={item.original as GraphicData}
                       onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                     />
-                  )}
+                  ) : type === 'breed' ? (
+                    <BreedUpdate
+                      selectedItem={item.original as BreedData}
+                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                    />
+                  ) : null}
                 </CarouselItem>
               ))}
             </CarouselContent>

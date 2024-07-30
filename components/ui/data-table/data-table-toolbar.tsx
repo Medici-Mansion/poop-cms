@@ -6,7 +6,9 @@ import { DataEditor } from './data-editor';
 import { GraphicUploadPopup } from '@/components/resource/graphic-upload-popup';
 import { useState } from 'react';
 import type { EditorDataType } from '@/types';
-import { GraphicRadioGroup } from '@/components/resource/graphic-radio-group';
+import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
+import { BreedInfo } from '@/components/resource/breed-info';
+import { GraphicInfo } from '@/components/resource/graphic-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -14,7 +16,7 @@ interface DataTableToolbarProps<TData> {
 }
 
 const placeholderList = {
-  breeds: '견종 이름 검색',
+  breed: '견종 이름 검색',
   graphic: '파일명 검색',
 };
 
@@ -26,14 +28,15 @@ export function DataTableToolbar<TData>({
   const isAnyItemSelected = table.getFilteredSelectedRowModel().rows.length > 0;
 
   const getPlaceholder = (type?: keyof typeof placeholderList): string => {
-    return type ? placeholderList[type] || '' : '검색';
+    return type ? placeholderList[type] || '검색' : '검색';
   };
 
   const placeholder = getPlaceholder(type);
 
   return (
-    <div className="flex items-center justify-between mb-8">
-      {type === 'graphic' && <GraphicRadioGroup />}
+    <div className="flex items-center justify-between mb-5">
+      {type === 'breed' && <BreedInfo table={table} />}
+      {type === 'graphic' && <GraphicInfo />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input
@@ -45,6 +48,8 @@ export function DataTableToolbar<TData>({
         />
         {type === 'graphic' ? (
           <GraphicUploadPopup isOpen={isOpen} onOpenChange={setIsOpen} />
+        ) : type === 'breed' ? (
+          <BreedUploadPopup isOpen={isOpen} onOpenChange={setIsOpen} />
         ) : null}
       </div>
       {isAnyItemSelected && <DataEditor type={type} table={table} />}

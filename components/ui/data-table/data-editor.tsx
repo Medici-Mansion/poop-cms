@@ -119,6 +119,7 @@ export function DataEditor<TData>({
       const closeCallbacks = {
         graphic: () => handleGetGraphics && handleGetGraphics(),
         breed: () => handleGetBreeds && handleGetBreeds(),
+        support: () => {},
       };
 
       const callback = type && closeCallbacks[type];

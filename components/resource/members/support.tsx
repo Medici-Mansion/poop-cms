@@ -89,7 +89,7 @@ export const Supports = () => {
             onValueChange={() => handleChangeReportStatus(row.original)}
           >
             <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
-              <SelectValue placeholder="포맷 선택" />
+              <SelectValue placeholder="처리 상태 선택" />
             </SelectTrigger>
             <SelectContent className="bg-custom-gray-400 rounded-2xl ">
               <SelectItem value="처리중">처리중</SelectItem>

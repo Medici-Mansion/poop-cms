@@ -13,6 +13,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리중',
+      toon: '/images/toon01.png',
     },
     {
       category: '툰',
@@ -23,6 +24,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리중',
+      toon: '/images/toon01.png',
     },
     {
       category: '댓글',
@@ -33,6 +35,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리완료',
+      toon: '/images/toon01.png',
     },
     {
       category: '툰',
@@ -43,6 +46,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리완료',
+      toon: '/images/toon01.png',
     },
     {
       category: '툰',
@@ -53,6 +57,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리완료',
+      toon: '/images/toon01.png',
     },
     {
       category: '댓글',
@@ -63,6 +68,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리완료',
+      toon: '/images/toon01.png',
     },
     {
       category: '댓글',
@@ -73,6 +79,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '처리완료',
+      toon: '/images/toon01.png',
     },
     {
       category: '질문방',
@@ -83,6 +90,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '신고거절',
+      toon: '/images/toon01.png',
     },
     {
       category: '질문방',
@@ -93,6 +101,7 @@ export const tempReportsData = {
       reason: '폭력적인 언어',
       reportedDate: '2024.06.08 15:00',
       status: '신고거절',
+      toon: '/images/toon01.png',
     },
   ],
 };

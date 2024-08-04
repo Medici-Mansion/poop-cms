@@ -126,6 +126,7 @@ export interface Report {
   reason: string;
   reportedDate: string;
   status: string;
+  toon: string;
 }
 
 export interface ReportContextType {

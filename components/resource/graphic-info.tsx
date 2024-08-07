@@ -10,7 +10,7 @@ import { GraphicRadioGroup } from './graphic-radio-group';
 import { GraphicContext } from './graphics';
 
 export function GraphicInfo() {
-  const [formatVal, setFormatVal] = useState('GIF');
+  const [formatVal, setFormatVal] = useState('all');
   const [orderVal, setOrderVal] = useState('DESC');
   const { setOrder, setFormat } = useContext(GraphicContext)!;
 
@@ -51,7 +51,7 @@ export function GraphicInfo() {
           </SelectContent>
         </Select>
 
-        <Select defaultValue="GIF" onValueChange={setFormatVal}>
+        <Select defaultValue="all" onValueChange={setFormatVal}>
           <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
             <SelectValue placeholder="포맷 선택" />
           </SelectTrigger>

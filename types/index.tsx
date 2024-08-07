@@ -46,10 +46,11 @@ export interface Graphic {
 }
 
 export interface GraphicParams {
-  [key: string]: string | undefined;
+  [key: string]: string | number | undefined;
   graphicType?: string;
   category: string;
   string?: string;
+  page?: number;
 }
 
 export interface GraphicData {

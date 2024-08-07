@@ -57,9 +57,19 @@ export const getGraphics = async (params?: GraphicParams) => {
     const {
       result: { resultCode },
       body,
-    } = await GET<Graphic[]>(`/graphics${queryStr && '?' + queryStr}`);
+    } = await GET<pageResponse<Graphic>>(
+      `/graphics${queryStr && '?' + queryStr}`,
+    );
 
-    return resultCode < 500 ? body : [];
+    return resultCode < 500
+      ? body
+      : {
+          list: [],
+          took: 1,
+          page: 1,
+          total: 1,
+          totalPage: 11,
+        };
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get graphics');

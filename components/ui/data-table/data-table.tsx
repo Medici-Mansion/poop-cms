@@ -28,17 +28,19 @@ import {
 import { DataTablePagination } from 'components/ui/data-table/data-table-pagination';
 import { DataTableToolbar } from 'components/ui/data-table/data-table-toolbar';
 import { useEffect } from 'react';
-import type { EditorDataType } from '@/types';
+import type { EditorDataType, pageInfo } from '@/types';
 interface DataTableProps<TData, TValue> {
   type?: EditorDataType;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pageInfo?: pageInfo;
 }
 
 export function DataTable<TData, TValue>({
   type,
   columns,
   data,
+  pageInfo,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -127,7 +129,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pageInfo={pageInfo} />
     </div>
   );
 }

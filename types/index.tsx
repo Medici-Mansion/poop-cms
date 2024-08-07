@@ -19,6 +19,17 @@ export interface APIResponse<T> {
   body: T;
 }
 
+export type pageResponse<T> = {
+  list: T[];
+} & pageInfo;
+
+export type pageInfo = {
+  page: number;
+  took: number;
+  total: number;
+  totalPage: number;
+  setCurPage?: (page: number) => void;
+};
 export interface Breed {
   id: string;
   nameKR: string;
@@ -95,8 +106,9 @@ export interface GraphicsInfo {
 }
 
 export interface GetBreedsParams {
-  [key: string]: string | undefined;
+  [key: string]: string | number | undefined;
   orderKey?: string;
   direction?: string;
   cursoer?: string;
+  page?: number;
 }

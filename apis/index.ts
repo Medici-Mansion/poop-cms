@@ -1,11 +1,17 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
-import type { Breed, GetBreedsParams, Graphic, GraphicParams } from '@/types';
+import type {
+  Breed,
+  GetBreedsParams,
+  Graphic,
+  GraphicParams,
+  pageResponse,
+} from '@/types';
 
 // parameter -> query 변환 함수 정의
 const toRecord = (
   params?: GraphicParams | GetBreedsParams,
-): Record<string, string> => {
-  const result: Record<string, string> = {};
+): Record<string | number, string> => {
+  const result: Record<string | number, string> = {};
   if (params) {
     for (const key in params) {
       if (
@@ -26,8 +32,17 @@ export const getBreeds = async (query?: GetBreedsParams) => {
     const {
       result: { resultCode },
       body,
-    } = await GET<Breed[]>(`/breeds?${queryStr}`);
-    return resultCode < 500 ? body : [];
+    } = await GET<pageResponse<Breed>>(`/breeds?${queryStr}`);
+
+    return resultCode < 500
+      ? body
+      : {
+          list: [],
+          took: 1,
+          page: 1,
+          total: 1,
+          totalPage: 11,
+        };
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');
@@ -42,9 +57,19 @@ export const getGraphics = async (params?: GraphicParams) => {
     const {
       result: { resultCode },
       body,
-    } = await GET<Graphic[]>(`/graphics${queryStr && '?' + queryStr}`);
+    } = await GET<pageResponse<Graphic>>(
+      `/graphics${queryStr && '?' + queryStr}`,
+    );
 
-    return resultCode < 500 ? body : [];
+    return resultCode < 500
+      ? body
+      : {
+          list: [],
+          took: 1,
+          page: 1,
+          total: 1,
+          totalPage: 11,
+        };
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get graphics');

@@ -2,10 +2,15 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Breed, BreedContextType, GetBreedsParams } from '@/types';
+import type {
+  Breed,
+  BreedContextType,
+  GetBreedsParams,
+  pageResponse,
+} from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { getBreeds } from '@/apis';
 import { Checkbox } from '../ui/checkbox';
 import { Loading } from '../common/loading';
@@ -16,22 +21,46 @@ export const BreedContext = createContext<BreedContextType | undefined>(
 
 export const Breeds = () => {
   const [breeds, setBreeds] = useState<Breed[]>([]);
+  const [curPage, setCurPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    took: 0,
+    total: 0,
+    totalPage: 0,
+    setCurPage,
+  });
 
-  const handleGetBreeds = async (query?: GetBreedsParams) => {
-    const defaultQuery: GetBreedsParams = {
-      orderKey: 'createdAt',
-      direction: 'desc',
-      // cursor: '',
-    };
+  const handleGetBreeds = useCallback(
+    async (query?: GetBreedsParams) => {
+      const defaultQuery: GetBreedsParams = {
+        orderKey: 'createdAt',
+        direction: 'desc',
+        // cursor: '',
+        page: curPage || 1,
+      };
 
-    const effectiveQuery = {
-      ...defaultQuery,
-      ...query,
-    };
+      const effectiveQuery = {
+        ...defaultQuery,
+        ...query,
+      };
 
-    const breeds = await getBreeds(effectiveQuery);
-    setBreeds(breeds);
-  };
+      const { list, page, took, total, totalPage }: pageResponse<Breed> =
+        await getBreeds(effectiveQuery);
+      setBreeds(list);
+      setPageInfo({
+        page,
+        took,
+        total,
+        totalPage,
+        setCurPage,
+      });
+    },
+    [curPage, setBreeds, setPageInfo],
+  );
+
+  useEffect(() => {
+    void handleGetBreeds();
+  }, [curPage, handleGetBreeds]);
 
   useEffect(() => {
     void handleGetBreeds();
@@ -94,7 +123,12 @@ export const Breeds = () => {
     <>
       <div className="flex items-center justify-between space-y-2">
         <BreedContext.Provider value={{ handleGetBreeds }}>
-          <DataTable type="breed" columns={columns} data={breeds} />
+          <DataTable
+            type="breed"
+            columns={columns}
+            data={breeds}
+            pageInfo={pageInfo}
+          />
         </BreedContext.Provider>
       </div>
     </>

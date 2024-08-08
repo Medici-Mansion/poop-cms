@@ -2,7 +2,12 @@
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Graphic, GraphicContextType, GraphicsInfo } from '@/types';
+import type {
+  Graphic,
+  GraphicContextType,
+  GraphicsInfo,
+  pageResponse,
+} from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '../ui/data-table/data-table-column-header';
 import { createContext, useCallback, useEffect, useState } from 'react';
@@ -21,15 +26,33 @@ export const Graphics = () => {
   const [order, setOrder] = useState('');
   const [format, setFormat] = useState('');
 
+  const [curPage, setCurPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    took: 0,
+    total: 0,
+    totalPage: 0,
+    setCurPage,
+  });
+
   const handleGetGraphics = useCallback(async () => {
     const params = {
       category,
       order,
       graphicType: format,
+      page: curPage || 1,
     };
-    const data = await getGraphics(params);
-    setGraphics(data);
-  }, [category, order, format]);
+    const { list, page, took, total, totalPage }: pageResponse<Graphic> =
+      await getGraphics(params);
+    setGraphics(list);
+    setPageInfo({
+      page,
+      took,
+      total,
+      totalPage,
+      setCurPage,
+    });
+  }, [category, order, format, curPage]);
 
   const columns: ColumnDef<Graphic>[] = [
     {
@@ -88,7 +111,7 @@ export const Graphics = () => {
     },
   ];
 
-  const [graphicInfo, setGraphicInfo] = useState<GraphicsInfo>({
+  const [graphicInfo] = useState<GraphicsInfo>({
     messageLength: 0,
     stickerLength: 0,
     challengeLength: 0,
@@ -96,38 +119,38 @@ export const Graphics = () => {
 
   // 각 카테고리별 개수 계산용 조회
   // TODO: 개선 필요해 보임
-  const handleGetGraphicsAll = async () => {
-    const allGraphics = await getGraphics();
+  // const handleGetGraphicsAll = async () => {
+  //   const { list } = await getGraphics();
 
-    const categoryCounts = allGraphics.reduce(
-      (acc, graphic) => {
-        switch (graphic.category) {
-          case 'Message':
-            acc.messageLength += 1;
-            break;
-          case 'Sticker':
-            acc.stickerLength += 1;
-            break;
-          case 'Challenge':
-            acc.challengeLength += 1;
-            break;
-          default:
-            break;
-        }
-        return acc;
-      },
-      { messageLength: 0, stickerLength: 0, challengeLength: 0 },
-    );
+  //   const categoryCounts = list.reduce(
+  //     (acc, graphic) => {
+  //       switch (graphic.category) {
+  //         case 'Message':
+  //           acc.messageLength += 1;
+  //           break;
+  //         case 'Sticker':
+  //           acc.stickerLength += 1;
+  //           break;
+  //         case 'Challenge':
+  //           acc.challengeLength += 1;
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //       return acc;
+  //     },
+  //     { messageLength: 0, stickerLength: 0, challengeLength: 0 },
+  //   );
 
-    setGraphicInfo(categoryCounts);
-  };
-  useEffect(() => {
-    void handleGetGraphicsAll();
-  }, [graphics]);
+  //   setGraphicInfo(categoryCounts);
+  // };
+  // useEffect(() => {
+  //   void handleGetGraphicsAll();
+  // }, [graphics]);
 
   useEffect(() => {
     if (category) void handleGetGraphics();
-  }, [category, order, format, handleGetGraphics]);
+  }, [category, order, format, handleGetGraphics, curPage]);
 
   return (
     <>
@@ -141,7 +164,12 @@ export const Graphics = () => {
             graphicInfo,
           }}
         >
-          <DataTable type="graphic" columns={columns} data={graphics} />
+          <DataTable
+            type="graphic"
+            columns={columns}
+            data={graphics}
+            pageInfo={pageInfo}
+          />
         </GraphicContext.Provider>
       </div>
     </>

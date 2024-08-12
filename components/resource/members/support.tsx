@@ -1,7 +1,7 @@
 'use client';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { Report, ReportContextType } from '@/types';
+import type { pageResponse, Report, ReportContextType } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
 import { createContext, useCallback, useEffect, useState } from 'react';
@@ -25,16 +25,35 @@ export const Supports = () => {
   // const [order, setOrder] = useState('');
   // const [format, setFormat] = useState('');
 
+  const [curPage, setCurPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState({
+    page: 0,
+    took: 0,
+    total: 0,
+    totalPage: 0,
+    setCurPage,
+  });
+
   const handleGetSupports = useCallback(async () => {
     if (supportCategory === 'report') {
       const params = {
-        supportCategory,
+        category: supportCategory,
         // order,
         // graphicType: format,
+        page: curPage || 1,
       };
-      const data = await getReports(params);
-      console.log('Reports data', data);
-      setReports(data);
+      const { list, page, took, total, totalPage }: pageResponse<Report> =
+        await getReports(params);
+      console.log('Reports data', list);
+      setReports(list);
+
+      setPageInfo({
+        page,
+        took,
+        total,
+        totalPage,
+        setCurPage,
+      });
     } else if (supportCategory === 'ask') {
       console.log('Ask data');
     }
@@ -145,7 +164,12 @@ export const Supports = () => {
               // setFormat,
             }}
           >
-            <DataTable type="report" columns={columns} data={reports} />
+            <DataTable
+              type="report"
+              columns={columns}
+              data={reports}
+              pageInfo={pageInfo}
+            />
           </SupportContext.Provider>
         ) : supportCategory === 'ask' ? (
           <SupportContext.Provider

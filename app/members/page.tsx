@@ -2,7 +2,7 @@ import { Supports } from '@/components/resource/members/support';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import React from 'react';
 
-const User = () => {
+const Members = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-4 p-8 pt-24">
@@ -27,4 +27,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Members;

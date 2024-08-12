@@ -118,16 +118,22 @@ export interface GetBreedsParams {
   [key: string]: string | number | undefined;
   orderKey?: string;
   direction?: string;
-  cursoer?: string;
+  cursor?: string;
   page?: number;
 }
 
 export interface GetSupportsParams {
-  [key: string]: string | undefined;
-  // graphicType?: string;
-  // category: string;
-  // string?: string;
+  [key: string]: string | number | undefined;
+  orderKey?: string;
+  direction?: string;
+  cursor?: string;
+  page?: number;
 }
+
+// export interface GetSupportsParams {
+//   [key: string]: string | number | undefined;
+//   page?: number;
+// }
 
 // 더미 데이터 타입(변경 예정)
 export interface Report {

@@ -221,7 +221,7 @@ interface ApiResponse {
     resultCode: number;
     resultMessage: string;
   };
-  body: Report[];
+  body: pageResponse<Report>;
 }
 
 // 신고 정보 조회
@@ -235,7 +235,15 @@ export const getReports = async (query?: GetSupportsParams) => {
     } = await new Promise<ApiResponse>((resolve) =>
       setTimeout(() => resolve(tempReportsData), 300),
     );
-    return resultCode < 500 ? body : [];
+    return resultCode < 500
+      ? body
+      : {
+          list: [],
+          took: 1,
+          page: 1,
+          total: 1,
+          totalPage: 11,
+        };
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get breeds');

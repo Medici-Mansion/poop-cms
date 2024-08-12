@@ -9,6 +9,7 @@ import type { EditorDataType } from '@/types';
 import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
 import { BreedInfo } from '@/components/resource/breed-info';
 import { GraphicInfo } from '@/components/resource/graphic-info';
+import { SupportInfo } from '@/components/members/support-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -39,6 +40,7 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between mb-5">
       {type === 'breed' && <BreedInfo table={table} />}
       {type === 'graphic' && <GraphicInfo />}
+      {type && ['report', 'ask'].includes(type) && <SupportInfo />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input

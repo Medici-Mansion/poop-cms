@@ -1,7 +1,7 @@
 'use client';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { pageResponse, Report, ReportContextType } from '@/types';
+import type { pageResponse, Report, SupportContextType } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
 import { createContext, useCallback, useEffect, useState } from 'react';
@@ -15,15 +15,15 @@ import {
 } from '@/components/ui/select';
 import { getReports } from '@/apis';
 
-export const SupportContext = createContext<ReportContextType | undefined>(
+export const SupportContext = createContext<SupportContextType | undefined>(
   undefined,
 );
 
 export const Supports = () => {
   const [reports, setReports] = useState<Report[]>([]);
-  const [supportCategory, setSupportCategory] = useState('report');
-  // const [order, setOrder] = useState('');
-  // const [format, setFormat] = useState('');
+  const [category, setCategory] = useState('Report');
+  const [order, setOrder] = useState('');
+  const [format, setFormat] = useState('');
 
   const [curPage, setCurPage] = useState(1);
   const [pageInfo, setPageInfo] = useState({
@@ -35,15 +35,15 @@ export const Supports = () => {
   });
 
   const handleGetSupports = useCallback(async () => {
-    if (supportCategory === 'report') {
-      const params = {
-        category: supportCategory,
-        // order,
-        // graphicType: format,
+    if (category === 'Report') {
+      const query = {
+        category,
+        order,
+        graphicType: format,
         page: curPage || 1,
       };
       const { list, page, took, total, totalPage }: pageResponse<Report> =
-        await getReports(params);
+        await getReports(query);
       console.log('Reports data', list);
       setReports(list);
 
@@ -54,14 +54,16 @@ export const Supports = () => {
         totalPage,
         setCurPage,
       });
-    } else if (supportCategory === 'ask') {
+    } else if (category === 'Ask') {
       console.log('Ask data');
     }
-  }, [supportCategory]);
-  // }, [supportCategory, order, format]);
+  }, [category, order, format, curPage]);
 
   const handleChangeReportStatus = (item: Report) => {
     if (item) {
+      // 처리 상태 수정 API 수행
+      //
+      //
       console.log('처리상태 변경', item);
     }
   };
@@ -107,7 +109,13 @@ export const Supports = () => {
             defaultValue={row.getValue('status')}
             onValueChange={() => handleChangeReportStatus(row.original)}
           >
-            <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
+            <SelectTrigger
+              className={`w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl ${
+                row.getValue('status') === '처리완료'
+                  ? 'text-custom-gray-300'
+                  : ''
+              }`}
+            >
               <SelectValue placeholder="처리 상태 선택" />
             </SelectTrigger>
             <SelectContent className="bg-custom-gray-400 rounded-2xl ">
@@ -143,46 +151,38 @@ export const Supports = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   if (category) void handleGetSupports();
-  // }, [category, order, format, handleGetSupports]);
-
   useEffect(() => {
-    // if (category) void handleGetSupports();
-    void handleGetSupports();
-  }, [supportCategory, handleGetSupports]);
+    if (category) void handleGetSupports();
+  }, [category, handleGetSupports]);
 
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        {supportCategory === 'report' ? (
-          <SupportContext.Provider
-            value={{
-              handleGetSupports,
-              setSupportCategory,
-              // setOrder,
-              // setFormat,
-            }}
-          >
+        <SupportContext.Provider
+          value={{
+            handleGetSupports,
+            category,
+            setCategory,
+            setOrder,
+            setFormat,
+          }}
+        >
+          {category === 'Report' ? (
             <DataTable
               type="report"
               columns={columns}
               data={reports}
               pageInfo={pageInfo}
             />
-          </SupportContext.Provider>
-        ) : supportCategory === 'ask' ? (
-          <SupportContext.Provider
-            value={{
-              handleGetSupports,
-              setSupportCategory,
-              // setOrder,
-              // setFormat,
-            }}
-          >
-            {/* <DataTable type="ask" columns={columns} data={reports} /> */}
-          </SupportContext.Provider>
-        ) : null}
+          ) : category === 'Ask' ? (
+            <DataTable
+              type="ask"
+              columns={columns}
+              data={[]}
+              pageInfo={pageInfo}
+            />
+          ) : null}
+        </SupportContext.Provider>
       </div>
     </>
   );

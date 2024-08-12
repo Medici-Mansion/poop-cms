@@ -1,4 +1,4 @@
-import { Supports } from '@/components/resource/members/support';
+import { Supports } from '@/components/members/support';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import React from 'react';
 

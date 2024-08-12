@@ -28,7 +28,8 @@ import toast from 'react-hot-toast';
 import { deleteBreeds, deleteGraphics } from '@/apis';
 import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
-import { ReportUpdate } from '@/components/resource/members/report-update';
+import { ReportUpdate } from '@/components/members/report-update';
+import { SupportContext } from '@/components/members/support';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -49,6 +50,10 @@ export function DataEditor<TData>({
 
   const breedContext = useContext(BreedContext);
   const handleGetBreeds = breedContext?.handleGetBreeds;
+
+  const supportContext = useContext(SupportContext);
+  const handleGetSupports = supportContext?.handleGetSupports;
+
   const prevValueRef = useRef(false);
 
   const handleOpen = () => {
@@ -97,6 +102,8 @@ export function DataEditor<TData>({
     const closeCallbacks = {
       graphic: () => handleGetGraphics && handleGetGraphics(),
       breed: () => handleGetBreeds && handleGetBreeds(),
+      report: () => handleGetSupports && handleGetSupports(),
+      ask: () => {},
     };
     const isValidType = (
       type?: string,
@@ -111,8 +118,6 @@ export function DataEditor<TData>({
     }
   };
 
-  useEffect(() => {}, [open, table]);
-
   useEffect(() => {
     setSelectedItems(
       table.getFilteredSelectedRowModel().rows.map((el) => el.original),
@@ -123,7 +128,7 @@ export function DataEditor<TData>({
       const closeCallbacks = {
         graphic: () => handleGetGraphics && handleGetGraphics(),
         breed: () => handleGetBreeds && handleGetBreeds(),
-        report: () => {},
+        report: () => handleGetSupports && handleGetSupports(),
         ask: () => {},
       };
 
@@ -133,7 +138,15 @@ export function DataEditor<TData>({
       setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open, isModified, type, handleGetGraphics, handleGetBreeds, table]);
+  }, [
+    open,
+    isModified,
+    type,
+    handleGetGraphics,
+    handleGetBreeds,
+    handleGetSupports,
+    table,
+  ]);
 
   return (
     <div className="flex ml-16">
@@ -193,8 +206,12 @@ export function DataEditor<TData>({
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              {selectedItems.length > 1 && (
+                <>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </>
+              )}
             </Carousel>
           </DialogContent>
         </Dialog>

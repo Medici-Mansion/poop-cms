@@ -171,7 +171,7 @@ export function ReportUpdate<TData extends Report>({
         <Form {...form}>
           <form
             action={handleEdit}
-            className="flex flex-col w-full space-y-4 gap-1 px-1"
+            className="flex flex-col w-full space-y-4 gap-1 px-1 mt-12"
           >
             {/* 카테고리 */}
             <div className="grid grid-cols-2 gap-4 px-1">

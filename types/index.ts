@@ -124,16 +124,11 @@ export interface GetBreedsParams {
 
 export interface GetSupportsParams {
   [key: string]: string | number | undefined;
-  orderKey?: string;
-  direction?: string;
-  cursor?: string;
+  graphicType?: string;
+  category: string;
+  string?: string;
   page?: number;
 }
-
-// export interface GetSupportsParams {
-//   [key: string]: string | number | undefined;
-//   page?: number;
-// }
 
 // 더미 데이터 타입(변경 예정)
 export interface Report {
@@ -148,11 +143,12 @@ export interface Report {
   toon: string;
 }
 
-export interface ReportContextType {
+export interface SupportContextType {
   handleGetSupports: () => Promise<void>;
-  setSupportCategory: (category: string) => void;
-  // setOrder: (order: string) => void;
-  // setFormat: (format: string) => void;
+  setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  setFormat: (format: string) => void;
+  category: string;
 }
 export interface AskContextType {
   // handleGetAsks: () => Promise<void>;

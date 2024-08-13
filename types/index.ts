@@ -30,6 +30,17 @@ export type pageInfo = {
   totalPage: number;
   setCurPage?: (page: number) => void;
 };
+
+export type EditorDataType =
+  | 'breed'
+  | 'graphic'
+  | 'report'
+  | 'ask'
+  | 'toon'
+  | 'challenge'
+  | 'question'
+  | undefined;
+
 export interface Breed {
   id: string;
   nameKR: string;
@@ -45,7 +56,7 @@ export interface Graphic {
   category: string;
 }
 
-export interface GraphicParams {
+export interface GraphicsQuery {
   [key: string]: string | number | undefined;
   graphicType?: string;
   category: string;
@@ -90,8 +101,6 @@ export interface ReportFieldErrors {
   status?: string[];
 }
 
-export type EditorDataType = 'breed' | 'graphic' | 'report' | 'ask' | undefined;
-
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
   setCategory: (category: string) => void;
@@ -105,7 +114,7 @@ export interface GraphicContextType {
   };
 }
 export interface BreedContextType {
-  handleGetBreeds: (query?: GetBreedsParams) => Promise<void>;
+  handleGetBreeds: (query?: BreedsQuery) => Promise<void>;
 }
 
 export interface GraphicsInfo {
@@ -114,7 +123,7 @@ export interface GraphicsInfo {
   challengeLength: number;
 }
 
-export interface GetBreedsParams {
+export interface BreedsQuery {
   [key: string]: string | number | undefined;
   orderKey?: string;
   direction?: string;
@@ -122,7 +131,7 @@ export interface GetBreedsParams {
   page?: number;
 }
 
-export interface GetSupportsParams {
+export interface SupportQuery {
   [key: string]: string | number | undefined;
   graphicType?: string;
   category: string;
@@ -155,4 +164,32 @@ export interface AskContextType {
   // setAskCategory: (category: string) => void;
   // setOrder: (order: string) => void;
   // setFormat: (format: string) => void;
+}
+
+/*
+ * 게시물 관리
+ */
+export interface PostContextType {
+  handleGetPosts: () => Promise<void>;
+  setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  category: string;
+}
+
+export interface Post {
+  id: string;
+  type: string;
+  title: string;
+  author: string;
+  likes: number;
+  comments: number;
+  tags: string[];
+  createdAt: string;
+  toon: string;
+}
+
+export interface PostQuery {
+  [key: string]: string | number | undefined;
+  category: string;
+  page?: number;
 }

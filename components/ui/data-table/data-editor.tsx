@@ -130,6 +130,9 @@ export function DataEditor<TData>({
         breed: () => handleGetBreeds && handleGetBreeds(),
         report: () => handleGetSupports && handleGetSupports(),
         ask: () => {},
+        toon: () => {},
+        challenge: () => {},
+        question: () => {},
       };
 
       const callback = type && closeCallbacks[type];

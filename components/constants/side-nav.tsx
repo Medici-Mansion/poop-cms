@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   LucideUsersRound,
   LibraryBig,
+  GanttChartSquare,
 } from 'lucide-react';
 import { type NavItem } from 'types';
 
@@ -23,6 +24,12 @@ export const NavItems: NavItem[] = [
     title: '리소스 관리',
     icon: LibraryBig,
     href: '/resource',
+    color: 'brown-orange-500',
+  },
+  {
+    title: '게시물 관리',
+    icon: GanttChartSquare,
+    href: '/posts',
     color: 'brown-orange-500',
   },
   // {

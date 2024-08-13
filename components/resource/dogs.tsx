@@ -5,7 +5,7 @@ import { DataTable } from '@/components/ui/data-table/data-table';
 import type {
   Breed,
   BreedContextType,
-  GetBreedsParams,
+  BreedsQuery,
   pageResponse,
 } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -31,8 +31,8 @@ export const Breeds = () => {
   });
 
   const handleGetBreeds = useCallback(
-    async (query?: GetBreedsParams) => {
-      const defaultQuery: GetBreedsParams = {
+    async (query?: BreedsQuery) => {
+      const defaultQuery: BreedsQuery = {
         orderKey: 'createdAt',
         direction: 'desc',
         // cursor: '',

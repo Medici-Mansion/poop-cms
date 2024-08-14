@@ -10,10 +10,12 @@ import type {
   pageResponse,
   Toon,
   Challenge,
+  Question,
 } from '@/types';
 import { tempReportsData } from '@/lib/data/supportSamepleData';
 import { tempToonsData } from '@/lib/data/postToonSamepleData';
 import { tempChallengesData } from '@/lib/data/postChallengeSamepleData';
+import { tempQuestionsData } from '@/lib/data/postQuestionSamepleData';
 
 // parameter -> query 변환 함수 정의
 const toRecord = (
@@ -301,6 +303,14 @@ export const getPosts = async (query?: PostQuery) => {
         body,
       } = await new Promise<ApiResponse<Challenge>>((resolve) =>
         setTimeout(() => resolve(tempChallengesData), 300),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else if (category === 'Question') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Question>>((resolve) =>
+        setTimeout(() => resolve(tempQuestionsData), 300),
       );
       return resultCode < 500 ? body : defaultResponse;
     } else return defaultResponse;

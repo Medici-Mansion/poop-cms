@@ -176,7 +176,7 @@ export interface PostContextType {
   category: string;
 }
 
-export type Post = Toon | Challenge;
+export type Post = Toon | Challenge | Question;
 
 export interface Toon {
   id: string;
@@ -201,6 +201,18 @@ export interface Challenge {
   startDate: string;
   endDate: string;
   thumbnail: string;
+}
+export interface Question {
+  id: string;
+  type: string;
+  title: string;
+  author: string;
+  postCategory: string;
+  views: number | null;
+  comments: number | null;
+  votes: number | null;
+  createdAt: string;
+  thumbnails: string[];
 }
 
 export interface PostQuery {

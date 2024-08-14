@@ -1,6 +1,6 @@
 'use client';
 
-import type { Row, Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table';
 import { Dialog, DialogContent } from '../dialog';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SquarePen, Trash2 } from 'lucide-react';
@@ -13,7 +13,7 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { BreedData, EditorDataType, GraphicData } from '@/types';
+import type { BreedData, EditorDataType, GraphicData, Report } from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -28,6 +28,8 @@ import toast from 'react-hot-toast';
 import { deleteBreeds, deleteGraphics } from '@/apis';
 import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
+import { ReportUpdate } from '@/components/members/report-update';
+import { SupportContext } from '@/components/members/support';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -40,7 +42,7 @@ export function DataEditor<TData>({
 }: DataTableEditorProps<TData>) {
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Row<TData>[]>([]);
+  const [selectedItems, setSelectedItems] = useState<unknown[]>([]);
   const [isModified, setIsModified] = useState(false); // 수정 여부 상태 변수 추가
 
   const graphicContext = useContext(GraphicContext);
@@ -48,6 +50,10 @@ export function DataEditor<TData>({
 
   const breedContext = useContext(BreedContext);
   const handleGetBreeds = breedContext?.handleGetBreeds;
+
+  const supportContext = useContext(SupportContext);
+  const handleGetSupports = supportContext?.handleGetSupports;
+
   const prevValueRef = useRef(false);
 
   const handleOpen = () => {
@@ -96,6 +102,8 @@ export function DataEditor<TData>({
     const closeCallbacks = {
       graphic: () => handleGetGraphics && handleGetGraphics(),
       breed: () => handleGetBreeds && handleGetBreeds(),
+      report: () => handleGetSupports && handleGetSupports(),
+      ask: () => {},
     };
     const isValidType = (
       type?: string,
@@ -111,14 +119,17 @@ export function DataEditor<TData>({
   };
 
   useEffect(() => {
-    setSelectedItems(table.getFilteredSelectedRowModel().rows);
-
+    setSelectedItems(
+      table.getFilteredSelectedRowModel().rows.map((el) => el.original),
+    );
     if (prevValueRef.current === true && !open && isModified) {
       // 데이터 타입 별 팝업 close 시 수행할 callback
       // 수정이 일어난 경우에만 실행
       const closeCallbacks = {
         graphic: () => handleGetGraphics && handleGetGraphics(),
         breed: () => handleGetBreeds && handleGetBreeds(),
+        report: () => handleGetSupports && handleGetSupports(),
+        ask: () => {},
       };
 
       const callback = type && closeCallbacks[type];
@@ -127,7 +138,15 @@ export function DataEditor<TData>({
       setIsModified(false); // 재조회 후 수정 여부 상태 초기화
     }
     prevValueRef.current = open;
-  }, [open, isModified, type, handleGetGraphics, handleGetBreeds, table]);
+  }, [
+    open,
+    isModified,
+    type,
+    handleGetGraphics,
+    handleGetBreeds,
+    handleGetSupports,
+    table,
+  ]);
 
   return (
     <div className="flex ml-16">
@@ -147,34 +166,56 @@ export function DataEditor<TData>({
         삭제
       </button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[550px]">
-          {/* <DialogHeader>
+      {type === 'report' && selectedItems.length > 1 ? (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="sm:max-w-[550px]">
+            <ReportUpdate
+              selectedItems={selectedItems as Report[]}
+              onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+            />
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="sm:max-w-[550px]">
+            {/* <DialogHeader>
             <DialogTitle>Edit Items</DialogTitle>
           </DialogHeader> */}
-          <Carousel className="w-full">
-            <CarouselContent>
-              {selectedItems.map((item) => (
-                <CarouselItem key={item.id}>
-                  {type === 'graphic' ? (
-                    <GraphicUpdate
-                      selectedItem={item.original as GraphicData}
-                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
-                    />
-                  ) : type === 'breed' ? (
-                    <BreedUpdate
-                      selectedItem={item.original as BreedData}
-                      onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
-                    />
-                  ) : null}
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </DialogContent>
-      </Dialog>
+            <Carousel className="w-full">
+              <CarouselContent>
+                {selectedItems.map((item, idx, arr) => (
+                  <CarouselItem key={idx}>
+                    {type === 'graphic' ? (
+                      <GraphicUpdate
+                        selectedItem={item as GraphicData}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'breed' ? (
+                      <BreedUpdate
+                        selectedItem={item as BreedData}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'report' ? (
+                      arr.length === 1 && (
+                        <ReportUpdate
+                          selectedItem={item as Report}
+                          onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                        />
+                      )
+                    ) : null}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              {selectedItems.length > 1 && (
+                <>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </>
+              )}
+            </Carousel>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
         <AlertDialogContent>

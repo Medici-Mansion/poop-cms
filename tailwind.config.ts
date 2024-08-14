@@ -1,4 +1,6 @@
+import type { PluginAPI } from 'tailwindcss/types/config';
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -85,5 +87,17 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    ({ addUtilities }: PluginAPI) => {
+      addUtilities({
+        '.grid-element': {
+          width: '100%',
+          height: '100%',
+          position: 'relative !important',
+          'object-fit': 'cover',
+        },
+      });
+    },
+  ],
 };

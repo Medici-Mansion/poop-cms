@@ -9,6 +9,7 @@ import type { EditorDataType } from '@/types';
 import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
 import { BreedInfo } from '@/components/resource/breed-info';
 import { GraphicInfo } from '@/components/resource/graphic-info';
+import { SupportInfo } from '@/components/members/support-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -18,6 +19,8 @@ interface DataTableToolbarProps<TData> {
 const placeholderList = {
   breed: '견종 이름 검색',
   graphic: '파일명 검색',
+  report: '게시글 제목 검색',
+  ask: '문의 제목 검색',
 };
 
 export function DataTableToolbar<TData>({
@@ -37,6 +40,7 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between mb-5">
       {type === 'breed' && <BreedInfo table={table} />}
       {type === 'graphic' && <GraphicInfo />}
+      {type && ['report', 'ask'].includes(type) && <SupportInfo />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input

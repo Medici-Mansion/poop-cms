@@ -81,8 +81,16 @@ export interface GraphicFieldErrors {
   file?: string[];
   type?: string[];
 }
+export interface ReportFieldErrors {
+  category?: string[];
+  title?: string[];
+  author?: string[];
+  reason?: string[];
+  reportedDate?: string[];
+  status?: string[];
+}
 
-export type EditorDataType = 'breed' | 'graphic' | undefined;
+export type EditorDataType = 'breed' | 'graphic' | 'report' | 'ask' | undefined;
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
@@ -110,6 +118,41 @@ export interface GetBreedsParams {
   [key: string]: string | number | undefined;
   orderKey?: string;
   direction?: string;
-  cursoer?: string;
+  cursor?: string;
   page?: number;
+}
+
+export interface GetSupportsParams {
+  [key: string]: string | number | undefined;
+  graphicType?: string;
+  category: string;
+  string?: string;
+  page?: number;
+}
+
+// 더미 데이터 타입(변경 예정)
+export interface Report {
+  id: string;
+  type: string;
+  category: string;
+  title: string;
+  author: string;
+  reason: string;
+  reportedDate: string;
+  status: string;
+  toon: string;
+}
+
+export interface SupportContextType {
+  handleGetSupports: () => Promise<void>;
+  setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  setFormat: (format: string) => void;
+  category: string;
+}
+export interface AskContextType {
+  // handleGetAsks: () => Promise<void>;
+  // setAskCategory: (category: string) => void;
+  // setOrder: (order: string) => void;
+  // setFormat: (format: string) => void;
 }

@@ -16,7 +16,7 @@ export const NavItems: NavItem[] = [
   {
     title: '회원 관리',
     icon: LucideUsersRound,
-    href: '/',
+    href: '/members',
     color: 'text-orange-500',
   },
   {

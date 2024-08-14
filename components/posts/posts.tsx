@@ -1,7 +1,13 @@
 'use client';
 
 import { DataTable } from '@/components/ui/data-table/data-table';
-import type { pageResponse, Post, PostContextType } from '@/types';
+import type {
+  Challenge,
+  pageResponse,
+  Post,
+  PostContextType,
+  Toon,
+} from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header';
 import { createContext, useCallback, useEffect, useState } from 'react';
@@ -46,7 +52,7 @@ export const Posts = () => {
     });
   }, [category, order, curPage]);
 
-  const columns: ColumnDef<Post>[] = [
+  const toonColumns: ColumnDef<Post>[] = [
     {
       accessorKey: 'index',
       header: '번호',
@@ -106,6 +112,72 @@ export const Posts = () => {
     },
   ];
 
+  const challengeColumns: ColumnDef<Toon | Challenge>[] = [
+    {
+      accessorKey: 'index',
+      header: '번호',
+      cell: ({ row }) => <div>{row.index + 1}</div>,
+    },
+    {
+      accessorKey: 'postCategory',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="카테고리" />
+      ),
+    },
+    {
+      accessorKey: 'title',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="챌린지 제목" />
+      ),
+    },
+    {
+      accessorKey: 'author',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="게시글 작성자" />
+      ),
+    },
+    {
+      accessorKey: 'views',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="조회수" />
+      ),
+    },
+    {
+      accessorKey: 'participants',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="참여자 수" />
+      ),
+    },
+    {
+      accessorKey: 'createdAt',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="작성일" />
+      ),
+    },
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+  ];
+
   useEffect(() => {
     if (category) void handleGetPosts();
   }, [category, handleGetPosts]);
@@ -124,25 +196,26 @@ export const Posts = () => {
           {category === 'Toon' ? (
             <DataTable
               type="toon"
-              columns={columns}
+              columns={toonColumns}
               data={posts}
               pageInfo={pageInfo}
             />
           ) : category === 'Challenge' ? (
             <DataTable
               type="challenge"
-              columns={columns}
-              data={[]}
+              columns={challengeColumns}
+              data={posts}
               pageInfo={pageInfo}
             />
-          ) : category === 'Question' ? (
-            <DataTable
-              type="question"
-              columns={columns}
-              data={[]}
-              pageInfo={pageInfo}
-            />
-          ) : null}
+          ) : // : category === 'Question' ? (
+          //   <DataTable
+          //     type="question"
+          //     columns={columns}
+          //     data={[]}
+          //     pageInfo={pageInfo}
+          //   />
+          // )
+          null}
         </PostContext.Provider>
       </div>
     </>

@@ -8,10 +8,12 @@ import type {
   GraphicsQuery,
   Report,
   pageResponse,
-  Post,
+  Toon,
+  Challenge,
 } from '@/types';
 import { tempReportsData } from '@/lib/data/supportSamepleData';
 import { tempToonsData } from '@/lib/data/postToonSamepleData';
+import { tempChallengesData } from '@/lib/data/postChallengeSamepleData';
 
 // parameter -> query 변환 함수 정의
 const toRecord = (
@@ -282,16 +284,26 @@ export const getPosts = async (query?: PostQuery) => {
   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   console.log(queryStr);
 
-  if (!tempToonsData) return defaultResponse;
+  const category = query?.category || '';
 
   try {
-    const {
-      result: { resultCode },
-      body,
-    } = await new Promise<ApiResponse<Post>>((resolve) =>
-      setTimeout(() => resolve(tempToonsData), 300),
-    );
-    return resultCode < 500 ? body : defaultResponse;
+    if (category === 'Toon') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Toon>>((resolve) =>
+        setTimeout(() => resolve(tempToonsData), 300),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else if (category === 'Challenge') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Challenge>>((resolve) =>
+        setTimeout(() => resolve(tempChallengesData), 300),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else return defaultResponse;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to get posts');

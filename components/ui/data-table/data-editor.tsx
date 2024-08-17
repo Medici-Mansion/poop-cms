@@ -13,7 +13,13 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { BreedData, EditorDataType, GraphicData, Report } from '@/types';
+import type {
+  BreedData,
+  EditorDataType,
+  GraphicData,
+  Report,
+  Toon,
+} from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -30,6 +36,8 @@ import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
 import { ReportUpdate } from '@/components/members/report-update';
 import { SupportContext } from '@/components/members/support';
+import { ToonUpdate } from '@/components/posts/toon-update';
+import { PostContext } from '@/components/posts/posts';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -53,6 +61,9 @@ export function DataEditor<TData>({
 
   const supportContext = useContext(SupportContext);
   const handleGetSupports = supportContext?.handleGetSupports;
+
+  const postContext = useContext(PostContext);
+  const handleGetPosts = postContext?.handleGetPosts;
 
   const prevValueRef = useRef(false);
 
@@ -130,7 +141,7 @@ export function DataEditor<TData>({
         breed: () => handleGetBreeds && handleGetBreeds(),
         report: () => handleGetSupports && handleGetSupports(),
         ask: () => {},
-        toon: () => {},
+        toon: () => handleGetPosts && handleGetPosts(),
         challenge: () => {},
         question: () => {},
       };
@@ -205,6 +216,11 @@ export function DataEditor<TData>({
                           onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                         />
                       )
+                    ) : type === 'toon' ? (
+                      <ToonUpdate
+                        selectedItem={item as Toon}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
                     ) : null}
                   </CarouselItem>
                 ))}

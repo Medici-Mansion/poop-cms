@@ -319,3 +319,21 @@ export const getPosts = async (query?: PostQuery) => {
     throw new Error('Failed to get posts');
   }
 };
+
+// 게시글 업데이트
+export const updateToons = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Toon>>((resolve) =>
+      setTimeout(() => resolve(tempToonsData), 300),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update toons');
+  }
+};

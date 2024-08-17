@@ -67,3 +67,8 @@ export const ReportUpdateSchema = z.object({
   // reportedDate: z.string().min(1, '신고일을 입력해주세요.'),
   status: z.string().min(1, '처리 상태를 선택해주세요.'),
 });
+
+export const ToonUpdateSchema = z.object({
+  title: z.string().min(1, '제목을 입력해주세요.'),
+  tags: z.string().min(1, '해시태그를 입력해주세요.'),
+});

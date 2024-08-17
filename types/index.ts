@@ -100,6 +100,14 @@ export interface ReportFieldErrors {
   reportedDate?: string[];
   status?: string[];
 }
+export interface ToonFieldErrors {
+  title?: string[];
+  author?: string[];
+  tags?: string[];
+  likes?: string[];
+  conmments?: string[];
+  createdAt?: string[];
+}
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;

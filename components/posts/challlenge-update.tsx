@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { type z } from 'zod';
-import { updateChallenges } from '@/apis';
+import { updateChallenge } from '@/apis';
 import { useState } from 'react';
 import type { ChallengeFieldErrors, Challenge } from '@/types';
 import { toast } from 'react-hot-toast';
@@ -59,7 +59,7 @@ export function ChallengeUpdate<TData extends Challenge>({
         try {
           formData.append('id', selectedItem.id);
 
-          void toast.promise(updateChallenges(formData), {
+          void toast.promise(updateChallenge(formData), {
             loading: '수정 중입니다.',
             success: <b>수정되었습니다!</b>,
             error: <b>챌린지 게시글 수정에 실패하였습니다.</b>,
@@ -144,8 +144,10 @@ export function ChallengeUpdate<TData extends Challenge>({
                 <div className="flex flex-col gap-2">
                   <Select
                     name="postCategory"
-                    onValueChange={field.onChange}
-                    // onValueChange={() => setIsDataChanged(true)}
+                    onValueChange={(e) => {
+                      setIsDataChanged(true);
+                      field.onChange(e);
+                    }}
                     defaultValue={selectedItem?.postCategory}
                   >
                     <FormControl>

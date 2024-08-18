@@ -18,6 +18,7 @@ import type {
   Challenge,
   EditorDataType,
   GraphicData,
+  Question,
   Report,
   Toon,
 } from '@/types';
@@ -40,6 +41,7 @@ import { SupportContext } from '@/components/members/support';
 import { ToonUpdate } from '@/components/posts/toon-update';
 import { PostContext } from '@/components/posts/posts';
 import { ChallengeUpdate } from '@/components/posts/challlenge-update';
+import { QuestionUpdate } from '@/components/posts/question-update copy';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -144,8 +146,8 @@ export function DataEditor<TData>({
         report: () => handleGetSupports && handleGetSupports(),
         ask: () => {},
         toon: () => handleGetPosts && handleGetPosts(),
-        challenge: () => {},
-        question: () => {},
+        challenge: () => handleGetPosts && handleGetPosts(),
+        question: () => handleGetPosts && handleGetPosts(),
       };
 
       const callback = type && closeCallbacks[type];
@@ -227,6 +229,11 @@ export function DataEditor<TData>({
                     ) : type === 'challenge' ? (
                       <ChallengeUpdate
                         selectedItem={item as Challenge}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'question' ? (
+                      <QuestionUpdate
+                        selectedItem={item as Question}
                         onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                       />
                     ) : null}

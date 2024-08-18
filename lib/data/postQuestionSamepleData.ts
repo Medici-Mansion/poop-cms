@@ -22,9 +22,9 @@ export const tempQuestionsData = {
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
         thumbnails: [
-          '/images/toon01.png',
-          '/images/toon02.png',
-          '/images/toon03.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
         ],
       },
       {
@@ -39,7 +39,10 @@ export const tempQuestionsData = {
         createdAt: '2024-08-14 15:00',
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
-        thumbnails: ['/images/toon01.png', '/images/toon02.png'],
+        thumbnails: [
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
+        ],
       },
       {
         type: 'question',
@@ -53,7 +56,10 @@ export const tempQuestionsData = {
         createdAt: '2024-08-14 15:00',
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
-        thumbnails: ['/images/toon01.png', '/images/toon02.png'],
+        thumbnails: [
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
+        ],
       },
       {
         type: 'question',
@@ -67,7 +73,7 @@ export const tempQuestionsData = {
         createdAt: '2024-08-14 15:00',
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
-        thumbnails: ['/images/toon01.png'],
+        thumbnails: ['/images/sample_thumbnail.png'],
       },
       {
         type: 'question',
@@ -81,7 +87,7 @@ export const tempQuestionsData = {
         createdAt: '2024-08-14 15:00',
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
-        thumbnails: ['/images/toon01.png'],
+        thumbnails: ['/images/sample_thumbnail.png'],
       },
       {
         type: 'question',
@@ -96,9 +102,9 @@ export const tempQuestionsData = {
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
         thumbnails: [
-          '/images/toon01.png',
-          '/images/toon02.png',
-          '/images/toon03.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
         ],
       },
       {
@@ -142,9 +148,9 @@ export const tempQuestionsData = {
         contents:
           '로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요 로그인이 안돼요로그인이 안돼요  로그인이 안돼요  로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요로그인이 안돼요 로그인이 안돼요 로그인이 안돼요',
         thumbnails: [
-          '/images/toon01.png',
-          '/images/toon02.png',
-          '/images/toon03.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
+          '/images/sample_thumbnail.png',
         ],
       },
     ],

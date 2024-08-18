@@ -240,7 +240,7 @@ export const getReports = async (query?: SupportQuery) => {
       result: { resultCode },
       body,
     } = await new Promise<ApiResponse<Report>>((resolve) =>
-      setTimeout(() => resolve(tempReportsData), 300),
+      setTimeout(() => resolve(tempReportsData), 100),
     );
     return resultCode < 500
       ? body
@@ -264,7 +264,7 @@ export const updateReports = async (formData: FormData) => {
       result: { resultCode },
       body,
     } = await new Promise<ApiResponse<Report>>((resolve) =>
-      setTimeout(() => resolve(tempReportsData), 300),
+      setTimeout(() => resolve(tempReportsData), 100),
     );
 
     return resultCode < 500 ? body : null;
@@ -294,7 +294,7 @@ export const getPosts = async (query?: PostQuery) => {
         result: { resultCode },
         body,
       } = await new Promise<ApiResponse<Toon>>((resolve) =>
-        setTimeout(() => resolve(tempToonsData), 300),
+        setTimeout(() => resolve(tempToonsData), 100),
       );
       return resultCode < 500 ? body : defaultResponse;
     } else if (category === 'Challenge') {
@@ -302,7 +302,7 @@ export const getPosts = async (query?: PostQuery) => {
         result: { resultCode },
         body,
       } = await new Promise<ApiResponse<Challenge>>((resolve) =>
-        setTimeout(() => resolve(tempChallengesData), 300),
+        setTimeout(() => resolve(tempChallengesData), 100),
       );
       return resultCode < 500 ? body : defaultResponse;
     } else if (category === 'Question') {
@@ -310,7 +310,7 @@ export const getPosts = async (query?: PostQuery) => {
         result: { resultCode },
         body,
       } = await new Promise<ApiResponse<Question>>((resolve) =>
-        setTimeout(() => resolve(tempQuestionsData), 300),
+        setTimeout(() => resolve(tempQuestionsData), 100),
       );
       return resultCode < 500 ? body : defaultResponse;
     } else return defaultResponse;
@@ -321,14 +321,14 @@ export const getPosts = async (query?: PostQuery) => {
 };
 
 // 게시글 툰 업데이트
-export const updateToons = async (formData: FormData) => {
+export const updateToon = async (formData: FormData) => {
   console.log('formData', formData);
   try {
     const {
       result: { resultCode },
       body,
     } = await new Promise<ApiResponse<Toon>>((resolve) =>
-      setTimeout(() => resolve(tempToonsData), 300),
+      setTimeout(() => resolve(tempToonsData), 100),
     );
 
     return resultCode < 500 ? body : null;
@@ -339,19 +339,37 @@ export const updateToons = async (formData: FormData) => {
 };
 
 // 게시글 챌린지 업데이트
-export const updateChallenges = async (formData: FormData) => {
+export const updateChallenge = async (formData: FormData) => {
   console.log('formData', formData);
   try {
     const {
       result: { resultCode },
       body,
     } = await new Promise<ApiResponse<Challenge>>((resolve) =>
-      setTimeout(() => resolve(tempChallengesData), 300),
+      setTimeout(() => resolve(tempChallengesData), 100),
     );
 
     return resultCode < 500 ? body : null;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to update challenges');
+  }
+};
+
+// 게시글 질문방 업데이트
+export const updateQuestion = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Question>>((resolve) =>
+      setTimeout(() => resolve(tempQuestionsData), 100),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update questions');
   }
 };

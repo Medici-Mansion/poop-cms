@@ -20,7 +20,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -33,7 +33,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -46,7 +46,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -59,7 +59,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -72,7 +72,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -85,7 +85,7 @@ export const tempChallengesData = {
         createdAt: '202408-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -98,7 +98,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -111,7 +111,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
       {
         type: 'challenge',
@@ -124,7 +124,7 @@ export const tempChallengesData = {
         createdAt: '2024-08-14 15:00',
         startDate: '2024.03.09',
         endDate: '2024.04.09',
-        thumbnail: '/images/challenge_thumbnail.png',
+        thumbnail: '/images/sample_thumbnail.png',
       },
     ],
   },

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { type z } from 'zod';
-import { updateToons } from '@/apis';
+import { updateToon } from '@/apis';
 import { useState } from 'react';
 import type { ToonFieldErrors, Toon } from '@/types';
 import { toast } from 'react-hot-toast';
@@ -49,7 +49,7 @@ export function ToonUpdate<TData extends Toon>({
         try {
           formData.append('id', selectedItem.id);
 
-          void toast.promise(updateToons(formData), {
+          void toast.promise(updateToon(formData), {
             loading: '수정 중입니다.',
             success: <b>수정되었습니다!</b>,
             error: <b>툰 게시글 수정에 실패하였습니다.</b>,

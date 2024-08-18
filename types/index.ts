@@ -110,6 +110,12 @@ export interface ChallengeFieldErrors {
   title?: string[];
   period?: string[];
 }
+export interface QuestionFieldErrors {
+  thumbnail?: string[];
+  postCategory?: string[];
+  title?: string[];
+  contents?: string[];
+}
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
@@ -222,7 +228,8 @@ export interface Question {
   comments: number | null;
   votes: number | null;
   createdAt: string;
-  thumbnails: string[];
+  contents: string;
+  thumbnails: string[] | [];
 }
 
 export interface PostQuery {

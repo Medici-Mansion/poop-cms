@@ -201,18 +201,21 @@ export const Posts = () => {
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="조회수" />
       ),
+      cell: ({ row }) => <span>{row.getValue('views') || '-'}</span>,
     },
     {
       accessorKey: 'comments',
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="댓글 수" />
       ),
+      cell: ({ row }) => <span>{row.getValue('comments') || '-'}</span>,
     },
     {
       accessorKey: 'votes',
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="투표 수" />
       ),
+      cell: ({ row }) => <span>{row.getValue('votes') || '-'}</span>,
     },
     {
       accessorKey: 'createdAt',

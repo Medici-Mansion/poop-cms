@@ -320,7 +320,7 @@ export const getPosts = async (query?: PostQuery) => {
   }
 };
 
-// 게시글 업데이트
+// 게시글 툰 업데이트
 export const updateToons = async (formData: FormData) => {
   console.log('formData', formData);
   try {
@@ -335,5 +335,23 @@ export const updateToons = async (formData: FormData) => {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to update toons');
+  }
+};
+
+// 게시글 챌린지 업데이트
+export const updateChallenges = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Challenge>>((resolve) =>
+      setTimeout(() => resolve(tempChallengesData), 300),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update challenges');
   }
 };

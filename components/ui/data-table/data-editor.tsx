@@ -15,6 +15,7 @@ import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
 import type {
   BreedData,
+  Challenge,
   EditorDataType,
   GraphicData,
   Report,
@@ -38,6 +39,7 @@ import { ReportUpdate } from '@/components/members/report-update';
 import { SupportContext } from '@/components/members/support';
 import { ToonUpdate } from '@/components/posts/toon-update';
 import { PostContext } from '@/components/posts/posts';
+import { ChallengeUpdate } from '@/components/posts/challlenge-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -159,6 +161,7 @@ export function DataEditor<TData>({
     handleGetGraphics,
     handleGetBreeds,
     handleGetSupports,
+    handleGetPosts,
     table,
   ]);
 
@@ -219,6 +222,11 @@ export function DataEditor<TData>({
                     ) : type === 'toon' ? (
                       <ToonUpdate
                         selectedItem={item as Toon}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'challenge' ? (
+                      <ChallengeUpdate
+                        selectedItem={item as Challenge}
                         onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                       />
                     ) : null}

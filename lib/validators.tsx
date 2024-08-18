@@ -72,3 +72,15 @@ export const ToonUpdateSchema = z.object({
   title: z.string().min(1, '제목을 입력해주세요.'),
   tags: z.string().min(1, '해시태그를 입력해주세요.'),
 });
+
+export const ChallengeUpdateSchema = z.object({
+  title: z.string().min(1, '제목을 입력해주세요.'),
+  // thumbnail: z
+  //   .instanceof(File)
+  //   .refine(
+  //     (file) => file instanceof File && file.size > 0,
+  //     '썸네일 이미지를 등록해주세요.',
+  //   ),
+  postCategory: z.string().min(1, '카테고리를 선택해주세요.'),
+  period: z.string().min(1, '챌린지 기간을 입력해주세요.'),
+});

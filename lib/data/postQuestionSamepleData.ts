@@ -6,8 +6,8 @@ export const tempQuestionsData = {
   body: {
     page: 1,
     took: 1,
-    total: 55,
-    totalPage: 6,
+    total: 9,
+    totalPage: 1,
     list: [
       {
         type: 'question',

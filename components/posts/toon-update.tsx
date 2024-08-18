@@ -48,7 +48,7 @@ export function ToonUpdate<TData extends Toon>({
       } else {
         try {
           formData.append('id', selectedItem.id);
-          if (!formData.get('name')) formData.delete('name');
+
           void toast.promise(updateToons(formData), {
             loading: '수정 중입니다.',
             success: <b>수정되었습니다!</b>,

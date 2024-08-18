@@ -102,11 +102,13 @@ export interface ReportFieldErrors {
 }
 export interface ToonFieldErrors {
   title?: string[];
-  author?: string[];
   tags?: string[];
-  likes?: string[];
-  conmments?: string[];
-  createdAt?: string[];
+}
+export interface ChallengeFieldErrors {
+  thumbnail?: string[];
+  postCategory?: string[];
+  title?: string[];
+  period?: string[];
 }
 
 export interface GraphicContextType {

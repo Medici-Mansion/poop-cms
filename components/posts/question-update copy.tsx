@@ -89,7 +89,7 @@ export function QuestionUpdate<TData extends Question>({
     <Form {...form}>
       <form
         action={handleEdit}
-        className="flex flex-col w-full space-y-4 gap-1 px-1 mt-12"
+        className="flex flex-col w-full space-y-4 gap-1 px-1 mt-12 max-h-[80vh] overflow-y-scroll"
       >
         <div className="flex gap-6">
           {selectedItem?.thumbnails.map((src, idx) => {

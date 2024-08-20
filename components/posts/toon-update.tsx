@@ -66,7 +66,7 @@ export function ToonUpdate<TData extends Toon>({
     <Form {...form}>
       <form
         action={handleEdit}
-        className="flex flex-col w-full space-y-4 gap-1 px-1 mt-12"
+        className="flex flex-col w-full space-y-4 gap-1 px-1 mt-12 max-h-[80vh] overflow-scroll"
       >
         <div className="grid grid-cols-2 gap-4 px-1">
           {/* 게시글 제목 */}
@@ -81,7 +81,7 @@ export function ToonUpdate<TData extends Toon>({
                     <Input
                       placeholder={selectedItem?.title}
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || selectedItem?.title}
                       onChange={(e) => {
                         setIsDataChanged(true);
                         field.onChange(e);
@@ -119,7 +119,7 @@ export function ToonUpdate<TData extends Toon>({
                     <Input
                       placeholder={selectedItem?.tags.join(', ')}
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || selectedItem?.tags.join(', ')}
                       onChange={(e) => {
                         setIsDataChanged(true);
                         field.onChange(e);

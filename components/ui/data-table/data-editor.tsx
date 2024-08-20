@@ -41,7 +41,7 @@ import { SupportContext } from '@/components/members/support';
 import { ToonUpdate } from '@/components/posts/toon-update';
 import { PostContext } from '@/components/posts/posts';
 import { ChallengeUpdate } from '@/components/posts/challlenge-update';
-import { QuestionUpdate } from '@/components/posts/question-update copy';
+import { QuestionUpdate } from '@/components/posts/question-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;

@@ -28,6 +28,7 @@ export function BreedUpdate<TData extends BreedData>({
   onEditComplete,
 }: BreedUpdateProps<TData>) {
   const [errors, setErrors] = useState<BreedFieldErrors>();
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const form = useForm<z.infer<typeof BreedUpdateSchema>>({
     resolver: zodResolver(BreedUpdateSchema),
@@ -60,6 +61,15 @@ export function BreedUpdate<TData extends BreedData>({
     }
   };
 
+  const handleFileChange = (file: File | null | undefined) => {
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setPreviewUrl(fileUrl);
+    } else {
+      setPreviewUrl('');
+    }
+  };
+
   return (
     <>
       <p className="text-4xl mb-12">{selectedItem?.nameKR}</p>
@@ -75,13 +85,23 @@ export function BreedUpdate<TData extends BreedData>({
             render={({ field: { value, onChange, ...fieldProps } }) => (
               <FormItem>
                 <FormLabel>
-                  <Image
-                    width={100}
-                    height={100}
-                    src={selectedItem?.avatar || ''}
-                    alt={selectedItem?.nameKR || ''}
-                    unoptimized
-                  />
+                  {previewUrl ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={previewUrl || ''}
+                      alt="업로드 이미지"
+                      unoptimized
+                    />
+                  ) : (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={selectedItem?.avatar || ''}
+                      alt={selectedItem?.nameKR || ''}
+                      unoptimized
+                    />
+                  )}
                 </FormLabel>
 
                 <FormControl>
@@ -93,6 +113,7 @@ export function BreedUpdate<TData extends BreedData>({
                     onChange={(event) => {
                       const file = event.target.files && event.target.files[0];
                       onChange(file);
+                      handleFileChange(file);
                     }}
                   />
                 </FormControl>

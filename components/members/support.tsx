@@ -42,14 +42,19 @@ export const Supports = () => {
         graphicType: format,
         page: curPage || 1,
       };
-      const { list, page, took, total, totalPage }: pageResponse<Report> =
-        await getReports(query);
+      const {
+        list = [],
+        page,
+        took,
+        total,
+        totalPage,
+      }: pageResponse<Report> = await getReports(query);
       console.log('Reports data', list);
       setReports(list);
 
       setPageInfo({
         page,
-        took,
+        took: took || 10,
         total,
         totalPage,
         setCurPage,

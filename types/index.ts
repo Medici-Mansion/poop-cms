@@ -20,14 +20,17 @@ export interface APIResponse<T> {
 }
 
 export type pageResponse<T> = {
-  list: T[];
+  list?: T[];
+  data?: T[];
 } & pageInfo;
 
 export type pageInfo = {
   page: number;
-  took: number;
+  took?: number;
+  perPage?: number;
   total: number;
   totalPage: number;
+  totalCount?: number;
   setCurPage?: (page: number) => void;
 };
 
@@ -131,6 +134,7 @@ export interface GraphicContextType {
 }
 export interface BreedContextType {
   handleGetBreeds: (query?: BreedsQuery) => Promise<void>;
+  pageInfo: pageInfo;
 }
 
 export interface GraphicsInfo {

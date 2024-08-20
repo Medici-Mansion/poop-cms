@@ -32,14 +32,19 @@ export const Posts = () => {
       order,
       page: curPage || 1,
     };
-    const { list, page, took, total, totalPage }: pageResponse<Post> =
-      await getPosts(query);
+    const {
+      list = [],
+      page,
+      took,
+      total,
+      totalPage,
+    }: pageResponse<Post> = await getPosts(query);
     console.log('Posts data', list);
     setPosts(list);
 
     setPageInfo({
       page,
-      took,
+      took: took || 10,
       total,
       totalPage,
       setCurPage,

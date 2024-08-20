@@ -47,11 +47,12 @@ export const getBreeds = async (query?: BreedsQuery) => {
     return resultCode < 500
       ? body
       : {
-          list: [],
-          took: 1,
+          data: [],
+          perPage: 1,
           page: 1,
           total: 1,
-          totalPage: 11,
+          totalCount: 1,
+          totalPage: 1,
         };
   } catch (error) {
     console.error(error);

@@ -42,7 +42,7 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex items-center justify-between mb-5">
-      {type === 'breed' && <BreedInfo table={table} />}
+      {type === 'breed' && <BreedInfo />}
       {type === 'graphic' && <GraphicInfo />}
       {type && ['report', 'ask'].includes(type) && <SupportInfo />}
       {type && ['toon', 'challenge', 'question'].includes(type) && <PostInfo />}

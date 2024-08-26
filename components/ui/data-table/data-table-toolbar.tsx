@@ -10,6 +10,7 @@ import { BreedUploadPopup } from '@/components/resource/breed-upload-popup';
 import { BreedInfo } from '@/components/resource/breed-info';
 import { GraphicInfo } from '@/components/resource/graphic-info';
 import { SupportInfo } from '@/components/members/support-info';
+import { PostInfo } from '@/components/posts/post-info';
 
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
@@ -21,6 +22,9 @@ const placeholderList = {
   graphic: '파일명 검색',
   report: '게시글 제목 검색',
   ask: '문의 제목 검색',
+  toon: '툰 제목 검색',
+  challenge: '챌린지 제목 검색',
+  question: '질문방 제목 검색',
 };
 
 export function DataTableToolbar<TData>({
@@ -38,9 +42,10 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex items-center justify-between mb-5">
-      {type === 'breed' && <BreedInfo table={table} />}
+      {type === 'breed' && <BreedInfo />}
       {type === 'graphic' && <GraphicInfo />}
       {type && ['report', 'ask'].includes(type) && <SupportInfo />}
+      {type && ['toon', 'challenge', 'question'].includes(type) && <PostInfo />}
 
       <div className="flex flex-1 justify-end items-center gap-4 space-x-2">
         <Input

@@ -6,8 +6,8 @@ export const tempReportsData = {
   body: {
     page: 1,
     took: 1,
-    total: 142,
-    totalPage: 15,
+    total: 9,
+    totalPage: 1,
     list: [
       {
         category: '툰',

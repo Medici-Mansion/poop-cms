@@ -20,16 +20,30 @@ export interface APIResponse<T> {
 }
 
 export type pageResponse<T> = {
-  list: T[];
+  list?: T[];
+  data?: T[];
 } & pageInfo;
 
 export type pageInfo = {
   page: number;
-  took: number;
+  took?: number;
+  perPage?: number;
   total: number;
   totalPage: number;
+  totalCount?: number;
   setCurPage?: (page: number) => void;
 };
+
+export type EditorDataType =
+  | 'breed'
+  | 'graphic'
+  | 'report'
+  | 'ask'
+  | 'toon'
+  | 'challenge'
+  | 'question'
+  | undefined;
+
 export interface Breed {
   id: string;
   nameKR: string;
@@ -45,7 +59,7 @@ export interface Graphic {
   category: string;
 }
 
-export interface GraphicParams {
+export interface GraphicsQuery {
   [key: string]: string | number | undefined;
   graphicType?: string;
   category: string;
@@ -89,8 +103,22 @@ export interface ReportFieldErrors {
   reportedDate?: string[];
   status?: string[];
 }
-
-export type EditorDataType = 'breed' | 'graphic' | 'report' | 'ask' | undefined;
+export interface ToonFieldErrors {
+  title?: string[];
+  tags?: string[];
+}
+export interface ChallengeFieldErrors {
+  thumbnail?: string[];
+  postCategory?: string[];
+  title?: string[];
+  period?: string[];
+}
+export interface QuestionFieldErrors {
+  thumbnail?: string[];
+  postCategory?: string[];
+  title?: string[];
+  contents?: string[];
+}
 
 export interface GraphicContextType {
   handleGetGraphics: () => Promise<void>;
@@ -105,7 +133,8 @@ export interface GraphicContextType {
   };
 }
 export interface BreedContextType {
-  handleGetBreeds: (query?: GetBreedsParams) => Promise<void>;
+  handleGetBreeds: (query?: BreedsQuery) => Promise<void>;
+  pageInfo: pageInfo;
 }
 
 export interface GraphicsInfo {
@@ -114,7 +143,7 @@ export interface GraphicsInfo {
   challengeLength: number;
 }
 
-export interface GetBreedsParams {
+export interface BreedsQuery {
   [key: string]: string | number | undefined;
   orderKey?: string;
   direction?: string;
@@ -122,7 +151,7 @@ export interface GetBreedsParams {
   page?: number;
 }
 
-export interface GetSupportsParams {
+export interface SupportQuery {
   [key: string]: string | number | undefined;
   graphicType?: string;
   category: string;
@@ -155,4 +184,60 @@ export interface AskContextType {
   // setAskCategory: (category: string) => void;
   // setOrder: (order: string) => void;
   // setFormat: (format: string) => void;
+}
+
+/*
+ * 게시물 관리
+ */
+export interface PostContextType {
+  handleGetPosts: () => Promise<void>;
+  setCategory: (category: string) => void;
+  setOrder: (order: string) => void;
+  category: string;
+}
+
+export type Post = Toon | Challenge | Question;
+
+export interface Toon {
+  id: string;
+  type: string;
+  title: string;
+  author: string;
+  likes: number;
+  comments: number;
+  tags: string[];
+  createdAt: string;
+  toon: string;
+}
+export interface Challenge {
+  id: string;
+  type: string;
+  title: string;
+  author: string;
+  postCategory: string;
+  views: number;
+  participants: number;
+  createdAt: string;
+  startDate: string;
+  endDate: string;
+  thumbnail: string;
+}
+export interface Question {
+  id: string;
+  type: string;
+  title: string;
+  author: string;
+  postCategory: string;
+  views: number | null;
+  comments: number | null;
+  votes: number | null;
+  createdAt: string;
+  contents: string;
+  thumbnails: string[] | [];
+}
+
+export interface PostQuery {
+  [key: string]: string | number | undefined;
+  category: string;
+  page?: number;
 }

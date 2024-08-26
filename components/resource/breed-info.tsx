@@ -1,4 +1,3 @@
-import type { Table } from '@tanstack/react-table';
 import {
   Select,
   SelectContent,
@@ -8,22 +7,25 @@ import {
 } from '@/components/ui/select';
 import { useContext } from 'react';
 import { BreedContext } from './dogs';
-interface BreedInfoProps<TData> {
-  table: Table<TData>;
-}
+import type { BreedsQuery } from '@/types';
 
-export function BreedInfo<TData>({ table }: BreedInfoProps<TData>) {
-  const totalCount = table.getRowCount();
-
+export function BreedInfo() {
   const breedContext = useContext(BreedContext);
   const handleGetBreeds = breedContext?.handleGetBreeds;
+  const totalCount = breedContext?.pageInfo.totalCount;
 
   const handleValueChange = async (value: string) => {
-    console.log('선택된 값:', value); // 선택된 값을 콘솔에 출력
-
     if (handleGetBreeds) {
-      const query = {};
-      // TODO: 정렬 기능 추가 필요
+      const query: BreedsQuery = {
+        orderKey: value,
+        direction: 'desc',
+      };
+      if (value === 'latest') {
+        query.orderKey = 'updatedAt';
+        query.direction = 'asc';
+      } else if (['nameKR', 'nameEN'].includes(value)) {
+        query.direction = 'asc';
+      }
       await handleGetBreeds(query);
     }
   };
@@ -31,15 +33,15 @@ export function BreedInfo<TData>({ table }: BreedInfoProps<TData>) {
   return (
     <div className="flex items-center gap-8">
       <p className="text-2xl">총 {totalCount}마리</p>
-      <Select defaultValue="recent" onValueChange={handleValueChange}>
+      <Select defaultValue="updatedAt" onValueChange={handleValueChange}>
         <SelectTrigger className="w-[150px] h-[45px] bg-custom-gray-500 rounded-2xl">
           <SelectValue placeholder="정렬 기준 선택" />
         </SelectTrigger>
         <SelectContent className="bg-custom-gray-400 rounded-2xl ">
-          <SelectItem value="recent">최근 등록 순</SelectItem>
-          <SelectItem value="oldest">오래된 순</SelectItem>
-          <SelectItem value="korean-alphabet">가나다 순</SelectItem>
-          <SelectItem value="alphabetical">알파벳 순</SelectItem>
+          <SelectItem value="updatedAt">최근 등록 순</SelectItem>
+          <SelectItem value="latest">오래된 순</SelectItem>
+          <SelectItem value="nameKR">가나다 순</SelectItem>
+          <SelectItem value="nameEN">알파벳 순</SelectItem>
         </SelectContent>
       </Select>
     </div>

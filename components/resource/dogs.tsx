@@ -5,7 +5,7 @@ import { DataTable } from '@/components/ui/data-table/data-table';
 import type {
   Breed,
   BreedContextType,
-  GetBreedsParams,
+  BreedsQuery,
   pageResponse,
 } from '@/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -24,15 +24,16 @@ export const Breeds = () => {
   const [curPage, setCurPage] = useState(1);
   const [pageInfo, setPageInfo] = useState({
     page: 0,
-    took: 0,
+    perPage: 0,
     total: 0,
     totalPage: 0,
+    totalCount: 0,
     setCurPage,
   });
 
   const handleGetBreeds = useCallback(
-    async (query?: GetBreedsParams) => {
-      const defaultQuery: GetBreedsParams = {
+    async (query?: BreedsQuery) => {
+      const defaultQuery: BreedsQuery = {
         orderKey: 'createdAt',
         direction: 'desc',
         // cursor: '',
@@ -44,14 +45,21 @@ export const Breeds = () => {
         ...query,
       };
 
-      const { list, page, took, total, totalPage }: pageResponse<Breed> =
-        await getBreeds(effectiveQuery);
-      setBreeds(list);
-      setPageInfo({
+      const {
+        data = [],
         page,
-        took,
+        perPage,
         total,
         totalPage,
+        totalCount,
+      }: pageResponse<Breed> = await getBreeds(effectiveQuery);
+      setBreeds(data);
+      setPageInfo({
+        page,
+        perPage: perPage || 10,
+        total,
+        totalPage,
+        totalCount: totalCount || 0,
         setCurPage,
       });
     },
@@ -89,12 +97,14 @@ export const Breeds = () => {
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="국문 이름" />
       ),
+      enableSorting: false,
     },
     {
       accessorKey: 'nameEN',
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="영문 이름" />
       ),
+      enableSorting: false,
     },
     {
       id: 'select',
@@ -122,7 +132,7 @@ export const Breeds = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <BreedContext.Provider value={{ handleGetBreeds }}>
+        <BreedContext.Provider value={{ handleGetBreeds, pageInfo }}>
           <DataTable
             type="breed"
             columns={columns}

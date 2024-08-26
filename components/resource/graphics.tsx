@@ -42,12 +42,17 @@ export const Graphics = () => {
       graphicType: format,
       page: curPage || 1,
     };
-    const { list, page, took, total, totalPage }: pageResponse<Graphic> =
-      await getGraphics(params);
+    const {
+      list = [],
+      page,
+      took,
+      total,
+      totalPage,
+    }: pageResponse<Graphic> = await getGraphics(params);
     setGraphics(list);
     setPageInfo({
       page,
-      took,
+      took: took || 10,
       total,
       totalPage,
       setCurPage,

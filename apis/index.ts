@@ -1,18 +1,25 @@
 import { GET, PUT, POST, DELETE } from '@/server/axios';
 import type {
   Breed,
-  GetBreedsParams,
-  GetSupportsParams,
+  BreedsQuery,
+  SupportQuery,
+  PostQuery,
   Graphic,
-  GraphicParams,
+  GraphicsQuery,
   Report,
   pageResponse,
+  Toon,
+  Challenge,
+  Question,
 } from '@/types';
 import { tempReportsData } from '@/lib/data/supportSamepleData';
+import { tempToonsData } from '@/lib/data/postToonSamepleData';
+import { tempChallengesData } from '@/lib/data/postChallengeSamepleData';
+import { tempQuestionsData } from '@/lib/data/postQuestionSamepleData';
 
 // parameter -> query 변환 함수 정의
 const toRecord = (
-  params?: GraphicParams | GetBreedsParams | GetSupportsParams,
+  params?: GraphicsQuery | BreedsQuery | SupportQuery | PostQuery,
 ): Record<string | number, string> => {
   const result: Record<string | number, string> = {};
   if (params) {
@@ -29,7 +36,7 @@ const toRecord = (
   return result;
 };
 
-export const getBreeds = async (query?: GetBreedsParams) => {
+export const getBreeds = async (query?: BreedsQuery) => {
   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   try {
     const {
@@ -40,11 +47,12 @@ export const getBreeds = async (query?: GetBreedsParams) => {
     return resultCode < 500
       ? body
       : {
-          list: [],
-          took: 1,
+          data: [],
+          perPage: 1,
           page: 1,
           total: 1,
-          totalPage: 11,
+          totalCount: 1,
+          totalPage: 1,
         };
   } catch (error) {
     console.error(error);
@@ -52,7 +60,7 @@ export const getBreeds = async (query?: GetBreedsParams) => {
   }
 };
 
-export const getGraphics = async (params?: GraphicParams) => {
+export const getGraphics = async (params?: GraphicsQuery) => {
   const queryStr = params
     ? new URLSearchParams(toRecord(params)).toString()
     : '';
@@ -180,7 +188,7 @@ export const deleteGraphics = async (ids: string[]) => {
 
 // 회웑 정보
 
-// export const getReports = async (query?: GetSupportsParams) => {
+// export const getReports = async (query?: SupportQuery) => {
 //   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
 //   try {
 //     const {
@@ -213,27 +221,27 @@ export const deleteGraphics = async (ids: string[]) => {
 // };
 
 /*
- * 신고 내역 조회
+ * 신고 내역 조회, 게시물 조회
  * 테스트용 더미 데이터
  */
-interface ApiResponse {
+interface ApiResponse<T> {
   result: {
     resultCode: number;
     resultMessage: string;
   };
-  body: pageResponse<Report>;
+  body: pageResponse<T>;
 }
 
 // 신고 정보 조회
-export const getReports = async (query?: GetSupportsParams) => {
+export const getReports = async (query?: SupportQuery) => {
   const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
   console.log(queryStr);
   try {
     const {
       result: { resultCode },
       body,
-    } = await new Promise<ApiResponse>((resolve) =>
-      setTimeout(() => resolve(tempReportsData), 300),
+    } = await new Promise<ApiResponse<Report>>((resolve) =>
+      setTimeout(() => resolve(tempReportsData), 100),
     );
     return resultCode < 500
       ? body
@@ -246,7 +254,7 @@ export const getReports = async (query?: GetSupportsParams) => {
         };
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to get breeds');
+    throw new Error('Failed to get reports');
   }
 };
 
@@ -256,13 +264,113 @@ export const updateReports = async (formData: FormData) => {
     const {
       result: { resultCode },
       body,
-    } = await new Promise<ApiResponse>((resolve) =>
-      setTimeout(() => resolve(tempReportsData), 300),
+    } = await new Promise<ApiResponse<Report>>((resolve) =>
+      setTimeout(() => resolve(tempReportsData), 100),
     );
 
     return resultCode < 500 ? body : null;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to update reports');
+  }
+};
+
+// 게시물 조회
+export const getPosts = async (query?: PostQuery) => {
+  const defaultResponse = {
+    list: [],
+    took: 1,
+    page: 1,
+    total: 1,
+    totalPage: 11,
+  };
+  const queryStr = query ? new URLSearchParams(toRecord(query)).toString() : '';
+  console.log(queryStr);
+
+  const category = query?.category || '';
+
+  try {
+    if (category === 'Toon') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Toon>>((resolve) =>
+        setTimeout(() => resolve(tempToonsData), 100),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else if (category === 'Challenge') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Challenge>>((resolve) =>
+        setTimeout(() => resolve(tempChallengesData), 100),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else if (category === 'Question') {
+      const {
+        result: { resultCode },
+        body,
+      } = await new Promise<ApiResponse<Question>>((resolve) =>
+        setTimeout(() => resolve(tempQuestionsData), 100),
+      );
+      return resultCode < 500 ? body : defaultResponse;
+    } else return defaultResponse;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get posts');
+  }
+};
+
+// 게시글 툰 업데이트
+export const updateToon = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Toon>>((resolve) =>
+      setTimeout(() => resolve(tempToonsData), 100),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update toons');
+  }
+};
+
+// 게시글 챌린지 업데이트
+export const updateChallenge = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Challenge>>((resolve) =>
+      setTimeout(() => resolve(tempChallengesData), 100),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update challenges');
+  }
+};
+
+// 게시글 질문방 업데이트
+export const updateQuestion = async (formData: FormData) => {
+  console.log('formData', formData);
+  try {
+    const {
+      result: { resultCode },
+      body,
+    } = await new Promise<ApiResponse<Question>>((resolve) =>
+      setTimeout(() => resolve(tempQuestionsData), 100),
+    );
+
+    return resultCode < 500 ? body : null;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to update questions');
   }
 };

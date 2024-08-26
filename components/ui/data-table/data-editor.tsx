@@ -13,7 +13,15 @@ import {
 } from '../carousel';
 import { GraphicUpdate } from '@/components/resource/graphic-update';
 import { GraphicContext } from '@/components/resource/graphics';
-import type { BreedData, EditorDataType, GraphicData, Report } from '@/types';
+import type {
+  BreedData,
+  Challenge,
+  EditorDataType,
+  GraphicData,
+  Question,
+  Report,
+  Toon,
+} from '@/types';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -30,6 +38,10 @@ import { BreedContext } from '@/components/resource/dogs';
 import { BreedUpdate } from '@/components/resource/breed-update';
 import { ReportUpdate } from '@/components/members/report-update';
 import { SupportContext } from '@/components/members/support';
+import { ToonUpdate } from '@/components/posts/toon-update';
+import { PostContext } from '@/components/posts/posts';
+import { ChallengeUpdate } from '@/components/posts/challlenge-update';
+import { QuestionUpdate } from '@/components/posts/question-update';
 
 interface DataTableEditorProps<TData> {
   type: EditorDataType;
@@ -53,6 +65,9 @@ export function DataEditor<TData>({
 
   const supportContext = useContext(SupportContext);
   const handleGetSupports = supportContext?.handleGetSupports;
+
+  const postContext = useContext(PostContext);
+  const handleGetPosts = postContext?.handleGetPosts;
 
   const prevValueRef = useRef(false);
 
@@ -130,6 +145,9 @@ export function DataEditor<TData>({
         breed: () => handleGetBreeds && handleGetBreeds(),
         report: () => handleGetSupports && handleGetSupports(),
         ask: () => {},
+        toon: () => handleGetPosts && handleGetPosts(),
+        challenge: () => handleGetPosts && handleGetPosts(),
+        question: () => handleGetPosts && handleGetPosts(),
       };
 
       const callback = type && closeCallbacks[type];
@@ -145,6 +163,7 @@ export function DataEditor<TData>({
     handleGetGraphics,
     handleGetBreeds,
     handleGetSupports,
+    handleGetPosts,
     table,
   ]);
 
@@ -202,6 +221,21 @@ export function DataEditor<TData>({
                           onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
                         />
                       )
+                    ) : type === 'toon' ? (
+                      <ToonUpdate
+                        selectedItem={item as Toon}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'challenge' ? (
+                      <ChallengeUpdate
+                        selectedItem={item as Challenge}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
+                    ) : type === 'question' ? (
+                      <QuestionUpdate
+                        selectedItem={item as Question}
+                        onEditComplete={() => setIsModified(true)} // 수정 완료 여부 체크
+                      />
                     ) : null}
                   </CarouselItem>
                 ))}

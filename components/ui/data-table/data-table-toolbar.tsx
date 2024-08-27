@@ -15,6 +15,7 @@ import { PostInfo } from '@/components/posts/post-info';
 interface DataTableToolbarProps<TData> {
   type: EditorDataType;
   table: Table<TData>;
+  setKeyword?: (keyword: string) => void;
 }
 
 const placeholderList = {
@@ -30,6 +31,7 @@ const placeholderList = {
 export function DataTableToolbar<TData>({
   type,
   table,
+  setKeyword,
 }: DataTableToolbarProps<TData>) {
   const [isOpen, setIsOpen] = useState(false);
   const isAnyItemSelected = table.getFilteredSelectedRowModel().rows.length > 0;
@@ -39,6 +41,13 @@ export function DataTableToolbar<TData>({
   };
 
   const placeholder = getPlaceholder(type);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (setKeyword) {
+      setKeyword(e.target.value);
+    }
+    table.setGlobalFilter(e.target.value);
+  };
 
   return (
     <div className="flex items-center justify-between mb-5">
@@ -51,7 +60,7 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder={placeholder}
           value={(table.getState().globalFilter as string) ?? ''}
-          onChange={(event) => table.setGlobalFilter(event.target.value)}
+          onChange={handleInputChange}
           className=" w-[264px] h-[50px] border text-lg"
           variant="search"
         />

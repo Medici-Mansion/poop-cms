@@ -22,12 +22,14 @@ export const BreedContext = createContext<BreedContextType | undefined>(
 export const Breeds = () => {
   const [breeds, setBreeds] = useState<Breed[]>([]);
   const [curPage, setCurPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
   const [pageInfo, setPageInfo] = useState({
     page: 0,
     perPage: 0,
     total: 0,
     totalPage: 0,
     totalCount: 0,
+    keyword: '',
     setCurPage,
   });
 
@@ -36,7 +38,6 @@ export const Breeds = () => {
       const defaultQuery: BreedsQuery = {
         orderKey: 'createdAt',
         direction: 'desc',
-        // cursor: '',
         page: curPage || 1,
       };
 
@@ -60,15 +61,16 @@ export const Breeds = () => {
         total,
         totalPage,
         totalCount: totalCount || 0,
+        keyword: keyword || '',
         setCurPage,
       });
     },
-    [curPage, setBreeds, setPageInfo],
+    [curPage, setBreeds, setPageInfo, keyword],
   );
 
   useEffect(() => {
-    void handleGetBreeds();
-  }, [curPage, handleGetBreeds]);
+    void handleGetBreeds({ keyword });
+  }, [curPage, keyword, handleGetBreeds]);
 
   useEffect(() => {
     void handleGetBreeds();
@@ -138,6 +140,7 @@ export const Breeds = () => {
             columns={columns}
             data={breeds}
             pageInfo={pageInfo}
+            setKeyword={setKeyword}
           />
         </BreedContext.Provider>
       </div>

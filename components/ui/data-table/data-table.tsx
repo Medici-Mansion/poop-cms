@@ -34,6 +34,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pageInfo?: pageInfo;
+  setKeyword?: (keyword: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -41,6 +42,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   pageInfo,
+  setKeyword,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -78,7 +80,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <DataTableToolbar type={type} table={table} />
+      <DataTableToolbar type={type} table={table} setKeyword={setKeyword} />
       <div className="border p-16 rounded-4xl bg-secondary">
         <Table>
           <TableHeader>

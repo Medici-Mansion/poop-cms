@@ -31,6 +31,7 @@ export type pageInfo = {
   total: number;
   totalPage: number;
   totalCount?: number;
+  keyword?: string;
   setCurPage?: (page: number) => void;
 };
 

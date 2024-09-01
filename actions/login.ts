@@ -1,10 +1,13 @@
 'use server';
 
-import { z } from 'zod';
-import { signIn } from '@/server/auth';
+import type { z } from 'zod';
+import { cookies } from 'next/headers';
 import { LoginSchema } from '@/lib/validators';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-// import { AuthError } from 'next-auth';
+import { getUserById } from '@/data/user';
+import bcryptjs from 'bcryptjs';
+import { lucia } from '@/server/auth';
+import { redirect } from 'next/navigation';
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -13,24 +16,31 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { error: 'Invalid fields!' };
   }
 
-  const { id, password } = validatedFields.data;
+  const { username, password } = validatedFields.data;
 
-  try {
-    await signIn('credentials', {
-      id,
-      password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return { error: '아이디 또는 비밀번호가 틀렸습니다.' };
-        default:
-          return { error: '잠시 후 다시 시도해주세요.' };
-      }
-    }
+  const existingUser = await getUserById(username);
 
-    throw error;
-  }
+  if (!existingUser || !existingUser.password_hash)
+    return {
+      error: '아이디 또는 비밀번호가 틀렸습니다',
+    };
+
+  const passwordsMatch = await bcryptjs.compare(
+    password,
+    existingUser.password_hash as string,
+  );
+
+  if (!passwordsMatch)
+    return {
+      error: '아이디 또는 비밀번호가 틀렸습니다',
+    };
+
+  const session = await lucia.createSession(existingUser.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes,
+  );
+  return redirect(DEFAULT_LOGIN_REDIRECT);
 };

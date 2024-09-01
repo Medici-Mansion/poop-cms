@@ -4,8 +4,6 @@ import { prisma } from './db';
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
-console.log('adapter', adapter);
-
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
     expires: false,

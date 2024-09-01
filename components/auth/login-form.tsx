@@ -1,6 +1,6 @@
 'use client';
 
-import * as z from 'zod';
+import type * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -25,7 +25,7 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      id: '',
+      username: '',
       password: '',
     },
   });
@@ -51,7 +51,7 @@ const LoginForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="id"
+              name="username"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
